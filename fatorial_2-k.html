@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Experimentos fatoriais 2^k, k &gt; 3</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<script>
+ (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ ga('create', 'UA-102804671-3', 'auto');
+ ga('send', 'pageview');
+
+</script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = false;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">CE074</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="aulas.html">Aulas</a>
+</li>
+<li>
+  <a href="referencias.html">Referências</a>
+</li>
+<li>
+  <a href="recursos.html">Recursos</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Materiais
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Introdução e revisão</li>
+    <li>
+      <a href="catalizando-conhecimento.html">Catalizando a geração de conhecimento [HTML]</a>
+    </li>
+    <li>
+      <a href="modelos-lineares.html">Modelos lineares e reparametrizações [HTML]</a>
+    </li>
+    <li class="dropdown-header">Experimentos fatoriais</li>
+    <li>
+      <a href="anova-geral.html">ANOVA por meio de Diagramas de Hasse [HTML]</a>
+    </li>
+    <li>
+      <a href="fatorial_2-2.html">Experimentos fatorias 2^2 [HTML]</a>
+    </li>
+    <li>
+      <a href="fatorial_2-3.html">Experimentos fatorias 2^3 [HTML]</a>
+    </li>
+    <li>
+      <a href="fatorial_2-k.html">Experimentos fatorias 2^k, k &gt; 3 [HTML]</a>
+    </li>
+    <li>
+      <a href="fatorial_pontos-centrais.html">Adição de pontos centrais em planejamentos 2^k [HTML]</a>
+    </li>
+    <li>
+      <a href="confundimento-blocagem.html">Técnicas de confundimento para blocagem em fatorias 2^k [HTML]</a>
+    </li>
+    <li>
+      <a href="fatorial_fracionado.html">Experimentos fatorias fracionados 2^{k-p} [HTML]</a>
+    </li>
+    <li>
+      <a href="msr.html">Metodologia de Superfície de Resposta [HTML]</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Scripts</li>
+    <li>
+      <a href="scripts/script_racoes_pimentel.R">Tipos de contrastes em modelos lineares [R]</a>
+    </li>
+    <li>
+      <a href="scripts/script_catalisador.R">Interpretação de efeitos estimados em modelos lineares [R]</a>
+    </li>
+    <li>
+      <a href="scripts/script_fatorial_2-2.R">Análise completa de um fatorial 2^2 [R]</a>
+    </li>
+    <li>
+      <a href="scripts/script_fatorial_2-6.R">Análise completa de um fatorial 2^6 [R]</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Experimento</li>
+    <li>
+      <a href="instrucoes-planejamento.html">Instruções para o planejamento de experimentos [HTML]</a>
+    </li>
+    <li>
+      <a href="misc/guia-planejamento.html">Guia para o planejamento de experimentos [HTML]</a>
+    </li>
+    <li>
+      <a href="misc/guia-planejamento.Rmd">Guia para o planejamento de experimentos [Rmd]</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Exercícios</li>
+    <li>
+      <a href="exercicios/ex_revisao.pdf">Revisão de conhecimento [PDF]</a>
+    </li>
+    <li>
+      <a href="exercicios/ex_fatorial.pdf">Experimentos fatoriais [PDF]</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/fernandomayer/ce074">
+    <span class="fa fa-github fa-lg"></span>
+     
+    GitHub
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Experimentos fatoriais <span class="math inline">\(2^k\)</span>, <span class="math inline">\(k &gt; 3\)</span></h1>
+
+</div>
+
+
+<div id="introducao" class="section level1">
+<h1>Introdução</h1>
+<p>A medida que o número de fatores cresce em um experimento fatorial, o número de efeitos que podem ser estimados também cresce. Com isso, fazer o experimento com replicação acaba sendo praticamente inviável. Por exemplo:</p>
+<ul>
+<li><span class="math inline">\(2^4\)</span> possui 4 efeitos principais, 6 interações de segunda ordem, 4 interações de terceira ordem, e 1 interação de quarta ordem</li>
+<li><span class="math inline">\(2^6\)</span> possui 6 efeitos principais, 15 interações de segunda ordem, 20 interações de terceira ordem, 15 interações de quarta ordem, 6 interações de quinta ordem, e 1 interação de sexta ordem</li>
+</ul>
+<p>Geralmente existem mais fatores a serem estudados do que pode ser convenientemente acomodado dentro do tempo e orçamento disponível. No entanto, veremos que geralmente é possível separar efeitos significativos de erros ao acaso sem a necessidade de replicação. Dessa forma, no exemplo analisado <a href="fatorial_2-3.html">anteriormente</a>, ao invés de utilizarmos 16 corridas para produzir um fatorial <span class="math inline">\(2^3\)</span> replicado, poderíamos ter introduzido um quarto fator e realizar um experimento <span class="math inline">\(2^4\)</span> <strong>sem</strong> réplicas.</p>
+<p>Em muitas situações, o <strong>princípio da esparsidade dos efeitos</strong> se aplica, ou seja, o sistema geralmente é dominado pelos efeitos principais e pelas interações de ordens baixas. As interações de terceira ordem ou superiores geralmente são negligenciadas.</p>
+<p>Como consequência, quando o número de fatores for moderadamente grande, como <span class="math inline">\(k = 4\)</span> ou, em geral, <span class="math inline">\(k \geq 5\)</span>, uma prática comum é correr somente uma réplica do planejamento, e então combinar as interações de ordem alta como uma estimativa do erro. No entanto, se eventualmente alguma interação de ordem alta for significativa, então esse procedimento não é adequado.</p>
+<p>Um método simples para verificar o tamanho dos efeitos de um fator foi proposta por Daniel (1959), que consiste em construir um gráfico das estimativas dos efeitos em uma escala de probabilidade normal. Por construção, a distribuição dos efeitos estimados possui média zero e variância <span class="math inline">\(\sigma^2\)</span>. Portanto, os efeitos que forem desprezíveis estarão em cima de uma linha reta nesse gráfico, enquanto que efeitos significativos não terão média zero e estarão mais afastados dessa linha.</p>
+</div>
+<div id="exemplo-de-um-experimento-24" class="section level1">
+<h1>Exemplo de um experimento <span class="math inline">\(2^4\)</span></h1>
+<div id="representacao-geometrica" class="section level2">
+<h2>Representação geométrica</h2>
+<p>Para um experimento <span class="math inline">\(2^4\)</span>, a representação geométrica fica:</p>
+<pre><code>           D [-]             |             D [+]
+                             |
+        bc ------- abc       |         bcd ------- abcd
+        .|        .|         |          .|        .|
+ [+]  c__|______ac |         |   [+] cd__|_____acd |
+      |  |      |  |         |        |  |      |  |
+  C   |  b -----|- ab [+]    |    C   | bd -----|- abd [+]
+      | .       | .   B      |        | .       | .    B
+ [-] (1)________a  [-]       |   [-]  d _______ ad  [-]
+     [-]   A   [+]           |       [-]   A   [+]</code></pre>
+<p>O que gera a seguinte tabela de sinais, seguindo a ordem de Yates:</p>
+<pre><code>     nom A B C D
+ 1   (1) - - - -
+ 2     a + - - -
+ 3     b - + - -
+ 4    ab + + - -
+ 5     c - - + -
+ 6    ac + - + -
+ 7    bc - + + -
+ 8   abc + + + -
+ 9     d - - - +
+ 10   ad + - - +
+ 11   bd - + - +
+ 12  abd + + - +
+ 13   cd - - + +
+ 14  acd + - + +
+ 15  bcd - + + +
+ 16 abcd + + + +</code></pre>
+<p>No capítulo 5 de <a href="http://statisticsforexperimenters.net">Box, Hunter e Hunter (2005)</a> é apresentado um experimento que avalia a taxa de conversão de um processo, conforme a combinação de 4 fatores: carga de catalisador (<code>x1</code>), temperatura (<code>x2</code>), pressão (<code>x3</code>), e concentração de um reagente (<code>x4</code>). O experimento foi realizado sem repetições, e pode ser visualizado abaixo (disponível <a href="http://leg.ufpr.br/~fernandomayer/data/BHH2/tab0510a.dat">aqui</a>):</p>
+<pre class="r"><code>url &lt;- &quot;http://leg.ufpr.br/~fernandomayer/data/BHH2/tab0510a.dat&quot;
+dados &lt;- read.table(url, header = TRUE)
+str(dados)
+# &#39;data.frame&#39;: 16 obs. of  7 variables:
+#  $ yatesOrd  : int  1 2 3 4 5 6 7 8 9 10 ...
+#  $ x1        : int  -1 1 -1 1 -1 1 -1 1 -1 1 ...
+#  $ x2        : int  -1 -1 1 1 -1 -1 1 1 -1 -1 ...
+#  $ x3        : int  -1 -1 -1 -1 1 1 1 1 -1 -1 ...
+#  $ x4        : int  -1 -1 -1 -1 -1 -1 -1 -1 1 1 ...
+#  $ conversion: int  70 60 89 81 69 62 88 81 60 49 ...
+#  $ randomOrd : int  8 2 10 4 15 9 1 13 16 5 ...
+kable(dados)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">yatesOrd</th>
+<th align="right">x1</th>
+<th align="right">x2</th>
+<th align="right">x3</th>
+<th align="right">x4</th>
+<th align="right">conversion</th>
+<th align="right">randomOrd</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">-1</td>
+<td align="right">-1</td>
+<td align="right">-1</td>
+<td align="right">-1</td>
+<td align="right">70</td>
+<td align="right">8</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">-1</td>
+<td align="right">-1</td>
+<td align="right">-1</td>
+<td align="right">60</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">-1</td>
+<td align="right">1</td>
+<td align="right">-1</td>
+<td align="right">-1</td>
+<td align="right">89</td>
+<td align="right">10</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">-1</td>
+<td align="right">-1</td>
+<td align="right">81</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="right">-1</td>
+<td align="right">-1</td>
+<td align="right">1</td>
+<td align="right">-1</td>
+<td align="right">69</td>
+<td align="right">15</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="right">1</td>
+<td align="right">-1</td>
+<td align="right">1</td>
+<td align="right">-1</td>
+<td align="right">62</td>
+<td align="right">9</td>
+</tr>
+<tr class="odd">
+<td align="right">7</td>
+<td align="right">-1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">-1</td>
+<td align="right">88</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="right">8</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">-1</td>
+<td align="right">81</td>
+<td align="right">13</td>
+</tr>
+<tr class="odd">
+<td align="right">9</td>
+<td align="right">-1</td>
+<td align="right">-1</td>
+<td align="right">-1</td>
+<td align="right">1</td>
+<td align="right">60</td>
+<td align="right">16</td>
+</tr>
+<tr class="even">
+<td align="right">10</td>
+<td align="right">1</td>
+<td align="right">-1</td>
+<td align="right">-1</td>
+<td align="right">1</td>
+<td align="right">49</td>
+<td align="right">5</td>
+</tr>
+<tr class="odd">
+<td align="right">11</td>
+<td align="right">-1</td>
+<td align="right">1</td>
+<td align="right">-1</td>
+<td align="right">1</td>
+<td align="right">88</td>
+<td align="right">11</td>
+</tr>
+<tr class="even">
+<td align="right">12</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">-1</td>
+<td align="right">1</td>
+<td align="right">82</td>
+<td align="right">14</td>
+</tr>
+<tr class="odd">
+<td align="right">13</td>
+<td align="right">-1</td>
+<td align="right">-1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">60</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="right">14</td>
+<td align="right">1</td>
+<td align="right">-1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">52</td>
+<td align="right">12</td>
+</tr>
+<tr class="odd">
+<td align="right">15</td>
+<td align="right">-1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">86</td>
+<td align="right">6</td>
+</tr>
+<tr class="even">
+<td align="right">16</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">79</td>
+<td align="right">7</td>
+</tr>
+</tbody>
+</table>
+<p>Como referência, os níveis -1 (baixo) e 1 (alto) de cada fator são os seguintes:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center"><strong>(-)</strong></th>
+<th align="center"><strong>(+)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Carga de catalisador (<code>x1</code>)</td>
+<td align="center">10</td>
+<td align="center">15</td>
+</tr>
+<tr class="even">
+<td align="left">Temperatura (<code>x2</code>)</td>
+<td align="center">220</td>
+<td align="center">240</td>
+</tr>
+<tr class="odd">
+<td align="left">Pressão (<code>x3</code>)</td>
+<td align="center">50</td>
+<td align="center">80</td>
+</tr>
+<tr class="even">
+<td align="left">Concentração (<code>x4</code>)</td>
+<td align="center">10</td>
+<td align="center">12</td>
+</tr>
+</tbody>
+</table>
+<p>A representação geométrica desse experimento é então:</p>
+<p><img src="img/bhh2_fig5-12.png" width="80%" style="display: block; margin: auto;" /></p>
+<p>E as definições básicas são:</p>
+<pre class="r"><code>## Número de fatores
+k &lt;- 4
+## Número de níveis
+a &lt;- b &lt;- c &lt;- d &lt;- 2
+## Número de repetições
+r &lt;- 1</code></pre>
+</div>
+<div id="analise-exploratoria" class="section level2">
+<h2>Análise exploratória</h2>
+<p>Uma possível forma de visualizar se existe interação nesse experimento é através do sguinte gráfico:</p>
+<pre class="r"><code>library(lattice)
+## Interação de x2 com x3, para cada nível de x4, fixando x1
+xyplot(conversion ~ factor(x1) | x2 + x3, groups = x4,
+       data = dados,  type = c(&quot;p&quot;, &quot;a&quot;), auto.key = TRUE)</code></pre>
+<p><img src="figures/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>## Interação de x2 com x4, para cada nível de x3, fixando x1
+xyplot(conversion ~ factor(x1) | x2 + x4, groups = x3,
+       data = dados,  type = c(&quot;p&quot;, &quot;a&quot;), auto.key = TRUE)</code></pre>
+<p><img src="figures/unnamed-chunk-4-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Note que várias outras combinações são possíveis, assim como outras formas de visualização. No entanto note que à medida que o número de fatores (<span class="math inline">\(k\)</span>) aumentar, este tipo de visualização ficará cada vez mais difícil de ser interpretada.</p>
+</div>
+<div id="contrastes-efeitos-e-avaliacao-do-modelo" class="section level2">
+<h2>Contrastes, efeitos e avaliação do modelo</h2>
+<p>Como vimos anteriormente, podemos calcular os efeitos diretamente através da tabela de contrastes. Agora, ao invés de calcularmos essa tabela manualmente, podemos fazer uso da função <code>model.matrix()</code> do R. Como as colunas dos fatores já estão codificadas no padrão -1 e 1, a chamada dessa função produzirá a tabela de contrastes completa.</p>
+<pre class="r"><code>## Declara o modelo completo com todas as interações possíveis
+(tab &lt;- model.matrix(~ x1 * x2 * x3 * x4, data = dados))
+#    (Intercept) x1 x2 x3 x4 x1:x2 x1:x3 x2:x3 x1:x4 x2:x4 x3:x4 x1:x2:x3
+# 1            1 -1 -1 -1 -1     1     1     1     1     1     1       -1
+# 2            1  1 -1 -1 -1    -1    -1     1    -1     1     1        1
+# 3            1 -1  1 -1 -1    -1     1    -1     1    -1     1        1
+# 4            1  1  1 -1 -1     1    -1    -1    -1    -1     1       -1
+# 5            1 -1 -1  1 -1     1    -1    -1     1     1    -1        1
+# 6            1  1 -1  1 -1    -1     1    -1    -1     1    -1       -1
+# 7            1 -1  1  1 -1    -1    -1     1     1    -1    -1       -1
+# 8            1  1  1  1 -1     1     1     1    -1    -1    -1        1
+# 9            1 -1 -1 -1  1     1     1     1    -1    -1    -1       -1
+# 10           1  1 -1 -1  1    -1    -1     1     1    -1    -1        1
+# 11           1 -1  1 -1  1    -1     1    -1    -1     1    -1        1
+# 12           1  1  1 -1  1     1    -1    -1     1     1    -1       -1
+# 13           1 -1 -1  1  1     1    -1    -1    -1    -1     1        1
+# 14           1  1 -1  1  1    -1     1    -1     1    -1     1       -1
+# 15           1 -1  1  1  1    -1    -1     1    -1     1     1       -1
+# 16           1  1  1  1  1     1     1     1     1     1     1        1
+#    x1:x2:x4 x1:x3:x4 x2:x3:x4 x1:x2:x3:x4
+# 1        -1       -1       -1           1
+# 2         1        1       -1          -1
+# 3         1       -1        1          -1
+# 4        -1        1        1           1
+# 5        -1        1        1          -1
+# 6         1       -1        1           1
+# 7         1        1       -1           1
+# 8        -1       -1       -1          -1
+# 9         1        1        1          -1
+# 10       -1       -1        1           1
+# 11       -1        1       -1           1
+# 12        1       -1       -1          -1
+# 13        1       -1       -1           1
+# 14       -1        1       -1          -1
+# 15       -1       -1        1          -1
+# 16        1        1        1           1
+# attr(,&quot;assign&quot;)
+#  [1]  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15</code></pre>
+<p>A partir dessa tabela podemos então calcular os contrastes e os efeitos:</p>
+<pre class="r"><code>## Calcula os contrastes
+(contr &lt;- t(tab[, -1]) %*% dados$conversion)
+#             [,1]
+# x1           -64
+# x2           192
+# x3            -2
+# x4           -44
+# x1:x2          8
+# x1:x3          6
+# x2:x3        -10
+# x1:x4          0
+# x2:x4         36
+# x3:x4         -2
+# x1:x2:x3      -6
+# x1:x2:x4       4
+# x1:x3:x4      -2
+# x2:x3:x4      -6
+# x1:x2:x3:x4   -2
+## Calcula os efeitos
+(ef &lt;- contr/(r * 2^(k-1)))
+#              [,1]
+# x1          -8.00
+# x2          24.00
+# x3          -0.25
+# x4          -5.50
+# x1:x2        1.00
+# x1:x3        0.75
+# x2:x3       -1.25
+# x1:x4        0.00
+# x2:x4        4.50
+# x3:x4       -0.25
+# x1:x2:x3    -0.75
+# x1:x2:x4     0.50
+# x1:x3:x4    -0.25
+# x2:x3:x4    -0.75
+# x1:x2:x3:x4 -0.25</code></pre>
+<p>Para testar quais efeitos são significativos, poderíamos pensar inicialmente em fazer uma ANOVA. No entanto, este experimento não possui repetição, e temos um parâmetro para cada observação, fazendo com que o modelo seja saturado. Dessa forma, não temos como avaliar a significância dos efeitos. Veja o resultado da ANOVA para o modelo completo:</p>
+<pre class="r"><code>anova(lm(conversion ~ (x1 * x2 * x3 * x4), data = dados))
+# Warning in anova.lm(lm(conversion ~ (x1 * x2 * x3 * x4), data = dados)):
+# ANOVA F-tests on an essentially perfect fit are unreliable
+# Analysis of Variance Table
+# 
+# Response: conversion
+#             Df  Sum Sq Mean Sq F value Pr(&gt;F)
+# x1           1  256.00  256.00               
+# x2           1 2304.00 2304.00               
+# x3           1    0.25    0.25               
+# x4           1  121.00  121.00               
+# x1:x2        1    4.00    4.00               
+# x1:x3        1    2.25    2.25               
+# x2:x3        1    6.25    6.25               
+# x1:x4        1    0.00    0.00               
+# x2:x4        1   81.00   81.00               
+# x3:x4        1    0.25    0.25               
+# x1:x2:x3     1    2.25    2.25               
+# x1:x2:x4     1    1.00    1.00               
+# x1:x3:x4     1    0.25    0.25               
+# x2:x3:x4     1    2.25    2.25               
+# x1:x2:x3:x4  1    0.25    0.25               
+# Residuals    0    0.00</code></pre>
+<p>Uma forma de verificar quais efeitos são importantes é através de um <strong>gráfico de probabilidade normal</strong> para a estimativa dos efeitos. Lembre-se que, sob a hipótses nula, todos os parâmetros do modelo são iguais a zero, e pela definição do termo de erro do modelo, se os parâmetros são iguais a zero, então sobra apenas o erro que possui média 0 e variância constante <span class="math inline">\(\sigma^2\)</span>. Dessa forma, se a hipótese nula for verdadeira, esperamos que os efeitos tenham também média 0, e fiquem em cima da linha em um gráfico de probabilidade normal. Os efeitos que se afastarem muito da linha são aqueles que possuem média diferente de zero, e portanto, são aqueles que temos interesse.</p>
+<pre class="r"><code>## Gráfico de probabilidade normal dos efeitos estimados
+qqaux &lt;- qqnorm(ef, col = 2, pch = 19); qqline(ef)
+text(qqaux$x, qqaux$y, rownames(qqaux$y), cex = 0.8, pos = 3)</code></pre>
+<p><img src="figures/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Através do gráfico acima, vemos que os efeitos mais discrepantes são os de <code>x1</code>, <code>x2</code>, <code>x4</code>, e da interação <code>x2:x4</code>. De maneira geral, termos de ordem maior que 2 ficaram no centro, o que mostra que interações de ordem grande podem ser consideradas como nulas. Portanto, para sermos conservadores, podemos ajustar agora um modelo considerando apenas as interações de segunda ordem.</p>
+<pre class="r"><code>m0 &lt;- lm(conversion ~ (x1 + x2 + x3 + x4)^2, data = dados)
+anova(m0)
+# Analysis of Variance Table
+# 
+# Response: conversion
+#           Df  Sum Sq Mean Sq   F value    Pr(&gt;F)    
+# x1         1  256.00  256.00  213.3333 2.717e-05 ***
+# x2         1 2304.00 2304.00 1920.0000 1.169e-07 ***
+# x3         1    0.25    0.25    0.2083 0.6672191    
+# x4         1  121.00  121.00  100.8333 0.0001676 ***
+# x1:x2      1    4.00    4.00    3.3333 0.1274640    
+# x1:x3      1    2.25    2.25    1.8750 0.2292050    
+# x1:x4      1    0.00    0.00    0.0000 1.0000000    
+# x2:x3      1    6.25    6.25    5.2083 0.0713436 .  
+# x2:x4      1   81.00   81.00   67.5000 0.0004350 ***
+# x3:x4      1    0.25    0.25    0.2083 0.6672191    
+# Residuals  5    6.00    1.20                        
+# ---
+# Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Note que a variabilidade das interações não consideradas foi encorporada na soma de quadrado dos resíduos, e assim podemos agora ter uma estimativa para <span class="math inline">\(\sigma^2\)</span>.</p>
+<p>Com esse resultado, confirmamos a hipótese levantada no gráfico de probabilidades normais de que apenas 3 fatores principais e uma interação são importantes. A interação <code>x2:x3</code> apareceu também como marginalmente significativa. Por isso, podemos agora atualizar o modelo com apenas esses termos. Na dúvida, podemos manter a interação <code>x2:x3</code> para avaliação, e por consequência devemos manter também <code>x3</code> pelo princípio da marginalidade.</p>
+<pre class="r"><code>m1 &lt;- update(m0, . ~ x1 + x2 + x3 + x4 + x2:x3 + x2:x4, data = dados)
+anova(m1)
+# Analysis of Variance Table
+# 
+# Response: conversion
+#           Df  Sum Sq Mean Sq F value    Pr(&gt;F)    
+# x1         1  256.00  256.00  184.32 2.673e-07 ***
+# x2         1 2304.00 2304.00 1658.88 1.615e-11 ***
+# x3         1    0.25    0.25    0.18    0.6813    
+# x4         1  121.00  121.00   87.12 6.332e-06 ***
+# x2:x3      1    6.25    6.25    4.50    0.0629 .  
+# x2:x4      1   81.00   81.00   58.32 3.202e-05 ***
+# Residuals  9   12.50    1.39                      
+# ---
+# Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Já vimos que os valores F e por consequência os p-valores se alteram, pois a soma de quadrados dos resíduos e os graus de liberdade residual mudam de um modelo para outro. No entanto, as somas de quadrados dos fatores não se alteram devido à ortogonalidade.</p>
+<p>Assim, vemos que interação <code>x2:x3</code> é significativa, mas podemos avaliar de sua presença é importante através do teste de razão de verossimilhança entre esse modelo sob avaliação e outro modelo desconsiderando esse termo e o <code>x3</code> (já que ele não é significativo):</p>
+<pre class="r"><code>## Atualiza o modelo, retirando a interação x2:x3 e x3
+m2 &lt;- update(m1, . ~ x1 + x2*x4)
+## Teste de razão de verossimilhança entre os dois modelos
+anova(m1, m2)
+# Analysis of Variance Table
+# 
+# Model 1: conversion ~ x1 + x2 + x3 + x4 + x2:x3 + x2:x4
+# Model 2: conversion ~ x1 + x2 + x4 + x2:x4
+#   Res.Df  RSS Df Sum of Sq    F Pr(&gt;F)
+# 1      9 12.5                         
+# 2     11 19.0 -2      -6.5 2.34  0.152</code></pre>
+<p>Com esse resultado, não rejeitamos a hipótese nula de que os dois modelos são iguais, e assim, optamos por aquele com menor número de parâmetros pelo princípio da parcimônia.</p>
+<p>Sendo assim, o modelo final que devemos adotar é aquele que inclui apenas <code>x1</code>, <code>x2</code>, <code>x4</code>, e a interação <code>x2:x4</code>. A tabela de ANOVA final é portanto:</p>
+<pre class="r"><code>anova(m2)
+# Analysis of Variance Table
+# 
+# Response: conversion
+#           Df Sum Sq Mean Sq  F value    Pr(&gt;F)    
+# x1         1    256  256.00  148.210 1.003e-07 ***
+# x2         1   2304 2304.00 1333.895 7.812e-13 ***
+# x4         1    121  121.00   70.053 4.240e-06 ***
+# x2:x4      1     81   81.00   46.895 2.772e-05 ***
+# Residuals 11     19    1.73                       
+# ---
+# Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Note que inicialmente esse experimento <span class="math inline">\(2^4\)</span> não possui repetições, e portanto não tinhamos como calcular os erros para as estimativas. Ao analisar quais efeitos eram de fato importantes, eliminamos a maior parte das interações de alta ordem, fazendo com que tivessemos “repetições”, e dessa forma, conseguimos obter uma estimativa de erro (que aqui é uma estimativa da variância, dada pelo quadrado médio dos resíduos).</p>
+<p>Os coeficientes dos efeitos podem então ser obtidos através do <code>summary()</code>, que também calcula o erro-padrão destas estimativas e faz o teste <span class="math inline">\(t\)</span> para a hipótese nula de que os coeficientes são zero.</p>
+<pre class="r"><code>summary(m2)
+# 
+# Call:
+# lm(formula = conversion ~ x1 + x2 + x4 + x2:x4, data = dados)
+# 
+# Residuals:
+#    Min     1Q Median     3Q    Max 
+#  -2.25  -0.75   0.25   0.75   2.25 
+# 
+# Coefficients:
+#             Estimate Std. Error t value Pr(&gt;|t|)    
+# (Intercept)  72.2500     0.3286 219.896  &lt; 2e-16 ***
+# x1           -4.0000     0.3286 -12.174 1.00e-07 ***
+# x2           12.0000     0.3286  36.523 7.81e-13 ***
+# x4           -2.7500     0.3286  -8.370 4.24e-06 ***
+# x2:x4         2.2500     0.3286   6.848 2.77e-05 ***
+# ---
+# Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+# 
+# Residual standard error: 1.314 on 11 degrees of freedom
+# Multiple R-squared:  0.9932,  Adjusted R-squared:  0.9907 
+# F-statistic: 399.8 on 4 and 11 DF,  p-value: 7.951e-12</code></pre>
+<p>Para efeito de interpretação, podemos multiplicar os coeficientes estimados por 2, e assim obtemos os efeitos (quando se passa do nível baixo para o alto de um fator). Portanto:</p>
+<pre class="r"><code>c(coef(m2)[1], 2*coef(m2)[-1])
+# (Intercept)          x1          x2          x4       x2:x4 
+#       72.25       -8.00       24.00       -5.50        4.50</code></pre>
+<p>Como resultado, podemos dizer então:</p>
+<ol style="list-style-type: decimal">
+<li>Quando aumenta-se a carga de catalisador de 10 para 15 (nível baixo para nível alto), ocorre uma diminuição de 8 unidades na conversão (variável resposta).</li>
+<li>Como existe interação entre temperatura (<code>x2</code>) e concentração (<code>x4</code>), os efeitos destes fatores devem ser considerados conjuntamente. Se analisarmos a interação destes dois efeitos isoladamente (veja figura abaixo), notamos que a diminuição de conversão é maior quando se utiliza o nível baixo de temperatura, o que caracteriza a interação. Veja também que o efeito calculado de 4.5 é obtido através dos contrastes destes dois fatores, calculados como se fosse um experimento <span class="math inline">\(2^2\)</span>: [(65.25 + 83.75) - (55.25 + 84.75)]/4 = 4.5.</li>
+<li>O fator pressão (<code>x3</code>) é essencialmente <strong>inerte</strong>, ou sem significância (pelo menos para este experimento), uma vez que nem seu efeito principal, nem nenhuma interação com qualquer outro fator produz algum efeito na conversão. Na prática isso significa que o nível de pressão não interfere na resposta, e assim pode ser escolhido aquele nível que otimize alguma outra resposta, como por exemplo o custo ou o tempo de operação.</li>
+</ol>
+<pre class="r"><code>with(dados, interaction.plot(x4, x2, conversion))
+meds &lt;- with(dados, tapply(conversion, factor(x2):factor(x4), mean))
+text(1, meds[1], labels = meds[1], pos = 3)
+text(2, meds[2], labels = meds[2], pos = 3)
+text(1, meds[3], labels = meds[3], pos = 1)
+text(2, meds[4], labels = meds[4], pos = 1)</code></pre>
+<p><img src="figures/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Uma vez que o fator pressão (<code>x3</code>) não interfere no processo, podemos tentar olhar o que acontece com a interação dos fatores que permaneceram como influentes.</p>
+<pre class="r"><code>## Tentativa de visualização
+xyplot(conversion ~ factor(x2) + factor(x4) | x1,
+       data = dados,  type = c(&quot;p&quot;, &quot;a&quot;), auto.key = TRUE)</code></pre>
+<p><img src="figures/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Com esses resultados, vemos então que o experimento incial <span class="math inline">\(2^4\)</span>, pode agora ser reduzido para um experimento fatorial <span class="math inline">\(2^3\)</span>, processo denominado de <strong>projeção de um experimento fatorial</strong>. A partir desse ponto, o experimentador possui duas opções:</p>
+<ol style="list-style-type: decimal">
+<li>Fazer um novo experimento, agora com apenas estes três fatores e com um número maior de repetições: <strong>projeção</strong></li>
+<li>Fazer um novo experimento com estes três fatores e, se desejado, outros fatores que não foram considerados no primeiro experimento. Nesse caso é preciso lembrar que as podem haver interações entre estes novos fatores e aqueles que foram descartados no primeiro experimento, e isto não está sendo considerado neste caso.</li>
+</ol>
+</div>
+<div id="analise-dos-residuos" class="section level2">
+<h2>Análise dos resíduos</h2>
+<p>Para avaliar a suposição de normalidade podemos fazer um gráfico de quantis normais para os resíduos:</p>
+<pre class="r"><code>## Obtém os resíduos do modelo final
+res &lt;- residuals(m2)
+## Gráfico de quantis normais
+qqnorm(res); qqline(res)</code></pre>
+<p><img src="figures/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>E para verificar a suposição de homegeneidade de variâncias podemos fazer um gráfico dos resíduos versus cada fator do modelo final:</p>
+<pre class="r"><code>par(mfrow = c(2, 2))
+with(dados, {
+    plot(res ~ x1)
+    abline(h = 0, lty = 2, col = 2)
+    plot(res ~ x2)
+    abline(h = 0, lty = 2, col = 2)
+    plot(res ~ x4)
+    abline(h = 0, lty = 2, col = 2)
+    plot(res ~ interaction(x2, x4))
+    abline(h = 0, lty = 2, col = 2)
+})
+par(mfrow = c(1, 1))</code></pre>
+<p><img src="figures/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="predicao" class="section level2">
+<h2>Predição</h2>
+<p>Como já vimos, as predições para experimentos fatoriais nada mais são do que as estimativas das médias para cada combinação dos fatores, incluindo a interação quando houver. Note que quando existe interação, o modelo não é mais aditivo, e portanto, as médias simples, calculadas apenas com fatores principais não serão estimativas corretas para o experimento. Portanto, as médias estimadas só levam em consideração a mudança nos níveis dos fatores importantes para o processo, independente dos níveis dos outros fatores.</p>
+<pre class="r"><code>## Predição para as combinações únicas dos fatores
+pred &lt;- data.frame(x1 = dados$x1,
+                   x2 = dados$x2,
+                   x4 = dados$x4)
+pred$y &lt;- predict(m2, newdata = pred)
+pred
+#    x1 x2 x4     y
+# 1  -1 -1 -1 69.25
+# 2   1 -1 -1 61.25
+# 3  -1  1 -1 88.75
+# 4   1  1 -1 80.75
+# 5  -1 -1 -1 69.25
+# 6   1 -1 -1 61.25
+# 7  -1  1 -1 88.75
+# 8   1  1 -1 80.75
+# 9  -1 -1  1 59.25
+# 10  1 -1  1 51.25
+# 11 -1  1  1 87.75
+# 12  1  1  1 79.75
+# 13 -1 -1  1 59.25
+# 14  1 -1  1 51.25
+# 15 -1  1  1 87.75
+# 16  1  1  1 79.75</code></pre>
+<p>Note que a <strong>projeção</strong> do experimento, conforme vimos usando a função <code>proj()</code> é exatamente a mesma coisa que a predição do modelo final para cada nível dos fatores:</p>
+<pre class="r"><code>## Projeção do experimento com proj()
+proj(m2)
+#    (Intercept) x1  x2    x4 x2:x4 Residuals
+# 1        72.25  4 -12  2.75  2.25      0.75
+# 2        72.25 -4 -12  2.75  2.25     -1.25
+# 3        72.25  4  12  2.75 -2.25      0.25
+# 4        72.25 -4  12  2.75 -2.25      0.25
+# 5        72.25  4 -12  2.75  2.25     -0.25
+# 6        72.25 -4 -12  2.75  2.25      0.75
+# 7        72.25  4  12  2.75 -2.25     -0.75
+# 8        72.25 -4  12  2.75 -2.25      0.25
+# 9        72.25  4 -12 -2.75 -2.25      0.75
+# 10       72.25 -4 -12 -2.75 -2.25     -2.25
+# 11       72.25  4  12 -2.75  2.25      0.25
+# 12       72.25 -4  12 -2.75  2.25      2.25
+# 13       72.25  4 -12 -2.75 -2.25      0.75
+# 14       72.25 -4 -12 -2.75 -2.25      0.75
+# 15       72.25  4  12 -2.75  2.25     -1.75
+# 16       72.25 -4  12 -2.75  2.25     -0.75
+# attr(,&quot;df&quot;)
+# (Intercept)          x1          x2          x4       x2:x4   Residuals 
+#           1           1           1           1           1          11 
+# attr(,&quot;formula&quot;)
+# conversion ~ x1 + x2 + x4 + x2:x4
+# attr(,&quot;onedf&quot;)
+# [1] FALSE
+cbind(pred, yproj = apply(proj(m2)[,-6], 1, sum))
+#    x1 x2 x4     y yproj
+# 1  -1 -1 -1 69.25 69.25
+# 2   1 -1 -1 61.25 61.25
+# 3  -1  1 -1 88.75 88.75
+# 4   1  1 -1 80.75 80.75
+# 5  -1 -1 -1 69.25 69.25
+# 6   1 -1 -1 61.25 61.25
+# 7  -1  1 -1 88.75 88.75
+# 8   1  1 -1 80.75 80.75
+# 9  -1 -1  1 59.25 59.25
+# 10  1 -1  1 51.25 51.25
+# 11 -1  1  1 87.75 87.75
+# 12  1  1  1 79.75 79.75
+# 13 -1 -1  1 59.25 59.25
+# 14  1 -1  1 51.25 51.25
+# 15 -1  1  1 87.75 87.75
+# 16  1  1  1 79.75 79.75</code></pre>
+<p>Como os fatores são quantitativos, podemos também fazer a predição para um <strong>grid</strong> de valores entre os níveis baixo e alto. Os gráficos gerados a partir destas predições são chamados de gráficos de <strong>superfície de resposta de primeira ordem</strong>.</p>
+<pre class="r"><code>## Predição para um intervalo de valores entre os níveis baixo e alto
+## dos fatores
+pred &lt;- expand.grid(x1 = seq(-1, 1, length.out = 30),
+                    x2 = seq(-1, 1 ,length.out = 30),
+                    x4 = seq(-1, 1 ,length.out = 30))
+pred$y &lt;- predict(m2, newdata = pred)
+## Vários formas de visualizar
+wireframe(y ~ x2 + x4, data = pred, drape = TRUE)</code></pre>
+<p><img src="figures/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>levelplot(y ~ x2 + x4, data = pred, cuts = 90,
+          col.regions = heat.colors)</code></pre>
+<p><img src="figures/unnamed-chunk-21-2.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="analise-de-um-experimento-26" class="section level1">
+<h1>Análise de um experimento <span class="math inline">\(2^6\)</span></h1>
+<p>Ver <a href="scripts/script_fatorial_2-6.R">script</a>.</p>
+</div>
+<div id="exercicios" class="section level1">
+<h1>Exercícios</h1>
+<p>Exercícios de <a href="http://statisticsforexperimenters.net">Box, Hunter e Hunter (2005)</a>, capitulo 5:</p>
+<ol style="list-style-type: decimal">
+<li><p>Adicione qualquer constante aos níveis altos (+1) da resposta de qualquer fator do exemplo inicial de fatorial <span class="math inline">\(2^4\)</span> (dados <a href="%22http://leg.ufpr.br/~fernandomayer/data/BHH2/tab0510a.dat%22">aqui</a>). Verifique que somente aquele único contraste será afetado. Da mesma forma, verifique que se uma constante for adicionada à todas as observações, somente a média geral será alterada.</p></li>
+<li><p>Para os dados disponíveis <a href="http://leg.ufpr.br/~fernandomayer/data/BHH2/exe0503.dat">aqui</a>, calcule os efeitos principais, interações e erro-padrão.</p></li>
+<li><p>Com os mesmos dados do exercício anterior, considere que cada repetição é na verdade um bloco. Dessa forma, o experimento passa a ser um fatorial <span class="math inline">\(2^3\)</span> em blocos completos. Calcule novamente os efeitos e o erro-padrão e verifique as diferenças obtidas.</p></li>
+</ol>
+<p>As respostas podem ser consultadas neste <a href="scripts/fatorial_2-k_respostas.R">script</a>.</p>
+</div>
+
+<center>
+  <hr width="100%" size="3px">
+  <p> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.pt_BR">
+      <img src="img/CC_by-nc-sa_80x15.png" alt="Licença Creative Commons 4.0"> </a>
+  </p>
+  <p> <font size="2"> Este conteúdo
+      está disponível por meio da Licença Creative Commons 4.0 </font>
+  </p>
+</center>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

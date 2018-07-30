@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Box, Hunter e Hunter, Cap. 1" />
+
+
+<title>Catalizando a geração de conhecimento</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<script>
+ (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ ga('create', 'UA-102804671-3', 'auto');
+ ga('send', 'pageview');
+
+</script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = false;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">CE074</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="aulas.html">Aulas</a>
+</li>
+<li>
+  <a href="referencias.html">Referências</a>
+</li>
+<li>
+  <a href="recursos.html">Recursos</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Materiais
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Introdução e revisão</li>
+    <li>
+      <a href="catalizando-conhecimento.html">Catalizando a geração de conhecimento [HTML]</a>
+    </li>
+    <li>
+      <a href="modelos-lineares.html">Modelos lineares e reparametrizações [HTML]</a>
+    </li>
+    <li class="dropdown-header">Experimentos fatoriais</li>
+    <li>
+      <a href="anova-geral.html">ANOVA por meio de Diagramas de Hasse [HTML]</a>
+    </li>
+    <li>
+      <a href="fatorial_2-2.html">Experimentos fatorias 2^2 [HTML]</a>
+    </li>
+    <li>
+      <a href="fatorial_2-3.html">Experimentos fatorias 2^3 [HTML]</a>
+    </li>
+    <li>
+      <a href="fatorial_2-k.html">Experimentos fatorias 2^k, k &gt; 3 [HTML]</a>
+    </li>
+    <li>
+      <a href="fatorial_pontos-centrais.html">Adição de pontos centrais em planejamentos 2^k [HTML]</a>
+    </li>
+    <li>
+      <a href="confundimento-blocagem.html">Técnicas de confundimento para blocagem em fatorias 2^k [HTML]</a>
+    </li>
+    <li>
+      <a href="fatorial_fracionado.html">Experimentos fatorias fracionados 2^{k-p} [HTML]</a>
+    </li>
+    <li>
+      <a href="msr.html">Metodologia de Superfície de Resposta [HTML]</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Scripts</li>
+    <li>
+      <a href="scripts/script_racoes_pimentel.R">Tipos de contrastes em modelos lineares [R]</a>
+    </li>
+    <li>
+      <a href="scripts/script_catalisador.R">Interpretação de efeitos estimados em modelos lineares [R]</a>
+    </li>
+    <li>
+      <a href="scripts/script_fatorial_2-2.R">Análise completa de um fatorial 2^2 [R]</a>
+    </li>
+    <li>
+      <a href="scripts/script_fatorial_2-6.R">Análise completa de um fatorial 2^6 [R]</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Experimento</li>
+    <li>
+      <a href="instrucoes-planejamento.html">Instruções para o planejamento de experimentos [HTML]</a>
+    </li>
+    <li>
+      <a href="misc/guia-planejamento.html">Guia para o planejamento de experimentos [HTML]</a>
+    </li>
+    <li>
+      <a href="misc/guia-planejamento.Rmd">Guia para o planejamento de experimentos [Rmd]</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Exercícios</li>
+    <li>
+      <a href="exercicios/ex_revisao.pdf">Revisão de conhecimento [PDF]</a>
+    </li>
+    <li>
+      <a href="exercicios/ex_fatorial.pdf">Experimentos fatoriais [PDF]</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/fernandomayer/ce074">
+    <span class="fa fa-github fa-lg"></span>
+     
+    GitHub
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Catalizando a geração de conhecimento</h1>
+<h4 class="author"><em>Box, Hunter e Hunter, Cap. 1</em></h4>
+
+</div>
+
+
+<div id="o-processo-de-aprendizado" class="section level1">
+<h1>O processo de aprendizado</h1>
+<blockquote>
+<p>“<em>Conhecimento é poder</em>”</p>
+</blockquote>
+<ul>
+<li>Conhecimento é a chave para a inovação (e lucro, se você estiver pensando nisso)</li>
+<li>Mas a geração de conhecimento pode ser complexa, demorada e cara</li>
+<li>Para ter sucesso nessa tarefa você deve <strong>aprender a aprender</strong>. Essa é a chave para:
+<ul>
+<li>geração de ideias</li>
+<li>melhoria de processos</li>
+<li>desenvolvimento de novos produtos</li>
+</ul></li>
+</ul>
+<div id="aprendizado-dedutivo-indutivo" class="section level2">
+<h2>Aprendizado dedutivo-indutivo</h2>
+<ul>
+<li>O processo <strong>dedutivo-indutivo</strong> de aprendizado é orientado pelo cérebro humano</li>
+<li>É conhecido desde o tempo de Aristóteles e faz parte de nossa <strong>experiência cotidiana</strong></li>
+</ul>
+<p>O aprendizado avança conforme ilustrado na figura abaixo (extraída de Box, Hunter e Hunter):</p>
+<p><img src="img/deduction-induction.png" width="80%" style="display: block; margin: auto;" /></p>
+<ul>
+<li>Uma ideia inicial (modelo, hipótese, etc) é levada por um processo de <strong>dedução</strong> para algumas consequências</li>
+<li>As consequências são comparadas com <strong>dados</strong> (informação)</li>
+<li>Quando as consequências e os dados não concordam, essa discrepância leva a uma modificação do modelo, um processo chamado de <strong>indução</strong></li>
+<li>Um segundo ciclo se inicia: as consequências do novo modelo são comparadas com dados, que pode levar à uma nova modificação e consequente <strong>ganho de conhecimento</strong></li>
+<li>O <strong>processo de aquisição de dados</strong> pode ser:
+<ul>
+<li>experimentação científica</li>
+<li>uma consulta na biblioteca</li>
+<li>uma pesquisa na internet</li>
+<li>…</li>
+</ul></li>
+</ul>
+<p>Por exemplo, ao chegar no trabalho uma pessoa estaciona seu carro todos os dias na mesma vaga de garagem. Uma tarde, após sair do trabalho, ele é levado à seguinte sequência de aprendizado dedutivo-indutivo:</p>
+<p><br></p>
+<table>
+<tbody>
+<tr class="odd">
+<td><em>Modelo</em>:</td>
+<td>Hoje é um dia como outro qualquer</td>
+</tr>
+<tr class="even">
+<td><em>Dedução</em>:</td>
+<td>Meu carro estará na vaga de sempre</td>
+</tr>
+<tr class="odd">
+<td><em>Dados</em>:</td>
+<td>Não está</td>
+</tr>
+<tr class="even">
+<td><em>Indução</em>:</td>
+<td>Alguém o pegou</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<table>
+<tbody>
+<tr class="odd">
+<td><em>Modelo</em>:</td>
+<td>Meu carro foi roubado</td>
+</tr>
+<tr class="even">
+<td><em>Dedução</em>:</td>
+<td>Meu carro não estará no estacionamento</td>
+</tr>
+<tr class="odd">
+<td><em>Dados</em>:</td>
+<td>Não! Está lá!</td>
+</tr>
+<tr class="even">
+<td><em>Indução</em>:</td>
+<td>Alguém pegou e o troxe de volta</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<table>
+<tbody>
+<tr class="odd">
+<td><em>Modelo</em>:</td>
+<td>Um ladrão roubou e o trouxe de volta</td>
+</tr>
+<tr class="even">
+<td><em>Dedução</em>:</td>
+<td>Meu carro estará arrombado</td>
+</tr>
+<tr class="odd">
+<td><em>Dados</em>:</td>
+<td>Está sem danos e trancado</td>
+</tr>
+<tr class="even">
+<td><em>Indução</em>:</td>
+<td>Alguém que tem as chaves o pegou</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<table>
+<tbody>
+<tr class="odd">
+<td><em>Modelo</em>:</td>
+<td>Minha esposa usou meu carro</td>
+</tr>
+<tr class="even">
+<td><em>Dedução</em>:</td>
+<td>Ela provavelmente deixou um bilhete</td>
+</tr>
+<tr class="odd">
+<td><em>Dados</em>:</td>
+<td>Aqui está!</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<p>Suponha que para resolver um problema, uma especulação inicial produz uma ideia:</p>
+<ul>
+<li>Você busca por dados para suportar ou refutar sua teoria</li>
+<li>A busca por dados pode ser:
+<ul>
+<li>uma busca nos seus arquivos ou na internet</li>
+<li>uma consulta na biblioteca</li>
+<li>uma reunião com seus colegas</li>
+<li>observação passiva de um processo</li>
+<li>experimentação ativa</li>
+</ul></li>
+<li>Em qualquer caso, os dados podem:
+<ul>
+<li>confirmar sua conjectura, e o problema está resolvido</li>
+<li>mostrar que sua ideia estava parcialmente ou totalmente errada</li>
+</ul></li>
+<li>Neste segundo caso, a diferença entre dedução e <strong>realidade</strong> é que faz com que você continue procurando</li>
+<li>Isto pode levar para uma ideia modificada ou totalmente diferente, para reanálise dos dados ou geração de novas informações</li>
+<li>O cérebro humano possui dois lados especificamente desenvolvidos para lidar com a lógica do pensamento indutivo-dedutivo. No entanto, não devemos esperar que a <strong>natureza da solução</strong> ou o <strong>caminho</strong> que levou a ela sejam <strong>únicos</strong></li>
+</ul>
+</div>
+<div id="um-loop-de-feedback" class="section level2">
+<h2>Um loop de feedback</h2>
+<p>A figura abaixo mostra o processo dedutivo-indutivo como um “loop de feedback” (extraída de Box, Hunter e Hunter):</p>
+<p><img src="img/feedback-loop.png" width="90%" style="display: block; margin: auto;" /></p>
+<ul>
+<li>Por <strong>dedução</strong>, você considera as consequências esperadas de <span class="math inline">\(M_1\)</span>
+<ul>
+<li>O que aconteceria se <span class="math inline">\(M_1\)</span> fosse verdadeiro ou falso</li>
+</ul></li>
+<li>Você também <strong>deduz</strong> quais dados são necessários para explorar <span class="math inline">\(M_1\)</span>
+<ul>
+<li>O plano experimental (<em>design</em>) que você escolhe é apenas uma janela sob o verdadeiro estado da natureza</li>
+<li>Lembre-se que quando você conduz um experimento, a janela é <em>sua</em> escolha</li>
+</ul></li>
+<li>Os dados produzidos representam algum aspecto do verdadeiro estado da natureza, ofuscados por um maior ou menor <strong>ruído</strong>, ou seja, o <strong>erro experimental</strong></li>
+<li>Os dados analisados são comparados com o que foi <strong>deduzido</strong> do modelo <span class="math inline">\(M_1\)</span>
+<ul>
+<li>Se eles concordam, o problema esté resolvido</li>
+<li>Se há discordância, o modelo <span class="math inline">\(M_1\)</span> deve ser modificado</li>
+<li>Usando <strong>os mesmos dados</strong>, você pode considerar análises alternativas (<span class="math inline">\(M&#39;_1\)</span>, <span class="math inline">\(M&#39;&#39;_1\)</span>, <span class="math inline">\(\ldots\)</span>)</li>
+</ul></li>
+<li>Pode-se tornar claro que uma nova ideia ou modelo <span class="math inline">\(M_2\)</span> deve ser formulada</li>
+<li>Isto pode requerer um novo plano experimental, para contemplar diferentes aspectos do verdadeiro estado da natureza</li>
+</ul>
+</div>
+</div>
+<div id="consideracoes-importantes" class="section level1">
+<h1>Considerações importantes</h1>
+<div id="conhecimento-do-assunto" class="section level2">
+<h2>Conhecimento do assunto</h2>
+<p>Note a importância do <strong>conhecimento do assunto</strong> ao qual você está pesquisando, para perceber e explorar modelos alternativos e saber onde procurar ajuda.</p>
+</div>
+<div id="o-caminho-nao-e-unico" class="section level2">
+<h2>O caminho não é único</h2>
+<ul>
+<li>Claramento, o <strong>caminho para a solução de um problema</strong> não é único</li>
+<li>O objetivo é <strong>convergir</strong> para uma solução satisfatória
+<ul>
+<li>O ponto de partida e o caminho poderão ser diferentes para diferentes pessoas</li>
+</ul></li>
+<li>O “Joga das 20 questões” ilustra bem esse processo, e segue o que foi exposto nas figuras acima
+<ul>
+<li>o “plano experimental” é a escolha da questão</li>
+<li>a resposta é o “dado”</li>
+<li>que leva à uma nova conjectura e plano experimental (questão)</li>
+<li>esse caminho claramente será diferente para diferentes jogadores</li>
+</ul></li>
+<li>As qualidades necessárias para esse jogo são:
+<ol style="list-style-type: lower-alpha">
+<li>conhecimento do assunto</li>
+<li>conhecimento da estratégia</li>
+</ol></li>
+<li><strong>Conhecimento de estratégia</strong> é paralelo ao <strong>conhecimento de métodos estatísticos</strong>
+<ul>
+<li>note que sem o conhecimento da estratégia, você pode sempre jogar esse jogo (talvez não muito bem)</li>
+<li>no entanto, sem o conhecimento do assunto, não é nem possível jogá-lo</li>
+</ul></li>
+<li>Claramente o melhor é usar ambos conhecimentos, da estratégia e do assunto
+<ul>
+<li>É possível conduzir uma investigação sem conhecimento estatístico, mas impossível sem conhecimento do assunto</li>
+<li>Obviamente, ao usar conhecimentos estatísticos, a convergência para a solução do problema é muito mais rápida, e um bom investigador se torna um melhor ainda</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="os-problemas-do-investigador" class="section level1">
+<h1>Os problemas do investigador</h1>
+<div id="complexidade" class="section level2">
+<h2>Complexidade</h2>
+<p>Quando fazemos experimentos para a melhoria de um processo, é necessário considerar a <strong>influência simultânea</strong> de uma série de <strong>variáveis de entrada</strong> (e.g. temperatura, concentração , catalisador, etc) em uma coleção de <strong>variáveis de saída</strong> (e.g. rendimento, impureza, custo, etc).</p>
+<p>Chamamos as variáveis <strong>controladas</strong> de entrada de <strong>fatores</strong>, e as variáveis de saída de <strong>respostas</strong>.</p>
+<p>A princiapl questão é</p>
+<blockquote>
+<p><em>O que faz o que, e para quem?</em></p>
+</blockquote>
+<p>Com <span class="math inline">\(k\)</span> fatores e <span class="math inline">\(p\)</span> respostas, existem <span class="math inline">\(k \times p\)</span> entidades a serem consideradas. Além disso:</p>
+<ul>
+<li>Um certo conjunto de fatores (e.g. temperatura e pressão) pode causar efeito em apenas uma resposta (e.g. rendimento)</li>
+<li>Um outro conjunto (possivelmente sobreposto, e.g. temperatura e concentração), causa interferência outra resposta (e.g. pureza)</li>
+<li>Alguns fatores irão <strong>interagir</strong> na presença de outros</li>
+<li>Por isso, o uso do “mudar um fator por vez” dificilmente produzirá resultados satisfatórios e viáveis economicamente</li>
+</ul>
+<p>O uso de <strong>planejamentos estatísticos experimentais</strong> é a melhor forma de “testar” um grande número de fatores simultaneamente e conseguir uma visão de como eles se comportam isoladamente e em conjunto, ao mesmo tempo que minimiza a influência de <strong>erros experimentais</strong>.</p>
+</div>
+<div id="erros-experimentais" class="section level2">
+<h2>Erros experimentais</h2>
+<p>A variabilidade não explicada por fatores conhecidos é chamada de <strong>erro experimental</strong>.</p>
+<ul>
+<li>Como <em>algum</em> erro experimental é <strong>inevitável</strong>, saber lidar como ele é fundamental</li>
+<li>Um bom planejamento experimental ajuda a a proteger que os efeitos reais de um fator sejam ofuscados por erros experimentais</li>
+<li>Além disso, as análises estatísticas fornecem <strong>medidas de precisão</strong> das quantidades estimadas no estudo (e.g. médias, parâmetros)
+<ul>
+<li>Isso torna possível verificar se ocorre de fato uma <strong>evidência concreta</strong> na existência de <strong>efeitos reais</strong></li>
+</ul></li>
+</ul>
+</div>
+<div id="correlacao-e-causalidade" class="section level2">
+<h2>Correlação e causalidade</h2>
+<p>A figura abaixo mostra a relação entre o tamanho da população de Oldenburg e o número de cegonhas, observados ao final de 7 anos (extraído de Box, Hunter e Hunter):</p>
+<p><img src="img/correlation.png" width="80%" style="display: block; margin: auto;" /></p>
+<p>O número de cegonhas <strong>causou</strong> o aumento da população?</p>
+<p>A correlação entre duas variáveis <span class="math inline">\(Y\)</span> e <span class="math inline">\(X\)</span> geralmente ocorre porque ambas estão associadas com uma terceira variável <span class="math inline">\(W\)</span>. (Nesse caso, <span class="math inline">\(W\)</span> seria o <em>tempo</em>).</p>
+</div>
+</div>
+<div id="como-usar-tecnicas-estatisticas" class="section level1">
+<h1>Como usar técnicas estatísticas</h1>
+<div id="descubra-o-quanto-puder-sobre-o-problema" class="section level2">
+<h2>Descubra o quanto puder sobre o problema</h2>
+<p>Faça perguntas até estar satisfeito de que entende o problema totalmente e está ciente dos recursos necessários para estudá-lo.</p>
+<p>Algumas perguntas:</p>
+<ul>
+<li>Qual é o objetivo da investigação?</li>
+<li>Existem dados prévios?</li>
+<li>Como os dados foram coletados?</li>
+<li>Em que ordem? Por quem?</li>
+<li>Como as respostas foram medidas?</li>
+<li>O quanto já se conhece sobre o problema?</li>
+</ul>
+</div>
+<div id="conhecimento-nao-estatistico" class="section level2">
+<h2>Conhecimento não-estatístico</h2>
+<ul>
+<li>Não negligencie seu conhecimento ou de seus colegas sobre o problema</li>
+<li>Métodos estatísticos são inúteis sem conhecimento do assunto e experiência</li>
+</ul>
+</div>
+<div id="defina-objetivos" class="section level2">
+<h2>Defina objetivos</h2>
+<ol style="list-style-type: decimal">
+<li>Defina claramente os objetivos do estudo</li>
+<li>Tenha certeza de que todas as partes envolvidas concordam com os objetivos</li>
+<li>Certifique-se de que possui todos os equipamentos, dinheiro, computadores para executar a proposta</li>
+<li>Defina claramente o critério que irá determinar quando os objetivos forem alcançados</li>
+<li>Se os objetivos tiverem que ser alterados, faça com que todos os interessados saibam e concordem</li>
+</ol>
+</div>
+<div id="interacao-entre-teoria-e-pratica" class="section level2">
+<h2>Interação entre teoria e prática</h2>
+<p>Enquanto investigadores ganham a partir do uso de métodos estatísticos, o contrário é ainda mais verdadeiro. Um especialista em estatística pode se beneficiar enormemente de suas discussões com pesquisadores de outras áreas.</p>
+<p>A geração de ideias realmente novas em estatística parece sempre surgir de interesses em problemas práticos:</p>
+<ul>
+<li><strong>Sir Ronald Fisher</strong> (inventor de praticamente todas as ideias que veremos nesse curso) foi um cientista que gostava de trabalhar de perto com outros investigadores</li>
+<li><strong>William S. Gosset</strong> (aka “Student”) possuia uma conexão muito forte entre a pesquisa estatística e os problemas práticos com os quais lidava</li>
+</ul>
+<p>Os trabalhos de Fisher e Gosset são uma marca da “boa ciência”, a interação entre teoria e prática. Seu sucesso como cientista e suas habilidades de desenvolver técnicas estatísticas <strong>úteis</strong> foram altamente dependentes de seus envolvimentos com o trabalho experimental.</p>
+</div>
+</div>
+<div id="referencias" class="section level1">
+<h1>Referências</h1>
+<ul>
+<li>Box, GEP; Hunter, JS; Hunter, WG. <a href="http://statisticsforexperimenters.net">Statistics for experimenters: Design Innovation and Discovery</a>. John Wiley &amp; Sons, 2005.</li>
+</ul>
+</div>
+
+<center>
+  <hr width="100%" size="3px">
+  <p> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.pt_BR">
+      <img src="img/CC_by-nc-sa_80x15.png" alt="Licença Creative Commons 4.0"> </a>
+  </p>
+  <p> <font size="2"> Este conteúdo
+      está disponível por meio da Licença Creative Commons 4.0 </font>
+  </p>
+</center>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

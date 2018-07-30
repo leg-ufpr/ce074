@@ -1,0 +1,3645 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Diagrama de Hasse para planejamento e análise de dados experimentais</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<script>
+ (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ ga('create', 'UA-102804671-3', 'auto');
+ ga('send', 'pageview');
+
+</script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = false;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">CE074</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="aulas.html">Aulas</a>
+</li>
+<li>
+  <a href="referencias.html">Referências</a>
+</li>
+<li>
+  <a href="recursos.html">Recursos</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Materiais
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Introdução e revisão</li>
+    <li>
+      <a href="catalizando-conhecimento.html">Catalizando a geração de conhecimento [HTML]</a>
+    </li>
+    <li>
+      <a href="modelos-lineares.html">Modelos lineares e reparametrizações [HTML]</a>
+    </li>
+    <li class="dropdown-header">Experimentos fatoriais</li>
+    <li>
+      <a href="anova-geral.html">ANOVA por meio de Diagramas de Hasse [HTML]</a>
+    </li>
+    <li>
+      <a href="fatorial_2-2.html">Experimentos fatorias 2^2 [HTML]</a>
+    </li>
+    <li>
+      <a href="fatorial_2-3.html">Experimentos fatorias 2^3 [HTML]</a>
+    </li>
+    <li>
+      <a href="fatorial_2-k.html">Experimentos fatorias 2^k, k &gt; 3 [HTML]</a>
+    </li>
+    <li>
+      <a href="fatorial_pontos-centrais.html">Adição de pontos centrais em planejamentos 2^k [HTML]</a>
+    </li>
+    <li>
+      <a href="confundimento-blocagem.html">Técnicas de confundimento para blocagem em fatorias 2^k [HTML]</a>
+    </li>
+    <li>
+      <a href="fatorial_fracionado.html">Experimentos fatorias fracionados 2^{k-p} [HTML]</a>
+    </li>
+    <li>
+      <a href="msr.html">Metodologia de Superfície de Resposta [HTML]</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Scripts</li>
+    <li>
+      <a href="scripts/script_racoes_pimentel.R">Tipos de contrastes em modelos lineares [R]</a>
+    </li>
+    <li>
+      <a href="scripts/script_catalisador.R">Interpretação de efeitos estimados em modelos lineares [R]</a>
+    </li>
+    <li>
+      <a href="scripts/script_fatorial_2-2.R">Análise completa de um fatorial 2^2 [R]</a>
+    </li>
+    <li>
+      <a href="scripts/script_fatorial_2-6.R">Análise completa de um fatorial 2^6 [R]</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Experimento</li>
+    <li>
+      <a href="instrucoes-planejamento.html">Instruções para o planejamento de experimentos [HTML]</a>
+    </li>
+    <li>
+      <a href="misc/guia-planejamento.html">Guia para o planejamento de experimentos [HTML]</a>
+    </li>
+    <li>
+      <a href="misc/guia-planejamento.Rmd">Guia para o planejamento de experimentos [Rmd]</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Exercícios</li>
+    <li>
+      <a href="exercicios/ex_revisao.pdf">Revisão de conhecimento [PDF]</a>
+    </li>
+    <li>
+      <a href="exercicios/ex_fatorial.pdf">Experimentos fatoriais [PDF]</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/fernandomayer/ce074">
+    <span class="fa fa-github fa-lg"></span>
+     
+    GitHub
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Diagrama de Hasse para planejamento e análise de dados experimentais</h1>
+
+</div>
+
+
+<div id="objetivo" class="section level1">
+<h1>Objetivo</h1>
+<p>Determinação do modelo e da tabela de análise de variância para experimentos planejados em qualquer tipo de delineamento.</p>
+</div>
+<div id="procedimentos-gerais" class="section level1">
+<h1>Procedimentos gerais</h1>
+<p>O procedimento consiste de 7 passos:</p>
+<ol style="list-style-type: decimal">
+<li>Descrição das características pertinentes ao estudo</li>
+<li>Estrutura experimental</li>
+<li>Fontes de variação, obtidas através da fórmula estrutural</li>
+<li>Número de graus de liberdade e somas de quadrados</li>
+<li>Tabela de análise de variância</li>
+<li>Modelos de esperança e de variância (maximais)</li>
+<li>Esperanças dos quadrados médios</li>
+</ol>
+<div id="descricao-das-caracteristicas-pertinentes-ao-estudo" class="section level2">
+<h2>1. Descrição das características pertinentes ao estudo</h2>
+<p>Consiste em identificar:</p>
+<ol style="list-style-type: decimal">
+<li>Unidade observacional: entidade física medida</li>
+<li>Variável resposta: variávelde intersse</li>
+<li>Fatores não casualizados (<strong>unrandomized</strong>): aqueles que indexariam as unidades observacionais se nenhuma casualização fosse empregada</li>
+<li>Fatores casualizados (<strong>randomized</strong>): aqueles associados às unidades observacionais como resultado da casualização</li>
+<li>Tipo de estudo: delineamento experimental associado ao esquema de tratamento ou método de amostragem</li>
+</ol>
+<p><strong>Observação</strong>: Para determinar se um fator é <strong>randomized</strong> ou <strong>unrandomized</strong>, deve-se fazer a seguinte pergunta:</p>
+<ul>
+<li>Para uma unidade observacional os níveis do fator podem ser identificados se a casualização ainda não foi realizada?
+<ul>
+<li>Se <strong>sim</strong>, então o fator é <strong>unrandomized</strong></li>
+<li>Se <strong>não</strong>, então o fator é <strong>randomized</strong></li>
+</ul></li>
+</ul>
+</div>
+<div id="estrutura-experimental" class="section level2">
+<h2>2. Estrutura experimental</h2>
+<p>Para determinar a estrutura experimental:</p>
+<ol style="list-style-type: decimal">
+<li>Descrever a relação de cruzamento ou aninhamento entre os fatores <strong>unrandomized</strong> no experimento</li>
+<li>Descrever a relação de cruzamento ou aninhamento entre:
+<ol style="list-style-type: lower-alpha">
+<li>os fatores <strong>randomized</strong></li>
+<li>os fatores <strong>randomized</strong> e <strong>unrandomized</strong> (se houver)</li>
+</ol></li>
+<li>Acrescentar o número de níveis dos fatores em frente aos nomes</li>
+</ol>
+<p>Simbologia:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Fatores</th>
+<th>Símbolo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Cruzados</td>
+<td><span class="math inline">\(A * B\)</span></td>
+</tr>
+<tr class="even">
+<td>Aninhados</td>
+<td><span class="math inline">\(A/B\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Fórmula estrutural</strong></p>
+<p>Exemplo para DBC com <span class="math inline">\(b\)</span> blocos, <span class="math inline">\(k\)</span> parcelas e <span class="math inline">\(t\)</span> tratamentos:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Estrutura</th>
+<th>Fórmula</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Unrandomized</td>
+<td><span class="math inline">\(b\)</span> blocos/<span class="math inline">\(k\)</span> parcelas</td>
+</tr>
+<tr class="even">
+<td>Randomized</td>
+<td><span class="math inline">\(t\)</span> tratamentos</td>
+</tr>
+</tbody>
+</table>
+<p>Exemplo para DQL com <span class="math inline">\(k\)</span> linhas e colunas, e <span class="math inline">\(t\)</span> tratamentos:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Estrutura</th>
+<th>Fórmula</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Unrandomized</td>
+<td><span class="math inline">\(k\)</span> linhas <span class="math inline">\(*\)</span> <span class="math inline">\(k\)</span> colunas</td>
+</tr>
+<tr class="even">
+<td>Randomized</td>
+<td><span class="math inline">\(t\)</span> tratamentos</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="fontes-de-variacao-obtidas-atraves-da-formula-estrutural" class="section level2">
+<h2>3. Fontes de variação obtidas através da fórmula estrutural</h2>
+<p>Regras para expandir a fórmula estrutural:</p>
+<p><span class="math display">\[
+A*B = A + B + A\#B
+\]</span></p>
+<p><span class="math display">\[
+A/B = A + B[fg(A)]
+\]</span></p>
+<p>Onde <span class="math inline">\(fg(A)\)</span> é chamado de <strong>fator generalizado</strong>. Um fator generalizado é formado a partir de vários fatores originais, cujos níveis são combinações dos níveis dos fatores originais. Sua representação é uma lista dos fatores constituintes, separados por “<span class="math inline">\(\wedge\)</span>”.</p>
+<p>Exemplo para DBC:</p>
+<p><span class="math display">\[
+\textrm{Blocos}/\textrm{Parcelas} = \textrm{Blocos} +
+\textrm{Parcelas[Blocos]}
+\]</span></p>
+<p>Exemplo para DQL:</p>
+<p><span class="math display">\[
+\textrm{Linhas}*\textrm{Colunas} = \textrm{Linhas} + \textrm{Colunas} +
+\textrm{Linhas # Colunas}
+\]</span></p>
+</div>
+<div id="numero-de-graus-de-liberdade-e-somas-de-quadrados" class="section level2">
+<h2>4. Número de graus de liberdade e somas de quadrados</h2>
+<p>O Diagrama de Hasse é uma representação de marginalidade entre os componentes envolvidos.</p>
+<p><strong>Marginalidade:</strong> Um fator generalizado <span class="math inline">\(V\)</span> é marginal a outro fator generalizado <span class="math inline">\(Z\)</span>, se os fatores de <span class="math inline">\(V\)</span> são um subconjunto de <span class="math inline">\(Z\)</span>. Notação: <span class="math inline">\(V \leq Z\)</span>.</p>
+<p><strong>Diagrama de Hasse:</strong> o diagrama de Hasse para os fatores generalizados de uma fórmula estrutural é formado tal que, a posição das “caixas” representando tais fatores generalizados indique a <strong>relação entre os fatores</strong> presentes em cada fórmula estrutural:</p>
+<ul>
+<li>Um fator generalizado (FG) deve estar acima do FG para o qual o primeiro é marginal</li>
+<li>Se dois FGs são <strong>cruzados</strong>, devem estar na mesma linha</li>
+<li>Acima de todos os FGs, coloca-se a média universal <span class="math inline">\(\mu\)</span></li>
+<li>À esquerda, escreve-se o FG e o número de níveis. À direita, escreve-se o número de graus de liberdade e a fonte da variação</li>
+<li>Os graus de liberdade são obtidos pela diferença entre o número de níveis do FG e a soma dos graus de liberdade de todos os fatores marginais à ele (“acima” dele)</li>
+</ul>
+<p><strong>Somas de quadrados:</strong> são formas quadráticas do tipo <span class="math inline">\(\mathbf{Y&#39;QY}\)</span>.</p>
+<p>A matriz <span class="math inline">\(\mathbf{Q}\)</span> pode ser expressa em função das matrizes de projeção <span class="math inline">\(\mathbf{M}\)</span>, <span class="math display">\[
+\mathbf{M} = \mathbf{X(X&#39;X)^{-1}X&#39;}
+\]</span> Onde <span class="math inline">\(\mathbf{X}\)</span> é a matriz de incidência, de <strong>posto completo</strong>.</p>
+<p>Portanto, <span class="math inline">\(\mathbf{Q}\)</span> é a diferença algébrica de matrizes <span class="math inline">\(\mathbf{M}\)</span>.</p>
+<p>Exemplo para DBC:</p>
+<p><span class="math display">\[
+\begin{align}
+\textrm{SQB} &amp;= \mathbf{Y&#39;Q_{B}Y} \\
+\textrm{SQP[B]} &amp;= \mathbf{Y&#39;Q_{BP}Y} \\
+\textrm{SQTrat} &amp;= \mathbf{Y&#39;Q_{T}Y} \\
+\textrm{SQRes} &amp;= \mathbf{Y&#39;Q_{Res}Y}
+\end{align}
+\]</span></p>
+<p>Onde:</p>
+<p><span class="math display">\[
+\begin{align}
+\mathbf{Q_B} &amp;= \mathbf{M_B - M_G} \\
+\mathbf{Q_{BP}} &amp;= \mathbf{M_{BP} - M_G} \\
+\mathbf{Q_T} &amp;= \mathbf{M_T - M_G} \\
+\mathbf{Q_{Res}} &amp;= \mathbf{M_{BP} - M_{B} - M_{T} + M_G}
+\end{align}
+\]</span></p>
+</div>
+<div id="tabela-de-analise-de-variancia" class="section level2">
+<h2>5. Tabela de análise de variância</h2>
+<ol style="list-style-type: decimal">
+<li>Listar todas as fontes <strong>unrandomized</strong></li>
+<li>Alocar as fontes <strong>randomized</strong> sob as fontes unrandomized com as quais estão confundidas (<strong>identadas</strong>)</li>
+<li>Adicionar fontes residuais às porções restantes das fontes <strong>unrandomized</strong></li>
+</ol>
+<p>Exemplo para DBC:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Fonte de variação</th>
+<th>GL</th>
+<th>SQ</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Blocos</td>
+<td><span class="math inline">\(b-1\)</span></td>
+<td><span class="math inline">\(\mathbf{Y&#39;Q_{B}Y}\)</span></td>
+</tr>
+<tr class="even">
+<td>Parcelas[Blocos]</td>
+<td><span class="math inline">\(b(t-1)\)</span></td>
+<td><span class="math inline">\(\mathbf{Y&#39;Q_{BP}Y}\)</span></td>
+</tr>
+<tr class="odd">
+<td>Tratamentos</td>
+<td><span class="math inline">\(t-1\)</span></td>
+<td><span class="math inline">\(\mathbf{Y&#39;Q_{T}Y}\)</span></td>
+</tr>
+<tr class="even">
+<td>Resíduo</td>
+<td><span class="math inline">\((b-1)(t-1)\)</span></td>
+<td><span class="math inline">\(\mathbf{Y&#39;Q_{Res}Y}\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="modelos-de-esperanca-e-variancia" class="section level2">
+<h2>6. Modelos de esperança e variância</h2>
+<ol style="list-style-type: decimal">
+<li>Designar cada fator original como <strong>fixo</strong> ou <strong>aleatório</strong></li>
+<li>Determinar se um fator generalizado (FG) é potencialmente de esperança ou de variância:
+<ol style="list-style-type: lower-alpha">
+<li>fator generalizado de efeito fixo: <strong>esperança</strong></li>
+<li>pelo menos um fator generalizado de efeito aleatório: <strong>termo de variação</strong></li>
+<li>termo consistindo de todos os fatores não casualizados é considerado aleatório</li>
+</ol></li>
+<li>O <strong>modelo de esperança maximal</strong> (<span class="math inline">\(\boldsymbol{\Psi}\)</span>) dá-se pela soma dos termos de esperança</li>
+<li>O <strong>modelo de variação maximal</strong> dá-se pela soma de todos os termos de variação</li>
+</ol>
+<p><strong>Efeito aleatório</strong>:</p>
+<ul>
+<li>Grande número de níveis na população</li>
+<li>Comportamento aleatório</li>
+<li>Seus níveis podem ser descritos por uma distribuição de probabilidade</li>
+</ul>
+<p><strong>Efeito fixo</strong>:</p>
+<ul>
+<li>Número pequeno ou grande de níveis</li>
+<li>Comportamento sistemático</li>
+<li>Não podem ser descritos por uma distribuição de probabilidade</li>
+</ul>
+<p><strong>Exemplo para DBC:</strong></p>
+<ul>
+<li><p>Considerando todos os fatores de <strong>efeito fixo</strong>, o modelo maximal usual é: <span class="math display">\[
+y_{ij} = \mu + \beta_j + \tau_i + \epsilon_{ij}\, \qquad
+j = 1, \ldots, b;\, i = 1, \ldots, t
+\]</span> Assim: <span class="math display">\[
+\begin{align}
+\text{E}(Y_{ij}) &amp;= \mu + \beta_i + \tau_i \\
+\text{V}(Y_{ij}) &amp;= \sigma^2_{BP} \\
+\text{Cov}(Y_{ij}, Y_{i&#39;j&#39;}) &amp;= 0 \,, \quad i \neq i&#39;, j \neq j&#39;
+\end{align}
+\]</span> Matricialmente: <span class="math display">\[
+\begin{align}
+\boldsymbol{\Psi} = \text{E}(\mathbf{Y}) &amp;=
+\mathbf{X_G}\boldsymbol{\mu} + \mathbf{X_B}\boldsymbol{\beta} +
+\mathbf{X_T}\boldsymbol{\tau} \\
+\text{V}(\mathbf{Y}) &amp;= \sigma^2_{BP} \mathbf{I_n}
+\end{align}
+\]</span> Simbolicamente: <span class="math display">\[
+\begin{align}
+\boldsymbol{\Psi} = \text{E}(\mathbf{Y}) &amp;=
+\textrm{Bloco} + \textrm{Tratamento} \\
+\text{V}(\mathbf{Y}) &amp;= \textrm{Bloco} \wedge \textrm{Parcela}
+\end{align}
+\]</span></p></li>
+<li><p>Considerando <strong>bloco de efeito aleatório</strong>, o modelo maximal usual é: <span class="math display">\[
+y_{ij} = \mu + \beta_j + \tau_i + \epsilon_{ij}\, \qquad
+j = 1, \ldots, b;\, i = 1, \ldots, t
+\]</span> Assim: <span class="math display">\[
+\begin{align}
+\text{E}(Y_{ij}) &amp;= \mu + \tau_i \\
+\text{V}(Y_{ij}) &amp;= \sigma^2_{BP} + \sigma^2_{B} \\
+\text{Cov}(Y_{ij}, Y_{i&#39;j}) &amp;= \sigma^2_{B} \,, \quad i \neq i&#39; \\
+\text{Cov}(Y_{ij}, Y_{i&#39;j&#39;}) &amp;= 0 \,, \quad j \neq j&#39;
+\end{align}
+\]</span> Matricialmente: <span class="math display">\[
+\begin{align}
+\boldsymbol{\Psi} = \text{E}(\mathbf{Y}) &amp;=
+\mathbf{X_G}\boldsymbol{\mu} + \mathbf{X_T}\boldsymbol{\tau} \\
+\text{V}(\mathbf{Y}) &amp;= \sigma^2_{BP} \mathbf{I_n} +
+\sigma^2_{B} (\mathbf{I_b} \otimes \mathbf{J_t})
+\end{align}
+\]</span> Simbolicamente: <span class="math display">\[
+\begin{align}
+\boldsymbol{\Psi} = \text{E}(\mathbf{Y}) &amp;= \textrm{Tratamento} \\
+\text{V}(\mathbf{Y}) &amp;= \textrm{Bloco} +
+\textrm{Bloco} \wedge \textrm{Parcela}
+\end{align}
+\]</span></p></li>
+</ul>
+</div>
+<div id="esperancas-dos-quadrados-medios" class="section level2">
+<h2>7. Esperanças dos quadrados médios</h2>
+<ol style="list-style-type: decimal">
+<li>Se <span class="math inline">\(F\)</span> é um termo no <strong>modelo de variação</strong>, atribuir <span class="math inline">\(\frac{n}{f}\sigma^2_F\)</span>, onde <span class="math inline">\(n\)</span> é o número de unidades experimentais, e <span class="math inline">\(f\)</span> é o número de níveis de <span class="math inline">\(F\)</span>. Se <span class="math inline">\(F\)</span> é um termo no <strong>modelo de esperança</strong>, atribuir <span class="math inline">\(q_F(\Psi)\)</span>
+<ul>
+<li>Do lado direito de cada FG, somar as contribuições para a esperança do quadrado médio, <span class="math inline">\(\textrm{E}[QM]\)</span></li>
+<li><strong>Esse procedimento é o único que é realizado de baixo para cima no diagrama de Hasse</strong></li>
+</ul></li>
+<li>Adicionar as contribuições dos fatores <strong>unrandomized</strong> na tabela</li>
+<li>Repetir o passo (2) e somar as contribuições àquelas que já estão na tabela</li>
+</ol>
+<p>Exemplo para DBC:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Fonte de variação</th>
+<th>E[QM] (Fixo)</th>
+<th>E[QM] (Bloco Aleat.)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Blocos</td>
+<td><span class="math inline">\(\sigma^2_{BP} + q_B(\Psi)\)</span></td>
+<td><span class="math inline">\(\sigma^2_{BP} + \sigma^2_B\)</span></td>
+</tr>
+<tr class="even">
+<td>Parcelas[Blocos]</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Tratamentos</td>
+<td><span class="math inline">\(\sigma^2_{BP} + q_T(\Psi)\)</span></td>
+<td><span class="math inline">\(\sigma^2_{BP} + q_T(\Psi)\)</span></td>
+</tr>
+<tr class="even">
+<td>Resíduo</td>
+<td><span class="math inline">\(\sigma^2_{BP}\)</span></td>
+<td><span class="math inline">\(\sigma^2_{BP}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Nota sobre <span class="math inline">\(E[QM]\)</span></strong>:</p>
+<p>Na tabela de análise de variância, temos um valor F, que é a razão de dois quadrados médios. Por que isso é apropriado? Para responder essa pergunta devemos olhar para o que os dois quadrados médios medem, e isso é feito através dos valores esperados dos quadrados médios.</p>
+<p>A esperança do quadrado médio são os valores médios dos quadrados médios na população que é descrita pelo modelo considerado, ou seja, um quadrado médio esperado é o verdadeiro valor na população. Isto é análogo à dizer que o valor esperado de uma observação na opulação é sua média. Assim, se tivessemos a população completa para todos os tratamentos, e calculassemos os quadrados médios destes dados completos, então os valores seriam aqueles dados pela tabela.</p>
+<p>Note que os valores médios na população envolvem <span class="math inline">\(\sigma^2\)</span>, a variação devido ao acaso (não controlada) entre as unidades do mesmo tratamento. No entanto, esse valor médio também depende de uma quantidade <span class="math inline">\(q_F(\Psi)\)</span> (onde <span class="math inline">\(F\)</span> é um fator qualquer).</p>
+<p>Mas o que é <span class="math inline">\(q_F(\Psi)\)</span>? Note que o subscrito <span class="math inline">\(F\)</span> denota que ele envolve a matriz <span class="math inline">\(Q_F\)</span>. Por exemplo, considere o termo pata tratamento, <span class="math inline">\(q_T(\Psi)\)</span>. De fato,</p>
+<p><span class="math display">\[
+\begin{align}
+q_T(\Psi) &amp;=
+    \frac{\boldsymbol{\Psi}&#39;\mathbf{Q_T}\boldsymbol{\Psi}}{(t-1)} \\
+  &amp;= \frac{\Sigma_{i=1}^{t} r_i (\tau_i - \bar\tau_{.})^2}{(t-1)}
+\end{align}
+\]</span></p>
+<p>cujo denominador é o mesmo que uma soma de quadrados, exceto que é uma forma quadrática em <span class="math inline">\(\boldsymbol{\Psi}\)</span> ao invés de <span class="math inline">\(\mathbf{Y}\)</span>, onde</p>
+<p><span class="math display">\[
+\boldsymbol{\Psi} =
+\begin{bmatrix}
+E(Y_1) \\
+E(Y_2) \\
+\vdots \\
+E(Y_n)
+\end{bmatrix}
+\]</span></p>
+<p>Em todo caso, <span class="math inline">\(q_T(\Psi)\)</span> é uma forma quadrática e deve ser não negativa. De fato, a magnitude dessa quantidade vai depender do tamanho das diferenças entre as médias de tratamento e a média geral. Se os efeitos forem próximos, então serão parecidos com a média, enquanto que se forem mais espaçados haverá maior distância de média. Consequentemente, a média de quadrado de tratamento será (em média) maior do que e média de quadrado residual, pois é influenciada tanto pela variação não controlada e a magnitude dos efeitos.</p>
+<p>Portanto, <span class="math inline">\(q_T(\Psi)\)</span> só será zero quando os efeitos de tratamento forem iguais, ou seja, quando a hipótese nula for verdadeira. Dessa forma, os quadrados médios serão parecidos e o valor de F será próximo de 1. Assim, as seguintes hipóteses são equivalentes:</p>
+<p><span class="math display">\[
+\begin{align}
+H_0 &amp;: q_T(\Psi) = 0 \\
+H_0 &amp;: \tau_i = \tau_2 = \ldots = \tau_t
+\end{align}
+\]</span></p>
+</div>
+</div>
+<div id="principais-delineamentos" class="section level1">
+<h1>Principais delineamentos</h1>
+<div id="delineamento-inteiramente-casualizado-dic" class="section level2">
+<h2>Delineamento inteiramente casualizado (DIC)</h2>
+<p>Considere um experimento em um delineamento inteiramente casualizado com <span class="math inline">\(t\)</span> tratamentos e <span class="math inline">\(r\)</span> repetições.</p>
+<p>O modelo associado à este delineamento é</p>
+<p><span class="math display">\[
+y_{ij} = \mu + \tau_i + \epsilon_{ij}\, \qquad i = 1, \ldots, t;\, j = 1,
+\ldots, r
+\]</span></p>
+<p>Matricialmente o modelo pode ser escrito como:</p>
+<p><span class="math display">\[
+\begin{align}
+\mathbf{Y} &amp;= \mathbf{X}\boldsymbol{\theta} +
+\boldsymbol{\epsilon} \\
+\mathbf{Y} &amp;= \mathbf{X_G}\boldsymbol{\mu} +
+\mathbf{X_T}\boldsymbol{\tau} +
+\boldsymbol{\epsilon}
+\end{align}
+\]</span></p>
+<ul>
+<li>Fórmula estrutural</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th>Estrutura</th>
+<th>Fórmula</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Unrandomized</td>
+<td><span class="math inline">\(tr\)</span> parcelas</td>
+</tr>
+<tr class="even">
+<td>Randomized</td>
+<td><span class="math inline">\(t\)</span> tratamentos</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Diagrama de Hasse</li>
+</ul>
+<p><img src="img/DIC_geral.png" width="100%" style="display: block; margin: auto;" /></p>
+<ul>
+<li>Tabela de ANOVA</li>
+</ul>
+<table style="width:100%;">
+<colgroup>
+<col width="13%" />
+<col width="7%" />
+<col width="15%" />
+<col width="25%" />
+<col width="17%" />
+<col width="19%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonte de variação</th>
+<th>GL</th>
+<th>SQ</th>
+<th>QM</th>
+<th>E[QM] (Fixo)</th>
+<th>E[QM] (Aleat.)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Parcelas</td>
+<td><span class="math inline">\(tr-1\)</span></td>
+<td><span class="math inline">\(\mathbf{Y&#39;Q_PY}\)</span></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Tratamentos</td>
+<td><span class="math inline">\(t-1\)</span></td>
+<td><span class="math inline">\(\mathbf{Y&#39;Q_TY}\)</span></td>
+<td><span class="math inline">\(\frac{\mathbf{Y&#39;Q_TY}}{t-1}\)</span></td>
+<td><span class="math inline">\(\sigma^2_P + q_T(\Psi)\)</span></td>
+<td><span class="math inline">\(\sigma^2_P + r \sigma^2_T\)</span></td>
+</tr>
+<tr class="odd">
+<td>Resíduo</td>
+<td><span class="math inline">\(t(r-1)\)</span></td>
+<td><span class="math inline">\(\mathbf{Y&#39;Q_{Res}Y}\)</span></td>
+<td><span class="math inline">\(\frac{\mathbf{Y&#39;Q_{Res}Y}}{t(r-1)}\)</span></td>
+<td><span class="math inline">\(\sigma^2_P\)</span></td>
+<td><span class="math inline">\(\sigma^2_P\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Onde:</p>
+<p><span class="math display">\[
+\begin{align}
+\mathbf{Q_P} &amp;= \mathbf{M_P - M_G} \\
+\mathbf{Q_{T}} &amp;= \mathbf{M_{T} - M_G} \\
+\mathbf{Q_{Res}} &amp;= \mathbf{Q_P - Q_T} \\
+                 &amp;= \mathbf{M_P - M_G - (M_T - M_G)} \\
+                 &amp;= \mathbf{M_P - M_T}
+\end{align}
+\]</span></p>
+<p>E:</p>
+<p><span class="math display">\[
+\begin{align}
+\mathbf{M_G} &amp;= \mathbf{X_G(X&#39;_G X_G)^{-1}X&#39;_G} \\
+\mathbf{M_P} &amp;= \mathbf{X_P(X&#39;_P X_P)^{-1}X&#39;_P} \\
+\mathbf{M_T} &amp;= \mathbf{X_T(X&#39;_T X_T)^{-1}X&#39;_T}
+\end{align}
+\]</span></p>
+<ul>
+<li>Hipóteses e teste <span class="math inline">\(F\)</span></li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>Fixo</th>
+<th>Aleatório</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Tratamento</td>
+<td><span class="math inline">\(H_0: q_T(\Psi) = 0\)</span></td>
+<td><span class="math inline">\(H_0: \sigma^2_T = 0\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Testes:</p>
+<p><span class="math display">\[
+F_T = \frac{\textrm{QMT}}{\textrm{QMRes}}
+\]</span></p>
+<ul>
+<li>Exemplo no R</li>
+</ul>
+<p>Os dados apresentados a seguir referem-se à produções (kg/m<span class="math inline">\(^2\)</span>) de 3 variedades de soja obtidas de um experimento instalado segundo o delineamento inteiramente casualizado (DIC) com 3 repetições. Aqui considera-se tratamento como de <strong>efeito fixo</strong>.</p>
+<pre class="r"><code>## Dados
+da.dic &lt;- data.frame(variedade = rep(c(&quot;V1&quot;, &quot;V2&quot;, &quot;V3&quot;), each = 3),
+                     parcela = factor(1:9),
+                     producao = c(41, 40, 44,
+                         51, 48, 50,
+                         53, 54, 52))
+## Estrutura dos dados
+str(da.dic)
+# &#39;data.frame&#39;: 9 obs. of  3 variables:
+#  $ variedade: Factor w/ 3 levels &quot;V1&quot;,&quot;V2&quot;,&quot;V3&quot;: 1 1 1 2 2 2 3 3 3
+#  $ parcela  : Factor w/ 9 levels &quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;,..: 1 2 3 4 5 6 7 8 9
+#  $ producao : num  41 40 44 51 48 50 53 54 52
+## Croqui do experimento
+set.seed(11)
+matrix(sample(da.dic$variedade), ncol = 3)
+#      [,1] [,2] [,3]
+# [1,] &quot;V1&quot; &quot;V3&quot; &quot;V2&quot;
+# [2,] &quot;V1&quot; &quot;V2&quot; &quot;V3&quot;
+# [3,] &quot;V2&quot; &quot;V3&quot; &quot;V1&quot;</code></pre>
+<p>A <strong>fórmula estrutural</strong> é:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Estrutura</th>
+<th>Fórmula</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Unrandomized</td>
+<td><span class="math inline">\(9\)</span> parcelas</td>
+</tr>
+<tr class="even">
+<td>Randomized</td>
+<td><span class="math inline">\(3\)</span> tratamentos</td>
+</tr>
+</tbody>
+</table>
+<p>O <strong>diagrama de Hasse</strong> fica desta forma:</p>
+<p><img src="img/DIC_ex1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>A <strong>tabela de ANOVA</strong> fica:</p>
+<table>
+<colgroup>
+<col width="16%" />
+<col width="9%" />
+<col width="19%" />
+<col width="32%" />
+<col width="22%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonte de variação</th>
+<th>GL</th>
+<th>SQ</th>
+<th>QM</th>
+<th>E[QM] (Fixo)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Parcelas</td>
+<td><span class="math inline">\(8\)</span></td>
+<td><span class="math inline">\(\mathbf{Y&#39;Q_PY}\)</span></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>¬¬Tratamentos</td>
+<td><span class="math inline">\(2\)</span></td>
+<td><span class="math inline">\(\mathbf{Y&#39;Q_TY}\)</span></td>
+<td><span class="math inline">\(\frac{\mathbf{Y&#39;Q_TY}}{t-1}\)</span></td>
+<td><span class="math inline">\(\sigma^2_P + q_T(\Psi)\)</span></td>
+</tr>
+<tr class="odd">
+<td>¬¬Resíduo</td>
+<td><span class="math inline">\(6\)</span></td>
+<td><span class="math inline">\(\mathbf{Y&#39;Q_{Res}Y}\)</span></td>
+<td><span class="math inline">\(\frac{\mathbf{Y&#39;Q_{Res}Y}}{t(r-1)}\)</span></td>
+<td><span class="math inline">\(\sigma^2_P\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Calculando as matrizes <span class="math inline">\(\mathbf{Q}\)</span> manualmente:</p>
+<pre class="r"><code>##----------------------------------------------------------------------
+## Atribui nomes comuns para variável resposta e tratamento
+var.resp &lt;- da.dic$producao
+tratamento &lt;- da.dic$variedade
+parcela &lt;- da.dic$parcela
+##----------------------------------------------------------------------
+## Definições
+(t &lt;- length(unique(tratamento)))
+# [1] 3
+(r &lt;- unique(table(tratamento)))
+# [1] 3
+(n &lt;- length(var.resp)) # t*r para o caso balanceado
+# [1] 9
+##----------------------------------------------------------------------
+## Matrizes
+## Vetor de respostas
+(Y &lt;- matrix(var.resp, ncol = 1))
+#       [,1]
+#  [1,]   41
+#  [2,]   40
+#  [3,]   44
+#  [4,]   51
+#  [5,]   48
+#  [6,]   50
+#  [7,]   53
+#  [8,]   54
+#  [9,]   52
+## Matriz de médias
+(Xg &lt;- matrix(rep(1, n), ncol = 1))
+#       [,1]
+#  [1,]    1
+#  [2,]    1
+#  [3,]    1
+#  [4,]    1
+#  [5,]    1
+#  [6,]    1
+#  [7,]    1
+#  [8,]    1
+#  [9,]    1
+## Matriz de tratamentos
+Xt &lt;- matrix(0, nrow = n, ncol = t)
+Xt[cbind(seq_along(tratamento), tratamento)] &lt;- 1; Xt
+#       [,1] [,2] [,3]
+#  [1,]    1    0    0
+#  [2,]    1    0    0
+#  [3,]    1    0    0
+#  [4,]    0    1    0
+#  [5,]    0    1    0
+#  [6,]    0    1    0
+#  [7,]    0    0    1
+#  [8,]    0    0    1
+#  [9,]    0    0    1
+## Matriz de parcelas (identidade)
+(Xp &lt;- diag(1, nrow = n))
+#       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9]
+#  [1,]    1    0    0    0    0    0    0    0    0
+#  [2,]    0    1    0    0    0    0    0    0    0
+#  [3,]    0    0    1    0    0    0    0    0    0
+#  [4,]    0    0    0    1    0    0    0    0    0
+#  [5,]    0    0    0    0    1    0    0    0    0
+#  [6,]    0    0    0    0    0    1    0    0    0
+#  [7,]    0    0    0    0    0    0    1    0    0
+#  [8,]    0    0    0    0    0    0    0    1    0
+#  [9,]    0    0    0    0    0    0    0    0    1
+##----------------------------------------------------------------------
+## Matrizes M
+## para média
+Mg &lt;- Xg %*% solve(t(Xg) %*% Xg) %*% t(Xg)
+MASS::fractions(Mg)
+#       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9]
+#  [1,] 1/9  1/9  1/9  1/9  1/9  1/9  1/9  1/9  1/9 
+#  [2,] 1/9  1/9  1/9  1/9  1/9  1/9  1/9  1/9  1/9 
+#  [3,] 1/9  1/9  1/9  1/9  1/9  1/9  1/9  1/9  1/9 
+#  [4,] 1/9  1/9  1/9  1/9  1/9  1/9  1/9  1/9  1/9 
+#  [5,] 1/9  1/9  1/9  1/9  1/9  1/9  1/9  1/9  1/9 
+#  [6,] 1/9  1/9  1/9  1/9  1/9  1/9  1/9  1/9  1/9 
+#  [7,] 1/9  1/9  1/9  1/9  1/9  1/9  1/9  1/9  1/9 
+#  [8,] 1/9  1/9  1/9  1/9  1/9  1/9  1/9  1/9  1/9 
+#  [9,] 1/9  1/9  1/9  1/9  1/9  1/9  1/9  1/9  1/9
+## para tratamento
+Mt &lt;- Xt %*% solve(t(Xt) %*% Xt) %*% t(Xt)
+MASS::fractions(Mt)
+#       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9]
+#  [1,] 1/3  1/3  1/3    0    0    0    0    0    0 
+#  [2,] 1/3  1/3  1/3    0    0    0    0    0    0 
+#  [3,] 1/3  1/3  1/3    0    0    0    0    0    0 
+#  [4,]   0    0    0  1/3  1/3  1/3    0    0    0 
+#  [5,]   0    0    0  1/3  1/3  1/3    0    0    0 
+#  [6,]   0    0    0  1/3  1/3  1/3    0    0    0 
+#  [7,]   0    0    0    0    0    0  1/3  1/3  1/3 
+#  [8,]   0    0    0    0    0    0  1/3  1/3  1/3 
+#  [9,]   0    0    0    0    0    0  1/3  1/3  1/3
+## para parcela
+Mp &lt;- Xp %*% solve(t(Xp) %*% Xp) %*% t(Xp)
+MASS::fractions(Mp)
+#       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9]
+#  [1,] 1    0    0    0    0    0    0    0    0   
+#  [2,] 0    1    0    0    0    0    0    0    0   
+#  [3,] 0    0    1    0    0    0    0    0    0   
+#  [4,] 0    0    0    1    0    0    0    0    0   
+#  [5,] 0    0    0    0    1    0    0    0    0   
+#  [6,] 0    0    0    0    0    1    0    0    0   
+#  [7,] 0    0    0    0    0    0    1    0    0   
+#  [8,] 0    0    0    0    0    0    0    1    0   
+#  [9,] 0    0    0    0    0    0    0    0    1
+##----------------------------------------------------------------------
+## Matrizes de projeção ortogonal
+## para parcela
+Qp &lt;- Mp - Mg
+MASS::fractions(Qp)
+#       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9]
+#  [1,]  8/9 -1/9 -1/9 -1/9 -1/9 -1/9 -1/9 -1/9 -1/9
+#  [2,] -1/9  8/9 -1/9 -1/9 -1/9 -1/9 -1/9 -1/9 -1/9
+#  [3,] -1/9 -1/9  8/9 -1/9 -1/9 -1/9 -1/9 -1/9 -1/9
+#  [4,] -1/9 -1/9 -1/9  8/9 -1/9 -1/9 -1/9 -1/9 -1/9
+#  [5,] -1/9 -1/9 -1/9 -1/9  8/9 -1/9 -1/9 -1/9 -1/9
+#  [6,] -1/9 -1/9 -1/9 -1/9 -1/9  8/9 -1/9 -1/9 -1/9
+#  [7,] -1/9 -1/9 -1/9 -1/9 -1/9 -1/9  8/9 -1/9 -1/9
+#  [8,] -1/9 -1/9 -1/9 -1/9 -1/9 -1/9 -1/9  8/9 -1/9
+#  [9,] -1/9 -1/9 -1/9 -1/9 -1/9 -1/9 -1/9 -1/9  8/9
+## para tratamento
+Qt &lt;- Mt - Mg
+MASS::fractions(Qt)
+#       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9]
+#  [1,]  2/9  2/9  2/9 -1/9 -1/9 -1/9 -1/9 -1/9 -1/9
+#  [2,]  2/9  2/9  2/9 -1/9 -1/9 -1/9 -1/9 -1/9 -1/9
+#  [3,]  2/9  2/9  2/9 -1/9 -1/9 -1/9 -1/9 -1/9 -1/9
+#  [4,] -1/9 -1/9 -1/9  2/9  2/9  2/9 -1/9 -1/9 -1/9
+#  [5,] -1/9 -1/9 -1/9  2/9  2/9  2/9 -1/9 -1/9 -1/9
+#  [6,] -1/9 -1/9 -1/9  2/9  2/9  2/9 -1/9 -1/9 -1/9
+#  [7,] -1/9 -1/9 -1/9 -1/9 -1/9 -1/9  2/9  2/9  2/9
+#  [8,] -1/9 -1/9 -1/9 -1/9 -1/9 -1/9  2/9  2/9  2/9
+#  [9,] -1/9 -1/9 -1/9 -1/9 -1/9 -1/9  2/9  2/9  2/9
+## para resíduos
+Qr &lt;- Mp - Mt
+MASS::fractions(Qr)
+#       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9]
+#  [1,]  2/3 -1/3 -1/3    0    0    0    0    0    0
+#  [2,] -1/3  2/3 -1/3    0    0    0    0    0    0
+#  [3,] -1/3 -1/3  2/3    0    0    0    0    0    0
+#  [4,]    0    0    0  2/3 -1/3 -1/3    0    0    0
+#  [5,]    0    0    0 -1/3  2/3 -1/3    0    0    0
+#  [6,]    0    0    0 -1/3 -1/3  2/3    0    0    0
+#  [7,]    0    0    0    0    0    0  2/3 -1/3 -1/3
+#  [8,]    0    0    0    0    0    0 -1/3  2/3 -1/3
+#  [9,]    0    0    0    0    0    0 -1/3 -1/3  2/3
+##----------------------------------------------------------------------
+## Graus de liberdade (usando propriedade de traço)
+(GLp &lt;- sum(diag(Qp))) # n - 1
+# [1] 8
+(GLt &lt;- sum(diag(Qt))) # t - 1
+# [1] 2
+(GLr &lt;- sum(diag(Qr))) # n - t
+# [1] 6
+##----------------------------------------------------------------------
+## Soma de quadrados
+(SQp &lt;- t(Y) %*% Qp %*% Y)
+#          [,1]
+# [1,] 218.8889
+(SQt &lt;- t(Y) %*% Qt %*% Y)
+#          [,1]
+# [1,] 203.5556
+(SQr &lt;- t(Y) %*% Qr %*% Y)
+#          [,1]
+# [1,] 15.33333
+##----------------------------------------------------------------------
+## Quadrado médio
+(QMt &lt;- SQt/GLt)
+#          [,1]
+# [1,] 101.7778
+(QMr &lt;- SQr/GLr)
+#          [,1]
+# [1,] 2.555556
+##----------------------------------------------------------------------
+## F calculado
+(Fcalc &lt;- QMt/QMr)
+#          [,1]
+# [1,] 39.82609
+##----------------------------------------------------------------------
+## p-valor
+(p.valor &lt;- pf(Fcalc, GLt, GLr, lower.tail = FALSE))
+#              [,1]
+# [1,] 0.0003437467
+##----------------------------------------------------------------------
+## Tabela final
+tab.final &lt;- data.frame(&quot;GL&quot; = c(GLp, GLt, GLr),
+                        &quot;SQ&quot; = c(SQp, SQt, SQr),
+                        &quot;QM&quot; = c(NA, QMt, QMr),
+                        &quot;F&quot;  = c(NA, Fcalc, NA),
+                        &quot;p-valor&quot; = c(NA, p.valor, NA),
+                        row.names = c(&quot;Parcela&quot;, &quot;  Tratamento&quot;,
+                                      &quot;  Resíduo&quot;))
+tab.final
+#              GL        SQ         QM        F      p.valor
+# Parcela       8 218.88889         NA       NA           NA
+#   Tratamento  2 203.55556 101.777778 39.82609 0.0003437467
+#   Resíduo     6  15.33333   2.555556       NA           NA</code></pre>
+<p>Compara os resultados usando a função <code>aov()</code>:</p>
+<pre class="r"><code>summary(aov(var.resp ~ tratamento))
+#             Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+# tratamento   2 203.56  101.78   39.83 0.000344 ***
+# Residuals    6  15.33    2.56                     
+# ---
+# Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## Usando a função Error() para indicar o confundimento
+summary(aov(var.resp ~ tratamento + Error(parcela)))
+# 
+# Error: parcela
+#            Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+# tratamento  2 203.56  101.78   39.83 0.000344 ***
+# Residuals   6  15.33    2.56                     
+# ---
+# Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<div id="delineamento-em-blocos-completos-dbc" class="section level2">
+<h2>Delineamento em blocos completos (DBC)</h2>
+<p>Considere um experimento em um delineamento em blocos completos com <span class="math inline">\(t\)</span> tratamentos e <span class="math inline">\(b\)</span> blocos.</p>
+<p>O modelo associado à este delineamento é</p>
+<p><span class="math display">\[
+y_{ij} = \mu + \beta_i + \tau_j + \epsilon_{ij}\,
+\qquad i = 1, \ldots,b;\, j = 1, \ldots, t
+\]</span></p>
+<p>Matricialmente o modelo pode ser escrito como:</p>
+<p><span class="math display">\[
+\begin{align}
+\mathbf{Y} &amp;= \mathbf{X}\boldsymbol{\theta} +
+\boldsymbol{\epsilon} \\
+\mathbf{Y} &amp;= \mathbf{X_G}\boldsymbol{\mu} +
+\mathbf{X_B}\boldsymbol{\beta} +
+\mathbf{X_T}\boldsymbol{\tau} +
+\boldsymbol{\epsilon}
+\end{align}
+\]</span></p>
+<ul>
+<li>Fórmula estrutural</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th>Estrutura</th>
+<th>Fórmula</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Unrandomized</td>
+<td><span class="math inline">\(b\)</span> blocos/<span class="math inline">\(t\)</span> parcelas</td>
+</tr>
+<tr class="even">
+<td>Randomized</td>
+<td><span class="math inline">\(t\)</span> tratamentos</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Diagrama de Hasse</li>
+</ul>
+<p><img src="img/DBC_geral.png" width="100%" style="display: block; margin: auto;" /></p>
+<ul>
+<li>Tabela de ANOVA</li>
+</ul>
+<table>
+<colgroup>
+<col width="8%" />
+<col width="6%" />
+<col width="10%" />
+<col width="18%" />
+<col width="12%" />
+<col width="14%" />
+<col width="13%" />
+<col width="14%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonte de variação</th>
+<th>GL</th>
+<th>SQ</th>
+<th>QM</th>
+<th>E[QM] (1)</th>
+<th>E[QM] (2)</th>
+<th>E[QM] (3)</th>
+<th>E[QM] (4)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Blocos</td>
+<td><span class="math inline">\(b-1\)</span></td>
+<td><span class="math inline">\(\mathbf{Y&#39;Q_{B}Y}\)</span></td>
+<td><span class="math inline">\(\frac{\mathbf{Y&#39;Q_{B}Y}}{b-1}\)</span></td>
+<td><span class="math inline">\(\sigma^2_{PB} + q_B(\Psi)\)</span></td>
+<td><span class="math inline">\(\sigma^2_{PB} + t\sigma^2_{B}\)</span></td>
+<td><span class="math inline">\(\sigma^2_{PB} + q_B(\Psi)\)</span></td>
+<td><span class="math inline">\(\sigma^2_{PB} + t\sigma^2_{B}\)</span></td>
+</tr>
+<tr class="even">
+<td>Parcelas[Blocos]</td>
+<td><span class="math inline">\(b(t-1)\)</span></td>
+<td><span class="math inline">\(\mathbf{Y&#39;Q_{BP}Y}\)</span></td>
+<td><span class="math inline">\(\frac{\mathbf{Y&#39;Q_{BP}Y}}{b(t-1)}\)</span></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>¬¬Tratamentos</td>
+<td><span class="math inline">\(t-1\)</span></td>
+<td><span class="math inline">\(\mathbf{Y&#39;Q_{T}Y}\)</span></td>
+<td><span class="math inline">\(\frac{\mathbf{Y&#39;Q_{T}Y}}{t-1}\)</span></td>
+<td><span class="math inline">\(\sigma^2_{PB} + q_T(\Psi)\)</span></td>
+<td><span class="math inline">\(\sigma^2_{PB} + q_T(\Psi)\)</span></td>
+<td><span class="math inline">\(\sigma^2_{PB} + b\sigma^2_T\)</span></td>
+<td><span class="math inline">\(\sigma^2_{PB} + b\sigma^2_{T}\)</span></td>
+</tr>
+<tr class="even">
+<td>¬¬Resíduo</td>
+<td><span class="math inline">\((b-1)(t-1)\)</span></td>
+<td><span class="math inline">\(\mathbf{Y&#39;Q_{Res}Y}\)</span></td>
+<td><span class="math inline">\(\frac{\mathbf{Y&#39;Q_{Res}Y}}{(b-1)(t-1)}\)</span></td>
+<td><span class="math inline">\(\sigma^2_{PB}\)</span></td>
+<td><span class="math inline">\(\sigma^2_{PB}\)</span></td>
+<td><span class="math inline">\(\sigma^2_{PB}\)</span></td>
+<td><span class="math inline">\(\sigma^2_{PB}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Onde os números após a E[QM] são as combinações:</p>
+<ul>
+<li><strong>(1)</strong>: Bloco fixo, tratamento fixo</li>
+<li><strong>(2)</strong>: Bloco aleatório, tratamento fixo</li>
+<li><strong>(3)</strong>: Bloco fixo, tratamento aleatório</li>
+<li><strong>(4)</strong>: Bloco aleatório, tratamento aleatório</li>
+</ul>
+<p>E as matrizes são:</p>
+<p><span class="math display">\[
+\begin{align}
+\mathbf{Q_B} &amp;= \mathbf{M_B - M_G} \\
+\mathbf{Q_{BP}} &amp;= \mathbf{M_{BP} - M_B} \\
+\mathbf{Q_{T}} &amp;= \mathbf{M_{T} - M_G} \\
+\mathbf{Q_{Res}} &amp;= \mathbf{Q_{BP} - Q_T} \\
+                 &amp;= \mathbf{M_{BP} - M_B - (M_T - M_G)} \\
+                 &amp;= \mathbf{M_{BP} - M_B - M_T + M_G}
+\end{align}
+\]</span></p>
+<p>E:</p>
+<p><span class="math display">\[
+\begin{align}
+\mathbf{M_G} &amp;= \mathbf{X_G(X&#39;_G X_G)^{-1}X&#39;_G} \\
+\mathbf{M_B} &amp;= \mathbf{X_B(X&#39;_B X_B)^{-1}X&#39;_B} \\
+\mathbf{M_T} &amp;= \mathbf{X_T(X&#39;_T X_T)^{-1}X&#39;_T} \\
+\mathbf{M_{BP}} &amp;= \mathbf{X_{BP}(X&#39;_{BP} X_{BP})^{-1}X&#39;_{BP}}
+\end{align}
+\]</span></p>
+<ul>
+<li>Hipóteses e teste <span class="math inline">\(F\)</span></li>
+</ul>
+<table>
+<colgroup>
+<col width="12%" />
+<col width="21%" />
+<col width="22%" />
+<col width="22%" />
+<col width="22%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>(1)</th>
+<th>(2)</th>
+<th>(3)</th>
+<th>(4)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Bloco</td>
+<td><span class="math inline">\(H_0: q_B(\Psi) = 0\)</span></td>
+<td><span class="math inline">\(H_0: \sigma^2_B = 0\)</span></td>
+<td><span class="math inline">\(H_0: q_B(\Psi) = 0\)</span></td>
+<td><span class="math inline">\(H_0: \sigma^2_B = 0\)</span></td>
+</tr>
+<tr class="even">
+<td>Tratamento</td>
+<td><span class="math inline">\(H_0: q_T(\Psi) = 0\)</span></td>
+<td><span class="math inline">\(H_0: q_T(\Psi) = 0\)</span></td>
+<td><span class="math inline">\(H_0: \sigma^2_T = 0\)</span></td>
+<td><span class="math inline">\(H_0: \sigma^2_T = 0\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Testes:</p>
+<p><span class="math display">\[
+\begin{align}
+F_B &amp;= \frac{\textrm{QMB}}{\textrm{QMRes}} \\
+F_T &amp;= \frac{\textrm{QMT}}{\textrm{QMRes}}
+\end{align}
+\]</span></p>
+<p>(Para todos os casos).</p>
+<ul>
+<li>Exemplo no R</li>
+</ul>
+<p>Os dados apresentados a seguir referem-se à produção média (2 plantas) de frutos, em kg/planta, de uma espécie de laranjeira, enxertada sobre 4 clones (tratamento), obtidos de um experimento casualizado em blocos, e considerando blocos e parcelas como de efeito fixo.</p>
+<pre class="r"><code>da.dbc &lt;- data.frame(tratamento = rep(paste(&quot;T&quot;, 1:4, sep= &quot;&quot;), 3),
+                     blocos = factor(rep(1:3, each = 4)),
+                     producao = c(24.45, 80.55, 76.45, 54.6,
+                                  21.85, 69.9, 64.2, 72.6,
+                                  32.45, 52.85, 60.9, 55.25))
+str(da.dbc)
+# &#39;data.frame&#39;: 12 obs. of  3 variables:
+#  $ tratamento: Factor w/ 4 levels &quot;T1&quot;,&quot;T2&quot;,&quot;T3&quot;,..: 1 2 3 4 1 2 3 4 1 2 ...
+#  $ blocos    : Factor w/ 3 levels &quot;1&quot;,&quot;2&quot;,&quot;3&quot;: 1 1 1 1 2 2 2 2 3 3 ...
+#  $ producao  : num  24.4 80.5 76.5 54.6 21.9 ...
+## Croqui do experimento
+set.seed(11)
+croqui.DBC &lt;- do.call(cbind, tapply(as.character(da.dbc$tratamento),
+                                    da.dbc$bloco, sample))
+dimnames(croqui.DBC) &lt;- list(1:4, paste(&quot;Bloco&quot;, 1:3))
+croqui.DBC
+#   Bloco 1 Bloco 2 Bloco 3
+# 1 &quot;T2&quot;    &quot;T1&quot;    &quot;T4&quot;   
+# 2 &quot;T1&quot;    &quot;T3&quot;    &quot;T1&quot;   
+# 3 &quot;T4&quot;    &quot;T4&quot;    &quot;T3&quot;   
+# 4 &quot;T3&quot;    &quot;T2&quot;    &quot;T2&quot;</code></pre>
+<p>A <strong>fórmula estrutural</strong> fica:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Estrutura</th>
+<th>Fórmula</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Unrandomized</td>
+<td><span class="math inline">\(3\)</span> blocos/<span class="math inline">\(4\)</span> parcelas</td>
+</tr>
+<tr class="even">
+<td>Randomized</td>
+<td><span class="math inline">\(4\)</span> tratamentos</td>
+</tr>
+</tbody>
+</table>
+<p>E o <strong>disgrama de Hasse</strong> fica desta forma:</p>
+<p><img src="img/DBC_ex1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>Os cálculos feitos à mão no R:</p>
+<pre class="r"><code>##----------------------------------------------------------------------
+## Atribui nomes comuns para variável resposta e tratamento
+var.resp &lt;- da.dbc$producao
+tratamento &lt;- da.dbc$tratamento
+blocos &lt;- da.dbc$blocos
+##----------------------------------------------------------------------
+## Definições
+(t &lt;- length(unique(tratamento)))
+# [1] 4
+(b &lt;- length(unique(blocos)))
+# [1] 3
+(n &lt;- t*b)
+# [1] 12
+##----------------------------------------------------------------------
+## Matrizes
+## Vetor de respostas
+(Y &lt;- matrix(var.resp, ncol = 1))
+#        [,1]
+#  [1,] 24.45
+#  [2,] 80.55
+#  [3,] 76.45
+#  [4,] 54.60
+#  [5,] 21.85
+#  [6,] 69.90
+#  [7,] 64.20
+#  [8,] 72.60
+#  [9,] 32.45
+# [10,] 52.85
+# [11,] 60.90
+# [12,] 55.25
+## Matriz de médias
+(Xg &lt;- matrix(rep(1, n), ncol = 1))
+#       [,1]
+#  [1,]    1
+#  [2,]    1
+#  [3,]    1
+#  [4,]    1
+#  [5,]    1
+#  [6,]    1
+#  [7,]    1
+#  [8,]    1
+#  [9,]    1
+# [10,]    1
+# [11,]    1
+# [12,]    1
+## Matriz de tratamentos
+Xt &lt;- matrix(0, nrow = n, ncol = t)
+Xt[cbind(seq_along(tratamento), tratamento)] &lt;- 1; Xt
+#       [,1] [,2] [,3] [,4]
+#  [1,]    1    0    0    0
+#  [2,]    0    1    0    0
+#  [3,]    0    0    1    0
+#  [4,]    0    0    0    1
+#  [5,]    1    0    0    0
+#  [6,]    0    1    0    0
+#  [7,]    0    0    1    0
+#  [8,]    0    0    0    1
+#  [9,]    1    0    0    0
+# [10,]    0    1    0    0
+# [11,]    0    0    1    0
+# [12,]    0    0    0    1
+## Matriz de blocos
+Xb &lt;- matrix(0, nrow = n, ncol = b)
+Xb[cbind(seq_along(blocos), blocos)] &lt;- 1; Xb
+#       [,1] [,2] [,3]
+#  [1,]    1    0    0
+#  [2,]    1    0    0
+#  [3,]    1    0    0
+#  [4,]    1    0    0
+#  [5,]    0    1    0
+#  [6,]    0    1    0
+#  [7,]    0    1    0
+#  [8,]    0    1    0
+#  [9,]    0    0    1
+# [10,]    0    0    1
+# [11,]    0    0    1
+# [12,]    0    0    1
+## Matriz de blocos/parcelas (identidade)
+(Xbp &lt;- diag(1, nrow = n))
+#       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12]
+#  [1,]    1    0    0    0    0    0    0    0    0     0     0     0
+#  [2,]    0    1    0    0    0    0    0    0    0     0     0     0
+#  [3,]    0    0    1    0    0    0    0    0    0     0     0     0
+#  [4,]    0    0    0    1    0    0    0    0    0     0     0     0
+#  [5,]    0    0    0    0    1    0    0    0    0     0     0     0
+#  [6,]    0    0    0    0    0    1    0    0    0     0     0     0
+#  [7,]    0    0    0    0    0    0    1    0    0     0     0     0
+#  [8,]    0    0    0    0    0    0    0    1    0     0     0     0
+#  [9,]    0    0    0    0    0    0    0    0    1     0     0     0
+# [10,]    0    0    0    0    0    0    0    0    0     1     0     0
+# [11,]    0    0    0    0    0    0    0    0    0     0     1     0
+# [12,]    0    0    0    0    0    0    0    0    0     0     0     1
+##----------------------------------------------------------------------
+## Matrizes M
+## para média
+Mg &lt;- Xg %*% solve(t(Xg) %*% Xg) %*% t(Xg)
+MASS::fractions(Mg)
+#       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12]
+#  [1,] 1/12 1/12 1/12 1/12 1/12 1/12 1/12 1/12 1/12 1/12  1/12  1/12 
+#  [2,] 1/12 1/12 1/12 1/12 1/12 1/12 1/12 1/12 1/12 1/12  1/12  1/12 
+#  [3,] 1/12 1/12 1/12 1/12 1/12 1/12 1/12 1/12 1/12 1/12  1/12  1/12 
+#  [4,] 1/12 1/12 1/12 1/12 1/12 1/12 1/12 1/12 1/12 1/12  1/12  1/12 
+#  [5,] 1/12 1/12 1/12 1/12 1/12 1/12 1/12 1/12 1/12 1/12  1/12  1/12 
+#  [6,] 1/12 1/12 1/12 1/12 1/12 1/12 1/12 1/12 1/12 1/12  1/12  1/12 
+#  [7,] 1/12 1/12 1/12 1/12 1/12 1/12 1/12 1/12 1/12 1/12  1/12  1/12 
+#  [8,] 1/12 1/12 1/12 1/12 1/12 1/12 1/12 1/12 1/12 1/12  1/12  1/12 
+#  [9,] 1/12 1/12 1/12 1/12 1/12 1/12 1/12 1/12 1/12 1/12  1/12  1/12 
+# [10,] 1/12 1/12 1/12 1/12 1/12 1/12 1/12 1/12 1/12 1/12  1/12  1/12 
+# [11,] 1/12 1/12 1/12 1/12 1/12 1/12 1/12 1/12 1/12 1/12  1/12  1/12 
+# [12,] 1/12 1/12 1/12 1/12 1/12 1/12 1/12 1/12 1/12 1/12  1/12  1/12
+## para tratamento
+Mt &lt;- Xt %*% solve(t(Xt) %*% Xt) %*% t(Xt)
+MASS::fractions(Mt)
+#       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12]
+#  [1,] 1/3    0    0    0  1/3    0    0    0  1/3    0     0     0  
+#  [2,]   0  1/3    0    0    0  1/3    0    0    0  1/3     0     0  
+#  [3,]   0    0  1/3    0    0    0  1/3    0    0    0   1/3     0  
+#  [4,]   0    0    0  1/3    0    0    0  1/3    0    0     0   1/3  
+#  [5,] 1/3    0    0    0  1/3    0    0    0  1/3    0     0     0  
+#  [6,]   0  1/3    0    0    0  1/3    0    0    0  1/3     0     0  
+#  [7,]   0    0  1/3    0    0    0  1/3    0    0    0   1/3     0  
+#  [8,]   0    0    0  1/3    0    0    0  1/3    0    0     0   1/3  
+#  [9,] 1/3    0    0    0  1/3    0    0    0  1/3    0     0     0  
+# [10,]   0  1/3    0    0    0  1/3    0    0    0  1/3     0     0  
+# [11,]   0    0  1/3    0    0    0  1/3    0    0    0   1/3     0  
+# [12,]   0    0    0  1/3    0    0    0  1/3    0    0     0   1/3
+## para blocos
+Mb &lt;- Xb %*% solve(t(Xb) %*% Xb) %*% t(Xb)
+MASS::fractions(Mb)
+#       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12]
+#  [1,] 1/4  1/4  1/4  1/4    0    0    0    0    0    0     0     0  
+#  [2,] 1/4  1/4  1/4  1/4    0    0    0    0    0    0     0     0  
+#  [3,] 1/4  1/4  1/4  1/4    0    0    0    0    0    0     0     0  
+#  [4,] 1/4  1/4  1/4  1/4    0    0    0    0    0    0     0     0  
+#  [5,]   0    0    0    0  1/4  1/4  1/4  1/4    0    0     0     0  
+#  [6,]   0    0    0    0  1/4  1/4  1/4  1/4    0    0     0     0  
+#  [7,]   0    0    0    0  1/4  1/4  1/4  1/4    0    0     0     0  
+#  [8,]   0    0    0    0  1/4  1/4  1/4  1/4    0    0     0     0  
+#  [9,]   0    0    0    0    0    0    0    0  1/4  1/4   1/4   1/4  
+# [10,]   0    0    0    0    0    0    0    0  1/4  1/4   1/4   1/4  
+# [11,]   0    0    0    0    0    0    0    0  1/4  1/4   1/4   1/4  
+# [12,]   0    0    0    0    0    0    0    0  1/4  1/4   1/4   1/4
+## para bloco/parcela
+Mbp &lt;- Xbp %*% solve(t(Xbp) %*% Xbp) %*% t(Xbp)
+MASS::fractions(Mbp)
+#       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12]
+#  [1,] 1    0    0    0    0    0    0    0    0    0     0     0    
+#  [2,] 0    1    0    0    0    0    0    0    0    0     0     0    
+#  [3,] 0    0    1    0    0    0    0    0    0    0     0     0    
+#  [4,] 0    0    0    1    0    0    0    0    0    0     0     0    
+#  [5,] 0    0    0    0    1    0    0    0    0    0     0     0    
+#  [6,] 0    0    0    0    0    1    0    0    0    0     0     0    
+#  [7,] 0    0    0    0    0    0    1    0    0    0     0     0    
+#  [8,] 0    0    0    0    0    0    0    1    0    0     0     0    
+#  [9,] 0    0    0    0    0    0    0    0    1    0     0     0    
+# [10,] 0    0    0    0    0    0    0    0    0    1     0     0    
+# [11,] 0    0    0    0    0    0    0    0    0    0     1     0    
+# [12,] 0    0    0    0    0    0    0    0    0    0     0     1
+##----------------------------------------------------------------------
+## Matrizes de projeção ortogonal
+## para tratamento
+Qt &lt;- Mt - Mg
+MASS::fractions(Qt)
+#       [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]  [,9]  [,10] [,11]
+#  [1,]   1/4 -1/12 -1/12 -1/12   1/4 -1/12 -1/12 -1/12   1/4 -1/12 -1/12
+#  [2,] -1/12   1/4 -1/12 -1/12 -1/12   1/4 -1/12 -1/12 -1/12   1/4 -1/12
+#  [3,] -1/12 -1/12   1/4 -1/12 -1/12 -1/12   1/4 -1/12 -1/12 -1/12   1/4
+#  [4,] -1/12 -1/12 -1/12   1/4 -1/12 -1/12 -1/12   1/4 -1/12 -1/12 -1/12
+#  [5,]   1/4 -1/12 -1/12 -1/12   1/4 -1/12 -1/12 -1/12   1/4 -1/12 -1/12
+#  [6,] -1/12   1/4 -1/12 -1/12 -1/12   1/4 -1/12 -1/12 -1/12   1/4 -1/12
+#  [7,] -1/12 -1/12   1/4 -1/12 -1/12 -1/12   1/4 -1/12 -1/12 -1/12   1/4
+#  [8,] -1/12 -1/12 -1/12   1/4 -1/12 -1/12 -1/12   1/4 -1/12 -1/12 -1/12
+#  [9,]   1/4 -1/12 -1/12 -1/12   1/4 -1/12 -1/12 -1/12   1/4 -1/12 -1/12
+# [10,] -1/12   1/4 -1/12 -1/12 -1/12   1/4 -1/12 -1/12 -1/12   1/4 -1/12
+# [11,] -1/12 -1/12   1/4 -1/12 -1/12 -1/12   1/4 -1/12 -1/12 -1/12   1/4
+# [12,] -1/12 -1/12 -1/12   1/4 -1/12 -1/12 -1/12   1/4 -1/12 -1/12 -1/12
+#       [,12]
+#  [1,] -1/12
+#  [2,] -1/12
+#  [3,] -1/12
+#  [4,]   1/4
+#  [5,] -1/12
+#  [6,] -1/12
+#  [7,] -1/12
+#  [8,]   1/4
+#  [9,] -1/12
+# [10,] -1/12
+# [11,] -1/12
+# [12,]   1/4
+## para bloco
+Qb &lt;- Mb - Mg
+MASS::fractions(Qb)
+#       [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]  [,9]  [,10] [,11]
+#  [1,]   1/6   1/6   1/6   1/6 -1/12 -1/12 -1/12 -1/12 -1/12 -1/12 -1/12
+#  [2,]   1/6   1/6   1/6   1/6 -1/12 -1/12 -1/12 -1/12 -1/12 -1/12 -1/12
+#  [3,]   1/6   1/6   1/6   1/6 -1/12 -1/12 -1/12 -1/12 -1/12 -1/12 -1/12
+#  [4,]   1/6   1/6   1/6   1/6 -1/12 -1/12 -1/12 -1/12 -1/12 -1/12 -1/12
+#  [5,] -1/12 -1/12 -1/12 -1/12   1/6   1/6   1/6   1/6 -1/12 -1/12 -1/12
+#  [6,] -1/12 -1/12 -1/12 -1/12   1/6   1/6   1/6   1/6 -1/12 -1/12 -1/12
+#  [7,] -1/12 -1/12 -1/12 -1/12   1/6   1/6   1/6   1/6 -1/12 -1/12 -1/12
+#  [8,] -1/12 -1/12 -1/12 -1/12   1/6   1/6   1/6   1/6 -1/12 -1/12 -1/12
+#  [9,] -1/12 -1/12 -1/12 -1/12 -1/12 -1/12 -1/12 -1/12   1/6   1/6   1/6
+# [10,] -1/12 -1/12 -1/12 -1/12 -1/12 -1/12 -1/12 -1/12   1/6   1/6   1/6
+# [11,] -1/12 -1/12 -1/12 -1/12 -1/12 -1/12 -1/12 -1/12   1/6   1/6   1/6
+# [12,] -1/12 -1/12 -1/12 -1/12 -1/12 -1/12 -1/12 -1/12   1/6   1/6   1/6
+#       [,12]
+#  [1,] -1/12
+#  [2,] -1/12
+#  [3,] -1/12
+#  [4,] -1/12
+#  [5,] -1/12
+#  [6,] -1/12
+#  [7,] -1/12
+#  [8,] -1/12
+#  [9,]   1/6
+# [10,]   1/6
+# [11,]   1/6
+# [12,]   1/6
+## para bloco/parcela
+Qbp &lt;- Mbp - Mb
+MASS::fractions(Qbp)
+#       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12]
+#  [1,]  3/4 -1/4 -1/4 -1/4    0    0    0    0    0    0     0     0 
+#  [2,] -1/4  3/4 -1/4 -1/4    0    0    0    0    0    0     0     0 
+#  [3,] -1/4 -1/4  3/4 -1/4    0    0    0    0    0    0     0     0 
+#  [4,] -1/4 -1/4 -1/4  3/4    0    0    0    0    0    0     0     0 
+#  [5,]    0    0    0    0  3/4 -1/4 -1/4 -1/4    0    0     0     0 
+#  [6,]    0    0    0    0 -1/4  3/4 -1/4 -1/4    0    0     0     0 
+#  [7,]    0    0    0    0 -1/4 -1/4  3/4 -1/4    0    0     0     0 
+#  [8,]    0    0    0    0 -1/4 -1/4 -1/4  3/4    0    0     0     0 
+#  [9,]    0    0    0    0    0    0    0    0  3/4 -1/4  -1/4  -1/4 
+# [10,]    0    0    0    0    0    0    0    0 -1/4  3/4  -1/4  -1/4 
+# [11,]    0    0    0    0    0    0    0    0 -1/4 -1/4   3/4  -1/4 
+# [12,]    0    0    0    0    0    0    0    0 -1/4 -1/4  -1/4   3/4
+## para resíduos
+Qr &lt;- Mbp - Mt - Mb + Mg
+MASS::fractions(Qr)
+#       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12]
+#  [1,]  1/2 -1/6 -1/6 -1/6 -1/4 1/12 1/12 1/12 -1/4 1/12  1/12  1/12 
+#  [2,] -1/6  1/2 -1/6 -1/6 1/12 -1/4 1/12 1/12 1/12 -1/4  1/12  1/12 
+#  [3,] -1/6 -1/6  1/2 -1/6 1/12 1/12 -1/4 1/12 1/12 1/12  -1/4  1/12 
+#  [4,] -1/6 -1/6 -1/6  1/2 1/12 1/12 1/12 -1/4 1/12 1/12  1/12  -1/4 
+#  [5,] -1/4 1/12 1/12 1/12  1/2 -1/6 -1/6 -1/6 -1/4 1/12  1/12  1/12 
+#  [6,] 1/12 -1/4 1/12 1/12 -1/6  1/2 -1/6 -1/6 1/12 -1/4  1/12  1/12 
+#  [7,] 1/12 1/12 -1/4 1/12 -1/6 -1/6  1/2 -1/6 1/12 1/12  -1/4  1/12 
+#  [8,] 1/12 1/12 1/12 -1/4 -1/6 -1/6 -1/6  1/2 1/12 1/12  1/12  -1/4 
+#  [9,] -1/4 1/12 1/12 1/12 -1/4 1/12 1/12 1/12  1/2 -1/6  -1/6  -1/6 
+# [10,] 1/12 -1/4 1/12 1/12 1/12 -1/4 1/12 1/12 -1/6  1/2  -1/6  -1/6 
+# [11,] 1/12 1/12 -1/4 1/12 1/12 1/12 -1/4 1/12 -1/6 -1/6   1/2  -1/6 
+# [12,] 1/12 1/12 1/12 -1/4 1/12 1/12 1/12 -1/4 -1/6 -1/6  -1/6   1/2
+##----------------------------------------------------------------------
+## Graus de liberdade (usando propriedade de traço)
+(GLb &lt;- sum(diag(Qb))) # b - 1
+# [1] 2
+(GLbp &lt;- sum(diag(Qbp))) # b * (t - 1)
+# [1] 9
+(GLt &lt;- sum(diag(Qt))) # t - 1
+# [1] 3
+(GLr &lt;- sum(diag(Qr))) # (b - 1) * (t - 1)
+# [1] 6
+##----------------------------------------------------------------------
+## Soma de quadrados
+(SQb &lt;- t(Y) %*% Qb %*% Y)
+#          [,1]
+# [1,] 165.6517
+(SQbp &lt;- t(Y) %*% Qbp %*% Y)
+#          [,1]
+# [1,] 4140.996
+(SQt &lt;- t(Y) %*% Qt %*% Y)
+#          [,1]
+# [1,] 3512.402
+(SQr &lt;- t(Y) %*% Qr %*% Y)
+#          [,1]
+# [1,] 628.5933
+##----------------------------------------------------------------------
+## Quadrado médio
+(QMb &lt;- SQb/GLb)
+#          [,1]
+# [1,] 82.82583
+(QMt &lt;- SQt/GLt)
+#          [,1]
+# [1,] 1170.801
+(QMr &lt;- SQr/GLr)
+#          [,1]
+# [1,] 104.7656
+##----------------------------------------------------------------------
+## F calculado
+(Fcalc.b &lt;- QMb/QMr)
+#           [,1]
+# [1,] 0.7905827
+(Fcalc.t &lt;- QMt/QMr)
+#          [,1]
+# [1,] 11.17544
+##----------------------------------------------------------------------
+## p-valor
+(p.valor.b &lt;- pf(Fcalc.b, GLb, GLr, lower.tail = FALSE))
+#           [,1]
+# [1,] 0.4957307
+(p.valor.t &lt;- pf(Fcalc.t, GLt, GLr, lower.tail = FALSE))
+#             [,1]
+# [1,] 0.007201752
+##----------------------------------------------------------------------
+## Tabela final
+tab.final &lt;- data.frame(&quot;GL&quot; = c(GLb, GLbp, GLt, GLr),
+                        &quot;SQ&quot; = c(SQb, SQbp, SQt, SQr),
+                        &quot;QM&quot; = c(QMb, NA, QMt, QMr),
+                        &quot;F&quot;  = c(Fcalc.b, NA, Fcalc.t, NA),
+                        &quot;p-valor&quot; = c(p.valor.b, NA, p.valor.t, NA),
+                        row.names = c(&quot;Blocos&quot;, &quot;Parcelas[Blocos]&quot;,
+                                      &quot;  Tratamentos&quot;, &quot;  Resíduo&quot;))
+tab.final
+#                  GL        SQ         QM          F     p.valor
+# Blocos            2  165.6517   82.82583  0.7905827 0.495730733
+# Parcelas[Blocos]  9 4140.9956         NA         NA          NA
+#   Tratamentos     3 3512.4023 1170.80076 11.1754360 0.007201752
+#   Resíduo         6  628.5933  104.76556         NA          NA</code></pre>
+<p>Comparando os resultados com a função <code>aov()</code>:</p>
+<pre class="r"><code>summary(aov(var.resp ~ blocos + tratamento))
+#             Df Sum Sq Mean Sq F value Pr(&gt;F)   
+# blocos       2    166    82.8   0.791 0.4957   
+# tratamento   3   3512  1170.8  11.175 0.0072 **
+# Residuals    6    629   104.8                  
+# ---
+# Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## Usando a função Error() para identificar o confundimento
+summary(aov(var.resp ~ blocos + tratamento + Error(blocos)))
+# 
+# Error: blocos
+#        Df Sum Sq Mean Sq
+# blocos  2  165.7   82.83
+# 
+# Error: Within
+#            Df Sum Sq Mean Sq F value Pr(&gt;F)   
+# tratamento  3   3512  1170.8   11.18 0.0072 **
+# Residuals   6    629   104.8                  
+# ---
+# Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<div id="delineamento-em-quadrado-latino-dql" class="section level2">
+<h2>Delineamento em quadrado latino (DQL)</h2>
+<p>Considere um experimento em um delineamento em quadrado latino com <span class="math inline">\(t\)</span> tratamentos, portanto com <span class="math inline">\(t\)</span> linhas e <span class="math inline">\(t\)</span> colunas.</p>
+<p>O modelo associado à este delineamento é</p>
+<p><span class="math display">\[
+y_{ij} = \mu + \alpha_i + \beta_j + \gamma_{k(ij)} + \epsilon_{ij}\,
+\qquad i = j = k = 1, \ldots, t
+\]</span></p>
+<p>Matricialmente o modelo pode ser escrito como:</p>
+<p><span class="math display">\[
+\begin{align}
+\mathbf{Y} &amp;= \mathbf{X}\boldsymbol{\theta} +
+\boldsymbol{\epsilon} \\
+\mathbf{Y} &amp;= \mathbf{X_G}\boldsymbol{\mu} +
+\mathbf{X_L}\boldsymbol{\alpha} +
+\mathbf{X_C}\boldsymbol{\beta} +
+\mathbf{X_{LC}}\boldsymbol{\gamma} +
+\boldsymbol{\epsilon}
+\end{align}
+\]</span></p>
+<ul>
+<li>Fórmula estrutural</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th>Estrutura</th>
+<th>Fórmula</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Unrandomized</td>
+<td><span class="math inline">\(t\)</span> linhas <span class="math inline">\(*\)</span> <span class="math inline">\(t\)</span> colunas</td>
+</tr>
+<tr class="even">
+<td>Randomized</td>
+<td><span class="math inline">\(t\)</span> tratamentos</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Diagrama de Hasse</li>
+</ul>
+<p><img src="img/DQL_geral.png" width="100%" style="display: block; margin: auto;" /></p>
+<ul>
+<li>Tabela de ANOVA</li>
+</ul>
+<table>
+<colgroup>
+<col width="8%" />
+<col width="6%" />
+<col width="10%" />
+<col width="18%" />
+<col width="12%" />
+<col width="14%" />
+<col width="13%" />
+<col width="14%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonte de variação</th>
+<th>GL</th>
+<th>SQ</th>
+<th>QM</th>
+<th>E[QM] (1)</th>
+<th>E[QM] (2)</th>
+<th>E[QM] (3)</th>
+<th>E[QM] (4)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Linha</td>
+<td><span class="math inline">\(t-1\)</span></td>
+<td><span class="math inline">\(\mathbf{Y&#39;Q_{L}Y}\)</span></td>
+<td><span class="math inline">\(\frac{\mathbf{Y&#39;Q_{L}Y}}{t-1}\)</span></td>
+<td><span class="math inline">\(\sigma^2_{LC} + q_L(\Psi)\)</span></td>
+<td><span class="math inline">\(\sigma^2_{LC} + q_L(\Psi)\)</span></td>
+<td><span class="math inline">\(\sigma^2_{LC} + q_L(\Psi)\)</span></td>
+<td><span class="math inline">\(\sigma^2_{LC} + t\sigma^2_{L}\)</span></td>
+</tr>
+<tr class="even">
+<td>Coluna</td>
+<td><span class="math inline">\(t-1\)</span></td>
+<td><span class="math inline">\(\mathbf{Y&#39;Q_{C}Y}\)</span></td>
+<td><span class="math inline">\(\frac{\mathbf{Y&#39;Q_{C}Y}}{t-1}\)</span></td>
+<td><span class="math inline">\(\sigma^2_{LC} + q_C(\Psi)\)</span></td>
+<td><span class="math inline">\(\sigma^2_{LC} + t\sigma^2_{C}\)</span></td>
+<td><span class="math inline">\(\sigma^2_{LC} + q_C(\Psi)\)</span></td>
+<td><span class="math inline">\(\sigma^2_{LC} + t\sigma^2_{C}\)</span></td>
+</tr>
+<tr class="odd">
+<td>Linha#Coluna</td>
+<td><span class="math inline">\((t-1)^2\)</span></td>
+<td><span class="math inline">\(\mathbf{Y&#39;Q_{LC}Y}\)</span></td>
+<td><span class="math inline">\(\frac{\mathbf{Y&#39;Q_{LC}Y}}{(t-1)^2}\)</span></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>¬¬Tratamentos</td>
+<td><span class="math inline">\(t-1\)</span></td>
+<td><span class="math inline">\(\mathbf{Y&#39;Q_{T}Y}\)</span></td>
+<td><span class="math inline">\(\frac{\mathbf{Y&#39;Q_{T}Y}}{t-1}\)</span></td>
+<td><span class="math inline">\(\sigma^2_{LC} + q_T(\Psi)\)</span></td>
+<td><span class="math inline">\(\sigma^2_{LC} + q_T(\Psi)\)</span></td>
+<td><span class="math inline">\(\sigma^2_{LC} + t\sigma^2_T\)</span></td>
+<td><span class="math inline">\(\sigma^2_{LC} + t\sigma^2_{T}\)</span></td>
+</tr>
+<tr class="odd">
+<td>¬¬Resíduo</td>
+<td><span class="math inline">\((t-1)(t-2)\)</span></td>
+<td><span class="math inline">\(\mathbf{Y&#39;Q_{Res}Y}\)</span></td>
+<td><span class="math inline">\(\frac{\mathbf{Y&#39;Q_{Res}Y}}{(t-1)(t-2)}\)</span></td>
+<td><span class="math inline">\(\sigma^2_{LC}\)</span></td>
+<td><span class="math inline">\(\sigma^2_{LC}\)</span></td>
+<td><span class="math inline">\(\sigma^2_{LC}\)</span></td>
+<td><span class="math inline">\(\sigma^2_{LC}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Onde os números após a E[QM] são as combinações:</p>
+<ul>
+<li><strong>(1)</strong>: Linha fixo, coluna fixo, tratamento fixo</li>
+<li><strong>(2)</strong>: Linha fixo, coluna aleatório, tratamento fixo</li>
+<li><strong>(3)</strong>: Linha fixo, coluna fixo, tratamento aleatório</li>
+<li><strong>(4)</strong>: Linha aleatório, coluna aleatório, tratamento aleatório</li>
+</ul>
+<p>E as matrizes são:</p>
+<p><span class="math display">\[
+\begin{align}
+\mathbf{Q_L} &amp;= \mathbf{M_L - M_G} \\
+\mathbf{Q_C} &amp;= \mathbf{M_C - M_G} \\
+\mathbf{Q_{LC}} &amp;= \mathbf{M_{LC} - M_L - M_C + M_G} \\
+\mathbf{Q_{T}} &amp;= \mathbf{M_{T} - M_G} \\
+\mathbf{Q_{Res}} &amp;= \mathbf{Q_{LC} - Q_T} \\
+                 &amp;= \mathbf{M_{LC} - M_L - M_C + M_G - (M_T - M_G)} \\
+                 &amp;= \mathbf{M_{LC} - M_L - M_C + M_G - M_T + M_G}
+\end{align}
+\]</span></p>
+<p>E:</p>
+<p><span class="math display">\[
+\begin{align}
+\mathbf{M_G} &amp;= \mathbf{X_G(X&#39;_G X_G)^{-1}X&#39;_G} \\
+\mathbf{M_L} &amp;= \mathbf{X_L(X&#39;_L X_L)^{-1}X&#39;_L} \\
+\mathbf{M_C} &amp;= \mathbf{X_C(X&#39;_C X_C)^{-1}X&#39;_C} \\
+\mathbf{M_T} &amp;= \mathbf{X_T(X&#39;_T X_T)^{-1}X&#39;_T} \\
+\mathbf{M_{LC}} &amp;= \mathbf{X_{LC}(X&#39;_{LC} X_{LC})^{-1}X&#39;_{LC}}
+\end{align}
+\]</span></p>
+<ul>
+<li>Hipóteses e teste <span class="math inline">\(F\)</span></li>
+</ul>
+<table>
+<colgroup>
+<col width="12%" />
+<col width="21%" />
+<col width="22%" />
+<col width="22%" />
+<col width="22%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>(1)</th>
+<th>(2)</th>
+<th>(3)</th>
+<th>(4)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Linha</td>
+<td><span class="math inline">\(H_0: q_L(\Psi) = 0\)</span></td>
+<td><span class="math inline">\(H_0: q_L(\Psi) = 0\)</span></td>
+<td><span class="math inline">\(H_0: q_L(\Psi) = 0\)</span></td>
+<td><span class="math inline">\(H_0: \sigma^2_L = 0\)</span></td>
+</tr>
+<tr class="even">
+<td>Coluna</td>
+<td><span class="math inline">\(H_0: q_C(\Psi) = 0\)</span></td>
+<td><span class="math inline">\(H_0: \sigma^2_C = 0\)</span></td>
+<td><span class="math inline">\(H_0: q_C(\Psi) = 0\)</span></td>
+<td><span class="math inline">\(H_0: \sigma^2_C = 0\)</span></td>
+</tr>
+<tr class="odd">
+<td>Tratamento</td>
+<td><span class="math inline">\(H_0: q_T(\Psi) = 0\)</span></td>
+<td><span class="math inline">\(H_0: q_T(\Psi) = 0\)</span></td>
+<td><span class="math inline">\(H_0: \sigma^2_T = 0\)</span></td>
+<td><span class="math inline">\(H_0: \sigma^2_T = 0\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Testes:</p>
+<p><span class="math display">\[
+\begin{align}
+F_L &amp;= \frac{\textrm{QML}}{\textrm{QMRes}} \\
+F_C &amp;= \frac{\textrm{QMC}}{\textrm{QMRes}} \\
+F_T &amp;= \frac{\textrm{QMT}}{\textrm{QMRes}}
+\end{align}
+\]</span></p>
+<p>(Para todos os casos).</p>
+<ul>
+<li>Exemplo no R</li>
+</ul>
+<p>Os dados apresentados a seguir referem-se às produções de batata (kg/ha) obtidas de um experimento instalado no delineamento em quadrado latino, envolvendo quatro sistemas de plantio (S1, S2, S3, S4).</p>
+<pre class="r"><code>da.dql &lt;- expand.grid(colunas = factor(1:4), linhas = factor(1:4))
+da.dql$sistemas &lt;- factor(c(&quot;S1&quot;, &quot;S2&quot;, &quot;S4&quot;, &quot;S3&quot;,
+                     &quot;S4&quot;, &quot;S1&quot;, &quot;S3&quot;, &quot;S2&quot;,
+                     &quot;S2&quot;, &quot;S3&quot;, &quot;S1&quot;, &quot;S4&quot;,
+                     &quot;S3&quot;, &quot;S4&quot;, &quot;S2&quot;, &quot;S1&quot;))
+da.dql$producao &lt;- c(92.6, 96.3, 73.1, 86.7,
+                     88.8, 100.3, 96.4, 97.2,
+                     112.6, 100.1, 90.6, 65.7,
+                     92.5, 43.7, 83.4, 70.2)
+str(da.dql, give.attr = FALSE)
+# &#39;data.frame&#39;: 16 obs. of  4 variables:
+#  $ colunas : Factor w/ 4 levels &quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;: 1 2 3 4 1 2 3 4 1 2 ...
+#  $ linhas  : Factor w/ 4 levels &quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;: 1 1 1 1 2 2 2 2 3 3 ...
+#  $ sistemas: Factor w/ 4 levels &quot;S1&quot;,&quot;S2&quot;,&quot;S3&quot;,..: 1 2 4 3 4 1 3 2 2 3 ...
+#  $ producao: num  92.6 96.3 73.1 86.7 88.8 ...
+## Croqui do experimento
+matrix(da.dql$sistemas, ncol = 4, byrow = TRUE)
+#      [,1] [,2] [,3] [,4]
+# [1,] &quot;S1&quot; &quot;S2&quot; &quot;S4&quot; &quot;S3&quot;
+# [2,] &quot;S4&quot; &quot;S1&quot; &quot;S3&quot; &quot;S2&quot;
+# [3,] &quot;S2&quot; &quot;S3&quot; &quot;S1&quot; &quot;S4&quot;
+# [4,] &quot;S3&quot; &quot;S4&quot; &quot;S2&quot; &quot;S1&quot;</code></pre>
+<p>A <strong>fórmula estrutural</strong> é:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Estrutura</th>
+<th>Fórmula</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Unrandomized</td>
+<td><span class="math inline">\(4\)</span> linhas <span class="math inline">\(*\)</span> <span class="math inline">\(4\)</span> colunas</td>
+</tr>
+<tr class="even">
+<td>Randomized</td>
+<td><span class="math inline">\(4\)</span> tratamentos</td>
+</tr>
+</tbody>
+</table>
+<p>E o <strong>diagrama de Hasse</strong> fica:</p>
+<p><img src="img/DQL_ex1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>A análise feita no R:</p>
+<pre class="r"><code>##----------------------------------------------------------------------
+## Atribui nomes comuns para variável resposta, linhas e colunas
+var.resp &lt;- da.dql$producao
+tratamento &lt;- da.dql$sistemas
+linhas &lt;- da.dql$linhas
+colunas &lt;- da.dql$colunas
+##----------------------------------------------------------------------
+## Definicoes
+t &lt;- length(unique(tratamento))
+n &lt;- t^2
+##----------------------------------------------------------------------
+## Matrizes
+## Vetor de respostas
+(Y &lt;- matrix(var.resp, ncol = 1))
+#        [,1]
+#  [1,]  92.6
+#  [2,]  96.3
+#  [3,]  73.1
+#  [4,]  86.7
+#  [5,]  88.8
+#  [6,] 100.3
+#  [7,]  96.4
+#  [8,]  97.2
+#  [9,] 112.6
+# [10,] 100.1
+# [11,]  90.6
+# [12,]  65.7
+# [13,]  92.5
+# [14,]  43.7
+# [15,]  83.4
+# [16,]  70.2
+## Matriz de médias
+(Xg &lt;- matrix(rep(1, n), ncol = 1))
+#       [,1]
+#  [1,]    1
+#  [2,]    1
+#  [3,]    1
+#  [4,]    1
+#  [5,]    1
+#  [6,]    1
+#  [7,]    1
+#  [8,]    1
+#  [9,]    1
+# [10,]    1
+# [11,]    1
+# [12,]    1
+# [13,]    1
+# [14,]    1
+# [15,]    1
+# [16,]    1
+## Matriz de tratamentos
+Xt &lt;- matrix(0, nrow = n, ncol = t)
+Xt[cbind(seq_along(tratamento), tratamento)] &lt;- 1; Xt
+#       [,1] [,2] [,3] [,4]
+#  [1,]    1    0    0    0
+#  [2,]    0    1    0    0
+#  [3,]    0    0    0    1
+#  [4,]    0    0    1    0
+#  [5,]    0    0    0    1
+#  [6,]    1    0    0    0
+#  [7,]    0    0    1    0
+#  [8,]    0    1    0    0
+#  [9,]    0    1    0    0
+# [10,]    0    0    1    0
+# [11,]    1    0    0    0
+# [12,]    0    0    0    1
+# [13,]    0    0    1    0
+# [14,]    0    0    0    1
+# [15,]    0    1    0    0
+# [16,]    1    0    0    0
+## Matriz de linhas
+Xl &lt;- matrix(0, nrow = n, ncol = t)
+Xl[cbind(seq_along(linhas), linhas)] &lt;- 1; Xl
+#       [,1] [,2] [,3] [,4]
+#  [1,]    1    0    0    0
+#  [2,]    1    0    0    0
+#  [3,]    1    0    0    0
+#  [4,]    1    0    0    0
+#  [5,]    0    1    0    0
+#  [6,]    0    1    0    0
+#  [7,]    0    1    0    0
+#  [8,]    0    1    0    0
+#  [9,]    0    0    1    0
+# [10,]    0    0    1    0
+# [11,]    0    0    1    0
+# [12,]    0    0    1    0
+# [13,]    0    0    0    1
+# [14,]    0    0    0    1
+# [15,]    0    0    0    1
+# [16,]    0    0    0    1
+## Matriz de colunas
+Xc &lt;- matrix(0, nrow = n, ncol = t)
+Xc[cbind(seq_along(colunas), colunas)] &lt;- 1; Xc
+#       [,1] [,2] [,3] [,4]
+#  [1,]    1    0    0    0
+#  [2,]    0    1    0    0
+#  [3,]    0    0    1    0
+#  [4,]    0    0    0    1
+#  [5,]    1    0    0    0
+#  [6,]    0    1    0    0
+#  [7,]    0    0    1    0
+#  [8,]    0    0    0    1
+#  [9,]    1    0    0    0
+# [10,]    0    1    0    0
+# [11,]    0    0    1    0
+# [12,]    0    0    0    1
+# [13,]    1    0    0    0
+# [14,]    0    1    0    0
+# [15,]    0    0    1    0
+# [16,]    0    0    0    1
+## Matriz de linhas#colunas (identidade)
+(Xlc &lt;- diag(1, nrow = n))
+#       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12] [,13]
+#  [1,]    1    0    0    0    0    0    0    0    0     0     0     0     0
+#  [2,]    0    1    0    0    0    0    0    0    0     0     0     0     0
+#  [3,]    0    0    1    0    0    0    0    0    0     0     0     0     0
+#  [4,]    0    0    0    1    0    0    0    0    0     0     0     0     0
+#  [5,]    0    0    0    0    1    0    0    0    0     0     0     0     0
+#  [6,]    0    0    0    0    0    1    0    0    0     0     0     0     0
+#  [7,]    0    0    0    0    0    0    1    0    0     0     0     0     0
+#  [8,]    0    0    0    0    0    0    0    1    0     0     0     0     0
+#  [9,]    0    0    0    0    0    0    0    0    1     0     0     0     0
+# [10,]    0    0    0    0    0    0    0    0    0     1     0     0     0
+# [11,]    0    0    0    0    0    0    0    0    0     0     1     0     0
+# [12,]    0    0    0    0    0    0    0    0    0     0     0     1     0
+# [13,]    0    0    0    0    0    0    0    0    0     0     0     0     1
+# [14,]    0    0    0    0    0    0    0    0    0     0     0     0     0
+# [15,]    0    0    0    0    0    0    0    0    0     0     0     0     0
+# [16,]    0    0    0    0    0    0    0    0    0     0     0     0     0
+#       [,14] [,15] [,16]
+#  [1,]     0     0     0
+#  [2,]     0     0     0
+#  [3,]     0     0     0
+#  [4,]     0     0     0
+#  [5,]     0     0     0
+#  [6,]     0     0     0
+#  [7,]     0     0     0
+#  [8,]     0     0     0
+#  [9,]     0     0     0
+# [10,]     0     0     0
+# [11,]     0     0     0
+# [12,]     0     0     0
+# [13,]     0     0     0
+# [14,]     1     0     0
+# [15,]     0     1     0
+# [16,]     0     0     1
+##----------------------------------------------------------------------
+## Matrizes M
+## para média
+Mg &lt;- Xg %*% solve(t(Xg) %*% Xg) %*% t(Xg)
+MASS::fractions(Mg)
+#       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12] [,13]
+#  [1,] 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16  1/16  1/16  1/16 
+#  [2,] 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16  1/16  1/16  1/16 
+#  [3,] 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16  1/16  1/16  1/16 
+#  [4,] 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16  1/16  1/16  1/16 
+#  [5,] 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16  1/16  1/16  1/16 
+#  [6,] 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16  1/16  1/16  1/16 
+#  [7,] 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16  1/16  1/16  1/16 
+#  [8,] 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16  1/16  1/16  1/16 
+#  [9,] 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16  1/16  1/16  1/16 
+# [10,] 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16  1/16  1/16  1/16 
+# [11,] 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16  1/16  1/16  1/16 
+# [12,] 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16  1/16  1/16  1/16 
+# [13,] 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16  1/16  1/16  1/16 
+# [14,] 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16  1/16  1/16  1/16 
+# [15,] 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16  1/16  1/16  1/16 
+# [16,] 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16  1/16  1/16  1/16 
+#       [,14] [,15] [,16]
+#  [1,] 1/16  1/16  1/16 
+#  [2,] 1/16  1/16  1/16 
+#  [3,] 1/16  1/16  1/16 
+#  [4,] 1/16  1/16  1/16 
+#  [5,] 1/16  1/16  1/16 
+#  [6,] 1/16  1/16  1/16 
+#  [7,] 1/16  1/16  1/16 
+#  [8,] 1/16  1/16  1/16 
+#  [9,] 1/16  1/16  1/16 
+# [10,] 1/16  1/16  1/16 
+# [11,] 1/16  1/16  1/16 
+# [12,] 1/16  1/16  1/16 
+# [13,] 1/16  1/16  1/16 
+# [14,] 1/16  1/16  1/16 
+# [15,] 1/16  1/16  1/16 
+# [16,] 1/16  1/16  1/16
+## para linhas
+Ml &lt;- Xl %*% solve(t(Xl) %*% Xl) %*% t(Xl)
+MASS::fractions(Ml)
+#       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12] [,13]
+#  [1,] 1/4  1/4  1/4  1/4    0    0    0    0    0    0     0     0     0  
+#  [2,] 1/4  1/4  1/4  1/4    0    0    0    0    0    0     0     0     0  
+#  [3,] 1/4  1/4  1/4  1/4    0    0    0    0    0    0     0     0     0  
+#  [4,] 1/4  1/4  1/4  1/4    0    0    0    0    0    0     0     0     0  
+#  [5,]   0    0    0    0  1/4  1/4  1/4  1/4    0    0     0     0     0  
+#  [6,]   0    0    0    0  1/4  1/4  1/4  1/4    0    0     0     0     0  
+#  [7,]   0    0    0    0  1/4  1/4  1/4  1/4    0    0     0     0     0  
+#  [8,]   0    0    0    0  1/4  1/4  1/4  1/4    0    0     0     0     0  
+#  [9,]   0    0    0    0    0    0    0    0  1/4  1/4   1/4   1/4     0  
+# [10,]   0    0    0    0    0    0    0    0  1/4  1/4   1/4   1/4     0  
+# [11,]   0    0    0    0    0    0    0    0  1/4  1/4   1/4   1/4     0  
+# [12,]   0    0    0    0    0    0    0    0  1/4  1/4   1/4   1/4     0  
+# [13,]   0    0    0    0    0    0    0    0    0    0     0     0   1/4  
+# [14,]   0    0    0    0    0    0    0    0    0    0     0     0   1/4  
+# [15,]   0    0    0    0    0    0    0    0    0    0     0     0   1/4  
+# [16,]   0    0    0    0    0    0    0    0    0    0     0     0   1/4  
+#       [,14] [,15] [,16]
+#  [1,]   0     0     0  
+#  [2,]   0     0     0  
+#  [3,]   0     0     0  
+#  [4,]   0     0     0  
+#  [5,]   0     0     0  
+#  [6,]   0     0     0  
+#  [7,]   0     0     0  
+#  [8,]   0     0     0  
+#  [9,]   0     0     0  
+# [10,]   0     0     0  
+# [11,]   0     0     0  
+# [12,]   0     0     0  
+# [13,] 1/4   1/4   1/4  
+# [14,] 1/4   1/4   1/4  
+# [15,] 1/4   1/4   1/4  
+# [16,] 1/4   1/4   1/4
+## para colunas
+Mc &lt;- Xc %*% solve(t(Xc) %*% Xc) %*% t(Xc)
+MASS::fractions(Mc)
+#       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12] [,13]
+#  [1,] 1/4    0    0    0  1/4    0    0    0  1/4    0     0     0   1/4  
+#  [2,]   0  1/4    0    0    0  1/4    0    0    0  1/4     0     0     0  
+#  [3,]   0    0  1/4    0    0    0  1/4    0    0    0   1/4     0     0  
+#  [4,]   0    0    0  1/4    0    0    0  1/4    0    0     0   1/4     0  
+#  [5,] 1/4    0    0    0  1/4    0    0    0  1/4    0     0     0   1/4  
+#  [6,]   0  1/4    0    0    0  1/4    0    0    0  1/4     0     0     0  
+#  [7,]   0    0  1/4    0    0    0  1/4    0    0    0   1/4     0     0  
+#  [8,]   0    0    0  1/4    0    0    0  1/4    0    0     0   1/4     0  
+#  [9,] 1/4    0    0    0  1/4    0    0    0  1/4    0     0     0   1/4  
+# [10,]   0  1/4    0    0    0  1/4    0    0    0  1/4     0     0     0  
+# [11,]   0    0  1/4    0    0    0  1/4    0    0    0   1/4     0     0  
+# [12,]   0    0    0  1/4    0    0    0  1/4    0    0     0   1/4     0  
+# [13,] 1/4    0    0    0  1/4    0    0    0  1/4    0     0     0   1/4  
+# [14,]   0  1/4    0    0    0  1/4    0    0    0  1/4     0     0     0  
+# [15,]   0    0  1/4    0    0    0  1/4    0    0    0   1/4     0     0  
+# [16,]   0    0    0  1/4    0    0    0  1/4    0    0     0   1/4     0  
+#       [,14] [,15] [,16]
+#  [1,]   0     0     0  
+#  [2,] 1/4     0     0  
+#  [3,]   0   1/4     0  
+#  [4,]   0     0   1/4  
+#  [5,]   0     0     0  
+#  [6,] 1/4     0     0  
+#  [7,]   0   1/4     0  
+#  [8,]   0     0   1/4  
+#  [9,]   0     0     0  
+# [10,] 1/4     0     0  
+# [11,]   0   1/4     0  
+# [12,]   0     0   1/4  
+# [13,]   0     0     0  
+# [14,] 1/4     0     0  
+# [15,]   0   1/4     0  
+# [16,]   0     0   1/4
+## para tratamentos
+Mt &lt;- Xt %*% solve(t(Xt) %*% Xt) %*% t(Xt)
+MASS::fractions(Mt)
+#       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12] [,13]
+#  [1,] 1/4    0    0    0    0  1/4    0    0    0    0   1/4     0     0  
+#  [2,]   0  1/4    0    0    0    0    0  1/4  1/4    0     0     0     0  
+#  [3,]   0    0  1/4    0  1/4    0    0    0    0    0     0   1/4     0  
+#  [4,]   0    0    0  1/4    0    0  1/4    0    0  1/4     0     0   1/4  
+#  [5,]   0    0  1/4    0  1/4    0    0    0    0    0     0   1/4     0  
+#  [6,] 1/4    0    0    0    0  1/4    0    0    0    0   1/4     0     0  
+#  [7,]   0    0    0  1/4    0    0  1/4    0    0  1/4     0     0   1/4  
+#  [8,]   0  1/4    0    0    0    0    0  1/4  1/4    0     0     0     0  
+#  [9,]   0  1/4    0    0    0    0    0  1/4  1/4    0     0     0     0  
+# [10,]   0    0    0  1/4    0    0  1/4    0    0  1/4     0     0   1/4  
+# [11,] 1/4    0    0    0    0  1/4    0    0    0    0   1/4     0     0  
+# [12,]   0    0  1/4    0  1/4    0    0    0    0    0     0   1/4     0  
+# [13,]   0    0    0  1/4    0    0  1/4    0    0  1/4     0     0   1/4  
+# [14,]   0    0  1/4    0  1/4    0    0    0    0    0     0   1/4     0  
+# [15,]   0  1/4    0    0    0    0    0  1/4  1/4    0     0     0     0  
+# [16,] 1/4    0    0    0    0  1/4    0    0    0    0   1/4     0     0  
+#       [,14] [,15] [,16]
+#  [1,]   0     0   1/4  
+#  [2,]   0   1/4     0  
+#  [3,] 1/4     0     0  
+#  [4,]   0     0     0  
+#  [5,] 1/4     0     0  
+#  [6,]   0     0   1/4  
+#  [7,]   0     0     0  
+#  [8,]   0   1/4     0  
+#  [9,]   0   1/4     0  
+# [10,]   0     0     0  
+# [11,]   0     0   1/4  
+# [12,] 1/4     0     0  
+# [13,]   0     0     0  
+# [14,] 1/4     0     0  
+# [15,]   0   1/4     0  
+# [16,]   0     0   1/4
+## para linha#coluna
+Mlc &lt;- Xlc %*% solve(t(Xlc) %*% Xlc) %*% t(Xlc)
+MASS::fractions(Mlc)
+#       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12] [,13]
+#  [1,] 1    0    0    0    0    0    0    0    0    0     0     0     0    
+#  [2,] 0    1    0    0    0    0    0    0    0    0     0     0     0    
+#  [3,] 0    0    1    0    0    0    0    0    0    0     0     0     0    
+#  [4,] 0    0    0    1    0    0    0    0    0    0     0     0     0    
+#  [5,] 0    0    0    0    1    0    0    0    0    0     0     0     0    
+#  [6,] 0    0    0    0    0    1    0    0    0    0     0     0     0    
+#  [7,] 0    0    0    0    0    0    1    0    0    0     0     0     0    
+#  [8,] 0    0    0    0    0    0    0    1    0    0     0     0     0    
+#  [9,] 0    0    0    0    0    0    0    0    1    0     0     0     0    
+# [10,] 0    0    0    0    0    0    0    0    0    1     0     0     0    
+# [11,] 0    0    0    0    0    0    0    0    0    0     1     0     0    
+# [12,] 0    0    0    0    0    0    0    0    0    0     0     1     0    
+# [13,] 0    0    0    0    0    0    0    0    0    0     0     0     1    
+# [14,] 0    0    0    0    0    0    0    0    0    0     0     0     0    
+# [15,] 0    0    0    0    0    0    0    0    0    0     0     0     0    
+# [16,] 0    0    0    0    0    0    0    0    0    0     0     0     0    
+#       [,14] [,15] [,16]
+#  [1,] 0     0     0    
+#  [2,] 0     0     0    
+#  [3,] 0     0     0    
+#  [4,] 0     0     0    
+#  [5,] 0     0     0    
+#  [6,] 0     0     0    
+#  [7,] 0     0     0    
+#  [8,] 0     0     0    
+#  [9,] 0     0     0    
+# [10,] 0     0     0    
+# [11,] 0     0     0    
+# [12,] 0     0     0    
+# [13,] 0     0     0    
+# [14,] 1     0     0    
+# [15,] 0     1     0    
+# [16,] 0     0     1
+##----------------------------------------------------------------------
+## Matrizes de projeção ortogonal
+## para linhas
+Ql &lt;- Ml - Mg
+MASS::fractions(Ql)
+#       [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]  [,9]  [,10] [,11]
+#  [1,]  3/16  3/16  3/16  3/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16
+#  [2,]  3/16  3/16  3/16  3/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16
+#  [3,]  3/16  3/16  3/16  3/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16
+#  [4,]  3/16  3/16  3/16  3/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16
+#  [5,] -1/16 -1/16 -1/16 -1/16  3/16  3/16  3/16  3/16 -1/16 -1/16 -1/16
+#  [6,] -1/16 -1/16 -1/16 -1/16  3/16  3/16  3/16  3/16 -1/16 -1/16 -1/16
+#  [7,] -1/16 -1/16 -1/16 -1/16  3/16  3/16  3/16  3/16 -1/16 -1/16 -1/16
+#  [8,] -1/16 -1/16 -1/16 -1/16  3/16  3/16  3/16  3/16 -1/16 -1/16 -1/16
+#  [9,] -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16  3/16  3/16  3/16
+# [10,] -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16  3/16  3/16  3/16
+# [11,] -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16  3/16  3/16  3/16
+# [12,] -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16  3/16  3/16  3/16
+# [13,] -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16
+# [14,] -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16
+# [15,] -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16
+# [16,] -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16
+#       [,12] [,13] [,14] [,15] [,16]
+#  [1,] -1/16 -1/16 -1/16 -1/16 -1/16
+#  [2,] -1/16 -1/16 -1/16 -1/16 -1/16
+#  [3,] -1/16 -1/16 -1/16 -1/16 -1/16
+#  [4,] -1/16 -1/16 -1/16 -1/16 -1/16
+#  [5,] -1/16 -1/16 -1/16 -1/16 -1/16
+#  [6,] -1/16 -1/16 -1/16 -1/16 -1/16
+#  [7,] -1/16 -1/16 -1/16 -1/16 -1/16
+#  [8,] -1/16 -1/16 -1/16 -1/16 -1/16
+#  [9,]  3/16 -1/16 -1/16 -1/16 -1/16
+# [10,]  3/16 -1/16 -1/16 -1/16 -1/16
+# [11,]  3/16 -1/16 -1/16 -1/16 -1/16
+# [12,]  3/16 -1/16 -1/16 -1/16 -1/16
+# [13,] -1/16  3/16  3/16  3/16  3/16
+# [14,] -1/16  3/16  3/16  3/16  3/16
+# [15,] -1/16  3/16  3/16  3/16  3/16
+# [16,] -1/16  3/16  3/16  3/16  3/16
+## para colunas
+Qc &lt;- Mc - Mg
+MASS::fractions(Qc)
+#       [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]  [,9]  [,10] [,11]
+#  [1,]  3/16 -1/16 -1/16 -1/16  3/16 -1/16 -1/16 -1/16  3/16 -1/16 -1/16
+#  [2,] -1/16  3/16 -1/16 -1/16 -1/16  3/16 -1/16 -1/16 -1/16  3/16 -1/16
+#  [3,] -1/16 -1/16  3/16 -1/16 -1/16 -1/16  3/16 -1/16 -1/16 -1/16  3/16
+#  [4,] -1/16 -1/16 -1/16  3/16 -1/16 -1/16 -1/16  3/16 -1/16 -1/16 -1/16
+#  [5,]  3/16 -1/16 -1/16 -1/16  3/16 -1/16 -1/16 -1/16  3/16 -1/16 -1/16
+#  [6,] -1/16  3/16 -1/16 -1/16 -1/16  3/16 -1/16 -1/16 -1/16  3/16 -1/16
+#  [7,] -1/16 -1/16  3/16 -1/16 -1/16 -1/16  3/16 -1/16 -1/16 -1/16  3/16
+#  [8,] -1/16 -1/16 -1/16  3/16 -1/16 -1/16 -1/16  3/16 -1/16 -1/16 -1/16
+#  [9,]  3/16 -1/16 -1/16 -1/16  3/16 -1/16 -1/16 -1/16  3/16 -1/16 -1/16
+# [10,] -1/16  3/16 -1/16 -1/16 -1/16  3/16 -1/16 -1/16 -1/16  3/16 -1/16
+# [11,] -1/16 -1/16  3/16 -1/16 -1/16 -1/16  3/16 -1/16 -1/16 -1/16  3/16
+# [12,] -1/16 -1/16 -1/16  3/16 -1/16 -1/16 -1/16  3/16 -1/16 -1/16 -1/16
+# [13,]  3/16 -1/16 -1/16 -1/16  3/16 -1/16 -1/16 -1/16  3/16 -1/16 -1/16
+# [14,] -1/16  3/16 -1/16 -1/16 -1/16  3/16 -1/16 -1/16 -1/16  3/16 -1/16
+# [15,] -1/16 -1/16  3/16 -1/16 -1/16 -1/16  3/16 -1/16 -1/16 -1/16  3/16
+# [16,] -1/16 -1/16 -1/16  3/16 -1/16 -1/16 -1/16  3/16 -1/16 -1/16 -1/16
+#       [,12] [,13] [,14] [,15] [,16]
+#  [1,] -1/16  3/16 -1/16 -1/16 -1/16
+#  [2,] -1/16 -1/16  3/16 -1/16 -1/16
+#  [3,] -1/16 -1/16 -1/16  3/16 -1/16
+#  [4,]  3/16 -1/16 -1/16 -1/16  3/16
+#  [5,] -1/16  3/16 -1/16 -1/16 -1/16
+#  [6,] -1/16 -1/16  3/16 -1/16 -1/16
+#  [7,] -1/16 -1/16 -1/16  3/16 -1/16
+#  [8,]  3/16 -1/16 -1/16 -1/16  3/16
+#  [9,] -1/16  3/16 -1/16 -1/16 -1/16
+# [10,] -1/16 -1/16  3/16 -1/16 -1/16
+# [11,] -1/16 -1/16 -1/16  3/16 -1/16
+# [12,]  3/16 -1/16 -1/16 -1/16  3/16
+# [13,] -1/16  3/16 -1/16 -1/16 -1/16
+# [14,] -1/16 -1/16  3/16 -1/16 -1/16
+# [15,] -1/16 -1/16 -1/16  3/16 -1/16
+# [16,]  3/16 -1/16 -1/16 -1/16  3/16
+## para linhas#colunas
+Qlc &lt;- Mlc - Ml - Mc + Mg
+MASS::fractions(Qlc)
+#       [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]  [,9]  [,10] [,11]
+#  [1,]  9/16 -3/16 -3/16 -3/16 -3/16  1/16  1/16  1/16 -3/16  1/16  1/16
+#  [2,] -3/16  9/16 -3/16 -3/16  1/16 -3/16  1/16  1/16  1/16 -3/16  1/16
+#  [3,] -3/16 -3/16  9/16 -3/16  1/16  1/16 -3/16  1/16  1/16  1/16 -3/16
+#  [4,] -3/16 -3/16 -3/16  9/16  1/16  1/16  1/16 -3/16  1/16  1/16  1/16
+#  [5,] -3/16  1/16  1/16  1/16  9/16 -3/16 -3/16 -3/16 -3/16  1/16  1/16
+#  [6,]  1/16 -3/16  1/16  1/16 -3/16  9/16 -3/16 -3/16  1/16 -3/16  1/16
+#  [7,]  1/16  1/16 -3/16  1/16 -3/16 -3/16  9/16 -3/16  1/16  1/16 -3/16
+#  [8,]  1/16  1/16  1/16 -3/16 -3/16 -3/16 -3/16  9/16  1/16  1/16  1/16
+#  [9,] -3/16  1/16  1/16  1/16 -3/16  1/16  1/16  1/16  9/16 -3/16 -3/16
+# [10,]  1/16 -3/16  1/16  1/16  1/16 -3/16  1/16  1/16 -3/16  9/16 -3/16
+# [11,]  1/16  1/16 -3/16  1/16  1/16  1/16 -3/16  1/16 -3/16 -3/16  9/16
+# [12,]  1/16  1/16  1/16 -3/16  1/16  1/16  1/16 -3/16 -3/16 -3/16 -3/16
+# [13,] -3/16  1/16  1/16  1/16 -3/16  1/16  1/16  1/16 -3/16  1/16  1/16
+# [14,]  1/16 -3/16  1/16  1/16  1/16 -3/16  1/16  1/16  1/16 -3/16  1/16
+# [15,]  1/16  1/16 -3/16  1/16  1/16  1/16 -3/16  1/16  1/16  1/16 -3/16
+# [16,]  1/16  1/16  1/16 -3/16  1/16  1/16  1/16 -3/16  1/16  1/16  1/16
+#       [,12] [,13] [,14] [,15] [,16]
+#  [1,]  1/16 -3/16  1/16  1/16  1/16
+#  [2,]  1/16  1/16 -3/16  1/16  1/16
+#  [3,]  1/16  1/16  1/16 -3/16  1/16
+#  [4,] -3/16  1/16  1/16  1/16 -3/16
+#  [5,]  1/16 -3/16  1/16  1/16  1/16
+#  [6,]  1/16  1/16 -3/16  1/16  1/16
+#  [7,]  1/16  1/16  1/16 -3/16  1/16
+#  [8,] -3/16  1/16  1/16  1/16 -3/16
+#  [9,] -3/16 -3/16  1/16  1/16  1/16
+# [10,] -3/16  1/16 -3/16  1/16  1/16
+# [11,] -3/16  1/16  1/16 -3/16  1/16
+# [12,]  9/16  1/16  1/16  1/16 -3/16
+# [13,]  1/16  9/16 -3/16 -3/16 -3/16
+# [14,]  1/16 -3/16  9/16 -3/16 -3/16
+# [15,]  1/16 -3/16 -3/16  9/16 -3/16
+# [16,] -3/16 -3/16 -3/16 -3/16  9/16
+## para tratamentos
+Qt &lt;- Mt - Mg
+MASS::fractions(Qt)
+#       [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]  [,9]  [,10] [,11]
+#  [1,]  3/16 -1/16 -1/16 -1/16 -1/16  3/16 -1/16 -1/16 -1/16 -1/16  3/16
+#  [2,] -1/16  3/16 -1/16 -1/16 -1/16 -1/16 -1/16  3/16  3/16 -1/16 -1/16
+#  [3,] -1/16 -1/16  3/16 -1/16  3/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16
+#  [4,] -1/16 -1/16 -1/16  3/16 -1/16 -1/16  3/16 -1/16 -1/16  3/16 -1/16
+#  [5,] -1/16 -1/16  3/16 -1/16  3/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16
+#  [6,]  3/16 -1/16 -1/16 -1/16 -1/16  3/16 -1/16 -1/16 -1/16 -1/16  3/16
+#  [7,] -1/16 -1/16 -1/16  3/16 -1/16 -1/16  3/16 -1/16 -1/16  3/16 -1/16
+#  [8,] -1/16  3/16 -1/16 -1/16 -1/16 -1/16 -1/16  3/16  3/16 -1/16 -1/16
+#  [9,] -1/16  3/16 -1/16 -1/16 -1/16 -1/16 -1/16  3/16  3/16 -1/16 -1/16
+# [10,] -1/16 -1/16 -1/16  3/16 -1/16 -1/16  3/16 -1/16 -1/16  3/16 -1/16
+# [11,]  3/16 -1/16 -1/16 -1/16 -1/16  3/16 -1/16 -1/16 -1/16 -1/16  3/16
+# [12,] -1/16 -1/16  3/16 -1/16  3/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16
+# [13,] -1/16 -1/16 -1/16  3/16 -1/16 -1/16  3/16 -1/16 -1/16  3/16 -1/16
+# [14,] -1/16 -1/16  3/16 -1/16  3/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16
+# [15,] -1/16  3/16 -1/16 -1/16 -1/16 -1/16 -1/16  3/16  3/16 -1/16 -1/16
+# [16,]  3/16 -1/16 -1/16 -1/16 -1/16  3/16 -1/16 -1/16 -1/16 -1/16  3/16
+#       [,12] [,13] [,14] [,15] [,16]
+#  [1,] -1/16 -1/16 -1/16 -1/16  3/16
+#  [2,] -1/16 -1/16 -1/16  3/16 -1/16
+#  [3,]  3/16 -1/16  3/16 -1/16 -1/16
+#  [4,] -1/16  3/16 -1/16 -1/16 -1/16
+#  [5,]  3/16 -1/16  3/16 -1/16 -1/16
+#  [6,] -1/16 -1/16 -1/16 -1/16  3/16
+#  [7,] -1/16  3/16 -1/16 -1/16 -1/16
+#  [8,] -1/16 -1/16 -1/16  3/16 -1/16
+#  [9,] -1/16 -1/16 -1/16  3/16 -1/16
+# [10,] -1/16  3/16 -1/16 -1/16 -1/16
+# [11,] -1/16 -1/16 -1/16 -1/16  3/16
+# [12,]  3/16 -1/16  3/16 -1/16 -1/16
+# [13,] -1/16  3/16 -1/16 -1/16 -1/16
+# [14,]  3/16 -1/16  3/16 -1/16 -1/16
+# [15,] -1/16 -1/16 -1/16  3/16 -1/16
+# [16,] -1/16 -1/16 -1/16 -1/16  3/16
+## para resíduo
+Qres &lt;- Mlc - Ml - Mc + Mg - Mt + Mg
+MASS::fractions(Qres)
+#       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12] [,13]
+#  [1,]  3/8 -1/8 -1/8 -1/8 -1/8 -1/8  1/8  1/8 -1/8  1/8  -1/8   1/8  -1/8 
+#  [2,] -1/8  3/8 -1/8 -1/8  1/8 -1/8  1/8 -1/8 -1/8 -1/8   1/8   1/8   1/8 
+#  [3,] -1/8 -1/8  3/8 -1/8 -1/8  1/8 -1/8  1/8  1/8  1/8  -1/8  -1/8   1/8 
+#  [4,] -1/8 -1/8 -1/8  3/8  1/8  1/8 -1/8 -1/8  1/8 -1/8   1/8  -1/8  -1/8 
+#  [5,] -1/8  1/8 -1/8  1/8  3/8 -1/8 -1/8 -1/8 -1/8  1/8   1/8  -1/8  -1/8 
+#  [6,] -1/8 -1/8  1/8  1/8 -1/8  3/8 -1/8 -1/8  1/8 -1/8  -1/8   1/8   1/8 
+#  [7,]  1/8  1/8 -1/8 -1/8 -1/8 -1/8  3/8 -1/8  1/8 -1/8  -1/8   1/8  -1/8 
+#  [8,]  1/8 -1/8  1/8 -1/8 -1/8 -1/8 -1/8  3/8 -1/8  1/8   1/8  -1/8   1/8 
+#  [9,] -1/8 -1/8  1/8  1/8 -1/8  1/8  1/8 -1/8  3/8 -1/8  -1/8  -1/8  -1/8 
+# [10,]  1/8 -1/8  1/8 -1/8  1/8 -1/8 -1/8  1/8 -1/8  3/8  -1/8  -1/8  -1/8 
+# [11,] -1/8  1/8 -1/8  1/8  1/8 -1/8 -1/8  1/8 -1/8 -1/8   3/8  -1/8   1/8 
+# [12,]  1/8  1/8 -1/8 -1/8 -1/8  1/8  1/8 -1/8 -1/8 -1/8  -1/8   3/8   1/8 
+# [13,] -1/8  1/8  1/8 -1/8 -1/8  1/8 -1/8  1/8 -1/8 -1/8   1/8   1/8   3/8 
+# [14,]  1/8 -1/8 -1/8  1/8 -1/8 -1/8  1/8  1/8  1/8 -1/8   1/8  -1/8  -1/8 
+# [15,]  1/8 -1/8 -1/8  1/8  1/8  1/8 -1/8 -1/8 -1/8  1/8  -1/8   1/8  -1/8 
+# [16,] -1/8  1/8  1/8 -1/8  1/8 -1/8  1/8 -1/8  1/8  1/8  -1/8  -1/8  -1/8 
+#       [,14] [,15] [,16]
+#  [1,]  1/8   1/8  -1/8 
+#  [2,] -1/8  -1/8   1/8 
+#  [3,] -1/8  -1/8   1/8 
+#  [4,]  1/8   1/8  -1/8 
+#  [5,] -1/8   1/8   1/8 
+#  [6,] -1/8   1/8  -1/8 
+#  [7,]  1/8  -1/8   1/8 
+#  [8,]  1/8  -1/8  -1/8 
+#  [9,]  1/8  -1/8   1/8 
+# [10,] -1/8   1/8   1/8 
+# [11,]  1/8  -1/8  -1/8 
+# [12,] -1/8   1/8  -1/8 
+# [13,] -1/8  -1/8  -1/8 
+# [14,]  3/8  -1/8  -1/8 
+# [15,] -1/8   3/8  -1/8 
+# [16,] -1/8  -1/8   3/8
+##----------------------------------------------------------------------
+## Graus de liberdade (usando propriedade de traço)
+(GLl &lt;- sum(diag(Ql))) # t - 1
+# [1] 3
+(GLc &lt;- sum(diag(Qc))) # t - 1
+# [1] 3
+(GLlc &lt;- sum(diag(Qlc))) # (t - 1)^2
+# [1] 9
+(GLt &lt;- sum(diag(Qt))) # t - 1
+# [1] 3
+(GLres &lt;- sum(diag(Qres))) # (t - 1) * (t - 2)
+# [1] 6
+##----------------------------------------------------------------------
+## Soma de quadrados
+(SQl &lt;- t(Y) %*% Ql %*% Y)
+#          [,1]
+# [1,] 1258.002
+(SQc &lt;- t(Y) %*% Qc %*% Y)
+#          [,1]
+# [1,] 588.6725
+(SQlc &lt;- t(Y) %*% Qlc %*% Y)
+#          [,1]
+# [1,] 2330.763
+(SQt &lt;- t(Y) %*% Qt %*% Y)
+#          [,1]
+# [1,] 2101.027
+(SQres &lt;- t(Y) %*% Qres %*% Y)
+#         [,1]
+# [1,] 229.735
+## Quadrado médio
+(QMl &lt;- SQl/GLl)
+#          [,1]
+# [1,] 419.3342
+(QMc &lt;- SQc/GLc)
+#          [,1]
+# [1,] 196.2242
+(QMt &lt;- SQt/GLt)
+#          [,1]
+# [1,] 700.3425
+(QMres &lt;- SQres/GLres)
+#          [,1]
+# [1,] 38.28917
+## F calculado
+(Fcalc.l &lt;- QMl/QMres)
+#          [,1]
+# [1,] 10.95177
+(Fcalc.c &lt;- QMc/QMres)
+#          [,1]
+# [1,] 5.124796
+(Fcalc.t &lt;- QMt/QMres)
+#          [,1]
+# [1,] 18.29088
+## p-valor
+(p.valor.l &lt;- pf(Fcalc.l, GLl, GLres, lower.tail = FALSE))
+#             [,1]
+# [1,] 0.007572881
+(p.valor.c &lt;- pf(Fcalc.c, GLc, GLres, lower.tail = FALSE))
+#           [,1]
+# [1,] 0.0429672
+(p.valor.t &lt;- pf(Fcalc.t, GLt, GLres, lower.tail = FALSE))
+#             [,1]
+# [1,] 0.002015746
+## Tabela final
+tab.final &lt;- data.frame(&quot;GL&quot; = c(GLl, GLc, GLlc, GLt, GLres),
+                        &quot;SQ&quot; = c(SQl, SQc, SQlc, SQt, SQres),
+                        &quot;QM&quot; = c(QMl, QMc, NA, QMt, QMres),
+                        &quot;F&quot;  = c(Fcalc.l, Fcalc.c, NA, Fcalc.t, NA),
+                        &quot;p-valor&quot; = c(p.valor.l, p.valor.c, NA, p.valor.t, NA),
+                        row.names = c(&quot;Linhas&quot;, &quot;Colunas&quot;, &quot;Linhas#Colunas&quot;,
+                                      &quot;  Tratamentos&quot;, &quot;  Resíduo&quot;))
+tab.final
+#                GL        SQ        QM         F     p.valor
+# Linhas          3 1258.0025 419.33417 10.951771 0.007572881
+# Colunas         3  588.6725 196.22417  5.124796 0.042967197
+# Linhas#Colunas  9 2330.7625        NA        NA          NA
+#   Tratamentos   3 2101.0275 700.34250 18.290879 0.002015746
+#   Resíduo       6  229.7350  38.28917        NA          NA</code></pre>
+<p>Comparando os resultados com a função <code>aov()</code>:</p>
+<pre class="r"><code>summary(aov(var.resp ~ linhas + colunas + tratamento))
+#             Df Sum Sq Mean Sq F value  Pr(&gt;F)   
+# linhas       3 1258.0   419.3  10.952 0.00757 **
+# colunas      3  588.7   196.2   5.125 0.04297 * 
+# tratamento   3 2101.0   700.3  18.291 0.00202 **
+# Residuals    6  229.7    38.3                   
+# ---
+# Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## Usando a função Error() para identificar o confundimento
+summary(aov(var.resp ~ linhas + colunas + tratamento +
+                Error(linhas*colunas)))
+# 
+# Error: linhas
+#        Df Sum Sq Mean Sq
+# linhas  3   1258   419.3
+# 
+# Error: colunas
+#         Df Sum Sq Mean Sq
+# colunas  3  588.7   196.2
+# 
+# Error: linhas:colunas
+#            Df Sum Sq Mean Sq F value  Pr(&gt;F)   
+# tratamento  3 2101.0   700.3   18.29 0.00202 **
+# Residuals   6  229.7    38.3                   
+# ---
+# Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<div id="experimentos-fatoriais" class="section level2">
+<h2>Experimentos fatoriais</h2>
+<p>Os experimentos fatoriais são aqueles que consideram dois ou mais fatores (tratamentos) em conjunto. Estes experimentos podem ser realizados em diversos delineamentos, como inteiramente casualizado (DIC), ou em blocos (DBC). Aqui veremos um exemplo de um experimento no esquema fatorial com o delineamento inteiramente ao acaso.</p>
+<p>Considere um experimento fatorial em um delineamento inteiramente casualizado, supondo que o fator A possui <span class="math inline">\(a\)</span> níveis, o fator B possui <span class="math inline">\(b\)</span> níveis, e ocorrem <span class="math inline">\(r\)</span> repetições de cada combinação dos fatores A e B.</p>
+<p>O modelo associado à este delineamento é</p>
+<p><span class="math display">\[
+y_{ijk} = \mu + \alpha_i + \beta_j + \gamma_{k(ij)} + \epsilon_{ijk}\,
+\qquad i = 1, \ldots, a;\, j = 1, \ldots, b; k = 1, \ldots, r
+\]</span></p>
+<p>Matricialmente o modelo pode ser escrito como:</p>
+<p><span class="math display">\[
+\begin{align}
+\mathbf{Y} &amp;= \mathbf{X}\boldsymbol{\theta} +
+\boldsymbol{\epsilon} \\
+\mathbf{Y} &amp;= \mathbf{X_G}\boldsymbol{\mu} +
+\mathbf{X_A}\boldsymbol{\alpha} +
+\mathbf{X_B}\boldsymbol{\beta} +
+\mathbf{X_{AB}}\boldsymbol{\gamma} +
+\boldsymbol{\epsilon}
+\end{align}
+\]</span></p>
+<ul>
+<li>Fórmula estrutural</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th>Estrutura</th>
+<th>Fórmula</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Unrandomized</td>
+<td><span class="math inline">\(abr\)</span> parcelas</td>
+</tr>
+<tr class="even">
+<td>Randomized</td>
+<td><span class="math inline">\(a\)</span> Fator A <span class="math inline">\(*\)</span> <span class="math inline">\(b\)</span> Fator B</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Diagrama de Hasse</li>
+</ul>
+<p><img src="img/DIC_FATORIAL_geral.png" width="100%" style="display: block; margin: auto;" /></p>
+<ul>
+<li>Tabela de ANOVA</li>
+</ul>
+<table style="width:100%;">
+<colgroup>
+<col width="7%" />
+<col width="5%" />
+<col width="8%" />
+<col width="15%" />
+<col width="11%" />
+<col width="17%" />
+<col width="17%" />
+<col width="17%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonte de variação</th>
+<th>GL</th>
+<th>SQ</th>
+<th>QM</th>
+<th>E[QM] (1)</th>
+<th>E[QM] (2)</th>
+<th>E[QM] (3)</th>
+<th>E[QM] (4)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Parcela</td>
+<td><span class="math inline">\(rab-1\)</span></td>
+<td><span class="math inline">\(\mathbf{Y&#39;Q_{P}Y}\)</span></td>
+<td><span class="math inline">\(\frac{\mathbf{Y&#39;Q_{P}Y}}{rab-1}\)</span></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>¬¬Fator A</td>
+<td><span class="math inline">\(a-1\)</span></td>
+<td><span class="math inline">\(\mathbf{Y&#39;Q_{A}Y}\)</span></td>
+<td><span class="math inline">\(\frac{\mathbf{Y&#39;Q_{A}Y}}{a-1}\)</span></td>
+<td><span class="math inline">\(\sigma^2_{P} + q_A(\Psi)\)</span></td>
+<td><span class="math inline">\(\sigma^2_{P} + r\sigma^2_{AB} + rb\sigma^2_A\)</span></td>
+<td><span class="math inline">\(\sigma^2_{P} + r\sigma^2_{AB} + q_A(\Psi)\)</span></td>
+<td><span class="math inline">\(\sigma^2_{P} + r\sigma^2_{AB} + rb\sigma^2_A\)</span></td>
+</tr>
+<tr class="odd">
+<td>¬¬Fator B</td>
+<td><span class="math inline">\(b-1\)</span></td>
+<td><span class="math inline">\(\mathbf{Y&#39;Q_{B}Y}\)</span></td>
+<td><span class="math inline">\(\frac{\mathbf{Y&#39;Q_{B}Y}}{b-1}\)</span></td>
+<td><span class="math inline">\(\sigma^2_{P} + q_B(\Psi)\)</span></td>
+<td><span class="math inline">\(\sigma^2_{P} + r\sigma^2_{AB} + q_B(\Psi)\)</span></td>
+<td><span class="math inline">\(\sigma^2_{P} + r\sigma^2_{AB} + ra\sigma^2_B\)</span></td>
+<td><span class="math inline">\(\sigma^2_{P} + r\sigma^2_{AB} + ra\sigma^2_B\)</span></td>
+</tr>
+<tr class="even">
+<td>¬¬A#B</td>
+<td><span class="math inline">\((a-1)(b-1)\)</span></td>
+<td><span class="math inline">\(\mathbf{Y&#39;Q_{AB}Y}\)</span></td>
+<td><span class="math inline">\(\frac{\mathbf{Y&#39;Q_{AB}Y}}{(a-1)(b-1)}\)</span></td>
+<td><span class="math inline">\(\sigma^2_{P} + q_{AB}(\Psi)\)</span></td>
+<td><span class="math inline">\(\sigma^2_{P} + r\sigma^2_{AB}\)</span></td>
+<td><span class="math inline">\(\sigma^2_{P} + r\sigma^2_{AB}\)</span></td>
+<td><span class="math inline">\(\sigma^2_{P} + r\sigma^2_{AB}\)</span></td>
+</tr>
+<tr class="odd">
+<td>¬¬Resíduo</td>
+<td><span class="math inline">\(ab(r-1)\)</span></td>
+<td><span class="math inline">\(\mathbf{Y&#39;Q_{Res}Y}\)</span></td>
+<td><span class="math inline">\(\frac{\mathbf{Y&#39;Q_{Res}Y}}{ab(r-1)}\)</span></td>
+<td><span class="math inline">\(\sigma^2_{P}\)</span></td>
+<td><span class="math inline">\(\sigma^2_{P}\)</span></td>
+<td><span class="math inline">\(\sigma^2_{P}\)</span></td>
+<td><span class="math inline">\(\sigma^2_{P}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Onde os números após a E[QM] são as combinações:</p>
+<ul>
+<li><strong>(1)</strong>: Fator A fixo, fator B fixo, A#B fixo</li>
+<li><strong>(2)</strong>: Fator A aleatório, fator B fixo, A#B aleatório</li>
+<li><strong>(3)</strong>: Fator A fixo, Fator B aleatório, A#B aleatório</li>
+<li><strong>(4)</strong>: Fator A aleatório, fator B aleatório, A#B aleatório</li>
+</ul>
+<p><strong>Observação:</strong> A interação entre um fator de efeito fixo e um fator de efeito aleatório sempre será aleatória.</p>
+<p>As matrizes são:</p>
+<p><span class="math display">\[
+\begin{align}
+\mathbf{Q_P} &amp;= \mathbf{M_P - M_G} \\
+\mathbf{Q_A} &amp;= \mathbf{M_A - M_G} \\
+\mathbf{Q_B} &amp;= \mathbf{M_B - M_G} \\
+\mathbf{Q_{AB}} &amp;= \mathbf{M_{AB} - M_A - M_B + M_G} \\
+\mathbf{Q_{Res}} &amp;= \mathbf{Q_{P} - Q_A - Q_B - Q_{AB}} \\
+                 &amp;= \mathbf{M_P - M_G - (M_A - M_G) - (M_B - M_G) -
+                                (M_{AB} - M_A - M_B + M_G)} \\
+                 &amp;= \mathbf{M_P - M_{AB}}
+\end{align}
+\]</span></p>
+<p>E:</p>
+<p><span class="math display">\[
+\begin{align}
+\mathbf{M_G} &amp;= \mathbf{X_G(X&#39;_G X_G)^{-1}X&#39;_G} \\
+\mathbf{M_P} &amp;= \mathbf{X_P(X&#39;_P X_P)^{-1}X&#39;_P} \\
+\mathbf{M_A} &amp;= \mathbf{X_A(X&#39;_A X_A)^{-1}X&#39;_A} \\
+\mathbf{M_B} &amp;= \mathbf{X_B(X&#39;_B X_B)^{-1}X&#39;_B} \\
+\mathbf{M_{AB}} &amp;= \mathbf{X_{AB}(X&#39;_{AB} X_{AB})^{-1}X&#39;_{AB}}
+\end{align}
+\]</span></p>
+<ul>
+<li>Hipóteses e teste <span class="math inline">\(F\)</span></li>
+</ul>
+<table style="width:100%;">
+<colgroup>
+<col width="8%" />
+<col width="22%" />
+<col width="23%" />
+<col width="23%" />
+<col width="23%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>(1)</th>
+<th>(2)</th>
+<th>(3)</th>
+<th>(4)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>FatorA</td>
+<td><span class="math inline">\(H_0: q_A(\Psi) = 0\)</span></td>
+<td><span class="math inline">\(H_0: \sigma^2_A = 0\)</span></td>
+<td><span class="math inline">\(H_0: q_A(\Psi) = 0\)</span></td>
+<td><span class="math inline">\(H_0: \sigma^2_A = 0\)</span></td>
+</tr>
+<tr class="even">
+<td>FatorB</td>
+<td><span class="math inline">\(H_0: q_B(\Psi) = 0\)</span></td>
+<td><span class="math inline">\(H_0: q_B(\Psi) = 0\)</span></td>
+<td><span class="math inline">\(H_0: \sigma^2_B = 0\)</span></td>
+<td><span class="math inline">\(H_0: \sigma^2_B = 0\)</span></td>
+</tr>
+<tr class="odd">
+<td>A#B</td>
+<td><span class="math inline">\(H_0: q_{AB}(\Psi) = 0\)</span></td>
+<td><span class="math inline">\(H_0: \sigma^2_{AB} = 0\)</span></td>
+<td><span class="math inline">\(H_0: \sigma^2_{AB} = 0\)</span></td>
+<td><span class="math inline">\(H_0: \sigma^2_{AB} = 0\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Testes:</p>
+<p>Considerando apenas o caso (1), todos os fatores de <strong>efeito fixo</strong>:</p>
+<p><span class="math display">\[
+\begin{align}
+F_A &amp;= \frac{\textrm{QMA}}{\textrm{QMRes}} \\
+F_B &amp;= \frac{\textrm{QMB}}{\textrm{QMRes}} \\
+F_{AB} &amp;= \frac{\textrm{QMAB}}{\textrm{QMRes}}
+\end{align}
+\]</span></p>
+<p>Considerando os casos (2), (3), e (4), onde pelo menos um dos fatores é de <strong>efeito aleatório</strong>, e a interação é aleatória:</p>
+<p><span class="math display">\[
+\begin{align}
+F_A &amp;= \frac{\textrm{QMA}}{\textrm{QMAB}} \\
+F_B &amp;= \frac{\textrm{QMB}}{\textrm{QMAB}} \\
+F_{AB} &amp;= \frac{\textrm{QMAB}}{\textrm{QMRes}}
+\end{align}
+\]</span></p>
+<ul>
+<li>Exemplo no R:</li>
+</ul>
+<p>Os dados apresentados a seguir referem-se às produções (kg/m<span class="math inline">\(^2\)</span>) de soja quando cultivadas sob diferentes tratamentos (adubo e torta). O experimento foi instalado segundo o delineamento inteiramente casualizado (DIC), com 4 repetições. <strong>Importante</strong>: ambos os tratamentos são considerados como fixos.</p>
+<pre class="r"><code>##----------------------------------------------------------------------
+## Definições prévias do experimento
+a &lt;- 2
+b &lt;- 2
+r &lt;- 4
+n &lt;- a * b * r
+##----------------------------------------------------------------------
+## Dados
+# T0 = sem torta; T1 = com torta
+# A0 = sem adubo; A1 = com adubo
+da.fat &lt;- data.frame(parcela = factor(1:n),
+                     torta = rep(c(&quot;T0&quot;, &quot;T1&quot;), each = a*r),
+                     adubo = rep(c(&quot;A0&quot;, &quot;A1&quot;), each = r, times = b),
+                     tratamento = rep(c(&quot;Tr1&quot;, &quot;Tr2&quot;, &quot;Tr3&quot;, &quot;Tr4&quot;),
+                                      each = a*b),
+                     producao = c(28.2, 18.8, 19.6, 21.6,
+                                  30.8, 31.2, 28.8, 30.8,
+                                  29.8, 25.2, 24.8, 26,
+                                  29.4, 29.8, 28.6, 30.4))
+## Estrutura dos dados
+str(da.fat)
+# &#39;data.frame&#39;: 16 obs. of  5 variables:
+#  $ parcela   : Factor w/ 16 levels &quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;,..: 1 2 3 4 5 6 7 8 9 10 ...
+#  $ torta     : Factor w/ 2 levels &quot;T0&quot;,&quot;T1&quot;: 1 1 1 1 1 1 1 1 2 2 ...
+#  $ adubo     : Factor w/ 2 levels &quot;A0&quot;,&quot;A1&quot;: 1 1 1 1 2 2 2 2 1 1 ...
+#  $ tratamento: Factor w/ 4 levels &quot;Tr1&quot;,&quot;Tr2&quot;,&quot;Tr3&quot;,..: 1 1 1 1 2 2 2 2 3 3 ...
+#  $ producao  : num  28.2 18.8 19.6 21.6 30.8 31.2 28.8 30.8 29.8 25.2 ...
+##----------------------------------------------------------------------
+## Croqui do experimento
+## Sorteia aleatoriamente as variedades e dispõe em uma matriz 4x4
+set.seed(11)
+croqui.DIC.fat &lt;- sample(paste(da.fat$adubo, da.fat$torta, sep = &quot;:&quot;),
+                         nrow(da.fat))
+croqui.DIC.fat &lt;- matrix(croqui.DIC.fat, ncol = a*b,
+                         dimnames = list(1:(a*b), 1:(a*b)))
+croqui.DIC.fat
+#   1       2       3       4      
+# 1 &quot;A1:T0&quot; &quot;A1:T1&quot; &quot;A1:T1&quot; &quot;A0:T0&quot;
+# 2 &quot;A0:T0&quot; &quot;A0:T1&quot; &quot;A0:T1&quot; &quot;A1:T1&quot;
+# 3 &quot;A1:T0&quot; &quot;A0:T1&quot; &quot;A0:T0&quot; &quot;A1:T0&quot;
+# 4 &quot;A1:T1&quot; &quot;A0:T0&quot; &quot;A0:T1&quot; &quot;A1:T0&quot;</code></pre>
+<p>Análise passo a passo:</p>
+<pre class="r"><code>##----------------------------------------------------------------------
+## Atribui nomes comuns para variável resposta, linhas e colunas
+var.resp &lt;- da.fat$producao
+parcela &lt;- da.fat$parcela
+tratamento &lt;- da.fat$tratamento
+fatorA &lt;- da.fat$adubo
+fatorB &lt;- da.fat$torta
+##----------------------------------------------------------------------
+## Definições
+a &lt;- length(unique(fatorA))
+b &lt;- length(unique(fatorB))
+r &lt;- unique(table(tratamento))
+n &lt;- a * b * r
+##----------------------------------------------------------------------
+## Matrizes
+## Vetor de respostas
+(Y &lt;- matrix(var.resp, ncol = 1))
+#       [,1]
+#  [1,] 28.2
+#  [2,] 18.8
+#  [3,] 19.6
+#  [4,] 21.6
+#  [5,] 30.8
+#  [6,] 31.2
+#  [7,] 28.8
+#  [8,] 30.8
+#  [9,] 29.8
+# [10,] 25.2
+# [11,] 24.8
+# [12,] 26.0
+# [13,] 29.4
+# [14,] 29.8
+# [15,] 28.6
+# [16,] 30.4
+## Matriz de médias
+(Xg &lt;- matrix(rep(1, n), ncol = 1))
+#       [,1]
+#  [1,]    1
+#  [2,]    1
+#  [3,]    1
+#  [4,]    1
+#  [5,]    1
+#  [6,]    1
+#  [7,]    1
+#  [8,]    1
+#  [9,]    1
+# [10,]    1
+# [11,]    1
+# [12,]    1
+# [13,]    1
+# [14,]    1
+# [15,]    1
+# [16,]    1
+## Matriz de parcelas (identidade)
+(Xp &lt;- diag(1, nrow = n))
+#       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12] [,13]
+#  [1,]    1    0    0    0    0    0    0    0    0     0     0     0     0
+#  [2,]    0    1    0    0    0    0    0    0    0     0     0     0     0
+#  [3,]    0    0    1    0    0    0    0    0    0     0     0     0     0
+#  [4,]    0    0    0    1    0    0    0    0    0     0     0     0     0
+#  [5,]    0    0    0    0    1    0    0    0    0     0     0     0     0
+#  [6,]    0    0    0    0    0    1    0    0    0     0     0     0     0
+#  [7,]    0    0    0    0    0    0    1    0    0     0     0     0     0
+#  [8,]    0    0    0    0    0    0    0    1    0     0     0     0     0
+#  [9,]    0    0    0    0    0    0    0    0    1     0     0     0     0
+# [10,]    0    0    0    0    0    0    0    0    0     1     0     0     0
+# [11,]    0    0    0    0    0    0    0    0    0     0     1     0     0
+# [12,]    0    0    0    0    0    0    0    0    0     0     0     1     0
+# [13,]    0    0    0    0    0    0    0    0    0     0     0     0     1
+# [14,]    0    0    0    0    0    0    0    0    0     0     0     0     0
+# [15,]    0    0    0    0    0    0    0    0    0     0     0     0     0
+# [16,]    0    0    0    0    0    0    0    0    0     0     0     0     0
+#       [,14] [,15] [,16]
+#  [1,]     0     0     0
+#  [2,]     0     0     0
+#  [3,]     0     0     0
+#  [4,]     0     0     0
+#  [5,]     0     0     0
+#  [6,]     0     0     0
+#  [7,]     0     0     0
+#  [8,]     0     0     0
+#  [9,]     0     0     0
+# [10,]     0     0     0
+# [11,]     0     0     0
+# [12,]     0     0     0
+# [13,]     0     0     0
+# [14,]     1     0     0
+# [15,]     0     1     0
+# [16,]     0     0     1
+## Matriz do fator A
+Xa &lt;- matrix(0, nrow = n, ncol = a)
+Xa[cbind(seq_along(fatorA), fatorA)] &lt;- 1; Xa
+#       [,1] [,2]
+#  [1,]    1    0
+#  [2,]    1    0
+#  [3,]    1    0
+#  [4,]    1    0
+#  [5,]    0    1
+#  [6,]    0    1
+#  [7,]    0    1
+#  [8,]    0    1
+#  [9,]    1    0
+# [10,]    1    0
+# [11,]    1    0
+# [12,]    1    0
+# [13,]    0    1
+# [14,]    0    1
+# [15,]    0    1
+# [16,]    0    1
+## Matriz do fator B
+Xb &lt;- matrix(0, nrow = n, ncol = b)
+Xb[cbind(seq_along(fatorB), fatorB)] &lt;- 1; Xb
+#       [,1] [,2]
+#  [1,]    1    0
+#  [2,]    1    0
+#  [3,]    1    0
+#  [4,]    1    0
+#  [5,]    1    0
+#  [6,]    1    0
+#  [7,]    1    0
+#  [8,]    1    0
+#  [9,]    0    1
+# [10,]    0    1
+# [11,]    0    1
+# [12,]    0    1
+# [13,]    0    1
+# [14,]    0    1
+# [15,]    0    1
+# [16,]    0    1
+## Matriz da interação A:B
+Xab &lt;- matrix(0, nrow = n, ncol = a*b)
+Xab[cbind(seq_along(tratamento), tratamento)] &lt;- 1; Xab
+#       [,1] [,2] [,3] [,4]
+#  [1,]    1    0    0    0
+#  [2,]    1    0    0    0
+#  [3,]    1    0    0    0
+#  [4,]    1    0    0    0
+#  [5,]    0    1    0    0
+#  [6,]    0    1    0    0
+#  [7,]    0    1    0    0
+#  [8,]    0    1    0    0
+#  [9,]    0    0    1    0
+# [10,]    0    0    1    0
+# [11,]    0    0    1    0
+# [12,]    0    0    1    0
+# [13,]    0    0    0    1
+# [14,]    0    0    0    1
+# [15,]    0    0    0    1
+# [16,]    0    0    0    1
+##----------------------------------------------------------------------
+## Matrizes M
+## para média
+Mg &lt;- Xg %*% solve(t(Xg) %*% Xg) %*% t(Xg)
+MASS::fractions(Mg)
+#       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12] [,13]
+#  [1,] 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16  1/16  1/16  1/16 
+#  [2,] 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16  1/16  1/16  1/16 
+#  [3,] 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16  1/16  1/16  1/16 
+#  [4,] 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16  1/16  1/16  1/16 
+#  [5,] 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16  1/16  1/16  1/16 
+#  [6,] 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16  1/16  1/16  1/16 
+#  [7,] 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16  1/16  1/16  1/16 
+#  [8,] 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16  1/16  1/16  1/16 
+#  [9,] 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16  1/16  1/16  1/16 
+# [10,] 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16  1/16  1/16  1/16 
+# [11,] 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16  1/16  1/16  1/16 
+# [12,] 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16  1/16  1/16  1/16 
+# [13,] 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16  1/16  1/16  1/16 
+# [14,] 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16  1/16  1/16  1/16 
+# [15,] 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16  1/16  1/16  1/16 
+# [16,] 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16 1/16  1/16  1/16  1/16 
+#       [,14] [,15] [,16]
+#  [1,] 1/16  1/16  1/16 
+#  [2,] 1/16  1/16  1/16 
+#  [3,] 1/16  1/16  1/16 
+#  [4,] 1/16  1/16  1/16 
+#  [5,] 1/16  1/16  1/16 
+#  [6,] 1/16  1/16  1/16 
+#  [7,] 1/16  1/16  1/16 
+#  [8,] 1/16  1/16  1/16 
+#  [9,] 1/16  1/16  1/16 
+# [10,] 1/16  1/16  1/16 
+# [11,] 1/16  1/16  1/16 
+# [12,] 1/16  1/16  1/16 
+# [13,] 1/16  1/16  1/16 
+# [14,] 1/16  1/16  1/16 
+# [15,] 1/16  1/16  1/16 
+# [16,] 1/16  1/16  1/16
+## para parcelas
+Mp &lt;- Xp %*% solve(t(Xp) %*% Xp) %*% t(Xp)
+MASS::fractions(Mp)
+#       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12] [,13]
+#  [1,] 1    0    0    0    0    0    0    0    0    0     0     0     0    
+#  [2,] 0    1    0    0    0    0    0    0    0    0     0     0     0    
+#  [3,] 0    0    1    0    0    0    0    0    0    0     0     0     0    
+#  [4,] 0    0    0    1    0    0    0    0    0    0     0     0     0    
+#  [5,] 0    0    0    0    1    0    0    0    0    0     0     0     0    
+#  [6,] 0    0    0    0    0    1    0    0    0    0     0     0     0    
+#  [7,] 0    0    0    0    0    0    1    0    0    0     0     0     0    
+#  [8,] 0    0    0    0    0    0    0    1    0    0     0     0     0    
+#  [9,] 0    0    0    0    0    0    0    0    1    0     0     0     0    
+# [10,] 0    0    0    0    0    0    0    0    0    1     0     0     0    
+# [11,] 0    0    0    0    0    0    0    0    0    0     1     0     0    
+# [12,] 0    0    0    0    0    0    0    0    0    0     0     1     0    
+# [13,] 0    0    0    0    0    0    0    0    0    0     0     0     1    
+# [14,] 0    0    0    0    0    0    0    0    0    0     0     0     0    
+# [15,] 0    0    0    0    0    0    0    0    0    0     0     0     0    
+# [16,] 0    0    0    0    0    0    0    0    0    0     0     0     0    
+#       [,14] [,15] [,16]
+#  [1,] 0     0     0    
+#  [2,] 0     0     0    
+#  [3,] 0     0     0    
+#  [4,] 0     0     0    
+#  [5,] 0     0     0    
+#  [6,] 0     0     0    
+#  [7,] 0     0     0    
+#  [8,] 0     0     0    
+#  [9,] 0     0     0    
+# [10,] 0     0     0    
+# [11,] 0     0     0    
+# [12,] 0     0     0    
+# [13,] 0     0     0    
+# [14,] 1     0     0    
+# [15,] 0     1     0    
+# [16,] 0     0     1
+## para fator A
+Ma &lt;- Xa %*% solve(t(Xa) %*% Xa) %*% t(Xa)
+MASS::fractions(Ma)
+#       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12] [,13]
+#  [1,] 1/8  1/8  1/8  1/8    0    0    0    0  1/8  1/8   1/8   1/8     0  
+#  [2,] 1/8  1/8  1/8  1/8    0    0    0    0  1/8  1/8   1/8   1/8     0  
+#  [3,] 1/8  1/8  1/8  1/8    0    0    0    0  1/8  1/8   1/8   1/8     0  
+#  [4,] 1/8  1/8  1/8  1/8    0    0    0    0  1/8  1/8   1/8   1/8     0  
+#  [5,]   0    0    0    0  1/8  1/8  1/8  1/8    0    0     0     0   1/8  
+#  [6,]   0    0    0    0  1/8  1/8  1/8  1/8    0    0     0     0   1/8  
+#  [7,]   0    0    0    0  1/8  1/8  1/8  1/8    0    0     0     0   1/8  
+#  [8,]   0    0    0    0  1/8  1/8  1/8  1/8    0    0     0     0   1/8  
+#  [9,] 1/8  1/8  1/8  1/8    0    0    0    0  1/8  1/8   1/8   1/8     0  
+# [10,] 1/8  1/8  1/8  1/8    0    0    0    0  1/8  1/8   1/8   1/8     0  
+# [11,] 1/8  1/8  1/8  1/8    0    0    0    0  1/8  1/8   1/8   1/8     0  
+# [12,] 1/8  1/8  1/8  1/8    0    0    0    0  1/8  1/8   1/8   1/8     0  
+# [13,]   0    0    0    0  1/8  1/8  1/8  1/8    0    0     0     0   1/8  
+# [14,]   0    0    0    0  1/8  1/8  1/8  1/8    0    0     0     0   1/8  
+# [15,]   0    0    0    0  1/8  1/8  1/8  1/8    0    0     0     0   1/8  
+# [16,]   0    0    0    0  1/8  1/8  1/8  1/8    0    0     0     0   1/8  
+#       [,14] [,15] [,16]
+#  [1,]   0     0     0  
+#  [2,]   0     0     0  
+#  [3,]   0     0     0  
+#  [4,]   0     0     0  
+#  [5,] 1/8   1/8   1/8  
+#  [6,] 1/8   1/8   1/8  
+#  [7,] 1/8   1/8   1/8  
+#  [8,] 1/8   1/8   1/8  
+#  [9,]   0     0     0  
+# [10,]   0     0     0  
+# [11,]   0     0     0  
+# [12,]   0     0     0  
+# [13,] 1/8   1/8   1/8  
+# [14,] 1/8   1/8   1/8  
+# [15,] 1/8   1/8   1/8  
+# [16,] 1/8   1/8   1/8
+## para fator B
+Mb &lt;- Xb %*% solve(t(Xb) %*% Xb) %*% t(Xb)
+MASS::fractions(Mb)
+#       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12] [,13]
+#  [1,] 1/8  1/8  1/8  1/8  1/8  1/8  1/8  1/8    0    0     0     0     0  
+#  [2,] 1/8  1/8  1/8  1/8  1/8  1/8  1/8  1/8    0    0     0     0     0  
+#  [3,] 1/8  1/8  1/8  1/8  1/8  1/8  1/8  1/8    0    0     0     0     0  
+#  [4,] 1/8  1/8  1/8  1/8  1/8  1/8  1/8  1/8    0    0     0     0     0  
+#  [5,] 1/8  1/8  1/8  1/8  1/8  1/8  1/8  1/8    0    0     0     0     0  
+#  [6,] 1/8  1/8  1/8  1/8  1/8  1/8  1/8  1/8    0    0     0     0     0  
+#  [7,] 1/8  1/8  1/8  1/8  1/8  1/8  1/8  1/8    0    0     0     0     0  
+#  [8,] 1/8  1/8  1/8  1/8  1/8  1/8  1/8  1/8    0    0     0     0     0  
+#  [9,]   0    0    0    0    0    0    0    0  1/8  1/8   1/8   1/8   1/8  
+# [10,]   0    0    0    0    0    0    0    0  1/8  1/8   1/8   1/8   1/8  
+# [11,]   0    0    0    0    0    0    0    0  1/8  1/8   1/8   1/8   1/8  
+# [12,]   0    0    0    0    0    0    0    0  1/8  1/8   1/8   1/8   1/8  
+# [13,]   0    0    0    0    0    0    0    0  1/8  1/8   1/8   1/8   1/8  
+# [14,]   0    0    0    0    0    0    0    0  1/8  1/8   1/8   1/8   1/8  
+# [15,]   0    0    0    0    0    0    0    0  1/8  1/8   1/8   1/8   1/8  
+# [16,]   0    0    0    0    0    0    0    0  1/8  1/8   1/8   1/8   1/8  
+#       [,14] [,15] [,16]
+#  [1,]   0     0     0  
+#  [2,]   0     0     0  
+#  [3,]   0     0     0  
+#  [4,]   0     0     0  
+#  [5,]   0     0     0  
+#  [6,]   0     0     0  
+#  [7,]   0     0     0  
+#  [8,]   0     0     0  
+#  [9,] 1/8   1/8   1/8  
+# [10,] 1/8   1/8   1/8  
+# [11,] 1/8   1/8   1/8  
+# [12,] 1/8   1/8   1/8  
+# [13,] 1/8   1/8   1/8  
+# [14,] 1/8   1/8   1/8  
+# [15,] 1/8   1/8   1/8  
+# [16,] 1/8   1/8   1/8
+## para interação A:B
+Mab &lt;- Xab %*% solve(t(Xab) %*% Xab) %*% t(Xab)
+MASS::fractions(Mab)
+#       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12] [,13]
+#  [1,] 1/4  1/4  1/4  1/4    0    0    0    0    0    0     0     0     0  
+#  [2,] 1/4  1/4  1/4  1/4    0    0    0    0    0    0     0     0     0  
+#  [3,] 1/4  1/4  1/4  1/4    0    0    0    0    0    0     0     0     0  
+#  [4,] 1/4  1/4  1/4  1/4    0    0    0    0    0    0     0     0     0  
+#  [5,]   0    0    0    0  1/4  1/4  1/4  1/4    0    0     0     0     0  
+#  [6,]   0    0    0    0  1/4  1/4  1/4  1/4    0    0     0     0     0  
+#  [7,]   0    0    0    0  1/4  1/4  1/4  1/4    0    0     0     0     0  
+#  [8,]   0    0    0    0  1/4  1/4  1/4  1/4    0    0     0     0     0  
+#  [9,]   0    0    0    0    0    0    0    0  1/4  1/4   1/4   1/4     0  
+# [10,]   0    0    0    0    0    0    0    0  1/4  1/4   1/4   1/4     0  
+# [11,]   0    0    0    0    0    0    0    0  1/4  1/4   1/4   1/4     0  
+# [12,]   0    0    0    0    0    0    0    0  1/4  1/4   1/4   1/4     0  
+# [13,]   0    0    0    0    0    0    0    0    0    0     0     0   1/4  
+# [14,]   0    0    0    0    0    0    0    0    0    0     0     0   1/4  
+# [15,]   0    0    0    0    0    0    0    0    0    0     0     0   1/4  
+# [16,]   0    0    0    0    0    0    0    0    0    0     0     0   1/4  
+#       [,14] [,15] [,16]
+#  [1,]   0     0     0  
+#  [2,]   0     0     0  
+#  [3,]   0     0     0  
+#  [4,]   0     0     0  
+#  [5,]   0     0     0  
+#  [6,]   0     0     0  
+#  [7,]   0     0     0  
+#  [8,]   0     0     0  
+#  [9,]   0     0     0  
+# [10,]   0     0     0  
+# [11,]   0     0     0  
+# [12,]   0     0     0  
+# [13,] 1/4   1/4   1/4  
+# [14,] 1/4   1/4   1/4  
+# [15,] 1/4   1/4   1/4  
+# [16,] 1/4   1/4   1/4
+##----------------------------------------------------------------------
+## Matrizes de projeção ortogonal
+Qp &lt;- Mp - Mg
+MASS::fractions(Qp)
+#       [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]  [,9]  [,10] [,11]
+#  [1,] 15/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16
+#  [2,] -1/16 15/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16
+#  [3,] -1/16 -1/16 15/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16
+#  [4,] -1/16 -1/16 -1/16 15/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16
+#  [5,] -1/16 -1/16 -1/16 -1/16 15/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16
+#  [6,] -1/16 -1/16 -1/16 -1/16 -1/16 15/16 -1/16 -1/16 -1/16 -1/16 -1/16
+#  [7,] -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 15/16 -1/16 -1/16 -1/16 -1/16
+#  [8,] -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 15/16 -1/16 -1/16 -1/16
+#  [9,] -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 15/16 -1/16 -1/16
+# [10,] -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 15/16 -1/16
+# [11,] -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 15/16
+# [12,] -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16
+# [13,] -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16
+# [14,] -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16
+# [15,] -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16
+# [16,] -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16
+#       [,12] [,13] [,14] [,15] [,16]
+#  [1,] -1/16 -1/16 -1/16 -1/16 -1/16
+#  [2,] -1/16 -1/16 -1/16 -1/16 -1/16
+#  [3,] -1/16 -1/16 -1/16 -1/16 -1/16
+#  [4,] -1/16 -1/16 -1/16 -1/16 -1/16
+#  [5,] -1/16 -1/16 -1/16 -1/16 -1/16
+#  [6,] -1/16 -1/16 -1/16 -1/16 -1/16
+#  [7,] -1/16 -1/16 -1/16 -1/16 -1/16
+#  [8,] -1/16 -1/16 -1/16 -1/16 -1/16
+#  [9,] -1/16 -1/16 -1/16 -1/16 -1/16
+# [10,] -1/16 -1/16 -1/16 -1/16 -1/16
+# [11,] -1/16 -1/16 -1/16 -1/16 -1/16
+# [12,] 15/16 -1/16 -1/16 -1/16 -1/16
+# [13,] -1/16 15/16 -1/16 -1/16 -1/16
+# [14,] -1/16 -1/16 15/16 -1/16 -1/16
+# [15,] -1/16 -1/16 -1/16 15/16 -1/16
+# [16,] -1/16 -1/16 -1/16 -1/16 15/16
+Qa &lt;- Ma - Mg
+MASS::fractions(Qa)
+#       [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]  [,9]  [,10] [,11]
+#  [1,]  1/16  1/16  1/16  1/16 -1/16 -1/16 -1/16 -1/16  1/16  1/16  1/16
+#  [2,]  1/16  1/16  1/16  1/16 -1/16 -1/16 -1/16 -1/16  1/16  1/16  1/16
+#  [3,]  1/16  1/16  1/16  1/16 -1/16 -1/16 -1/16 -1/16  1/16  1/16  1/16
+#  [4,]  1/16  1/16  1/16  1/16 -1/16 -1/16 -1/16 -1/16  1/16  1/16  1/16
+#  [5,] -1/16 -1/16 -1/16 -1/16  1/16  1/16  1/16  1/16 -1/16 -1/16 -1/16
+#  [6,] -1/16 -1/16 -1/16 -1/16  1/16  1/16  1/16  1/16 -1/16 -1/16 -1/16
+#  [7,] -1/16 -1/16 -1/16 -1/16  1/16  1/16  1/16  1/16 -1/16 -1/16 -1/16
+#  [8,] -1/16 -1/16 -1/16 -1/16  1/16  1/16  1/16  1/16 -1/16 -1/16 -1/16
+#  [9,]  1/16  1/16  1/16  1/16 -1/16 -1/16 -1/16 -1/16  1/16  1/16  1/16
+# [10,]  1/16  1/16  1/16  1/16 -1/16 -1/16 -1/16 -1/16  1/16  1/16  1/16
+# [11,]  1/16  1/16  1/16  1/16 -1/16 -1/16 -1/16 -1/16  1/16  1/16  1/16
+# [12,]  1/16  1/16  1/16  1/16 -1/16 -1/16 -1/16 -1/16  1/16  1/16  1/16
+# [13,] -1/16 -1/16 -1/16 -1/16  1/16  1/16  1/16  1/16 -1/16 -1/16 -1/16
+# [14,] -1/16 -1/16 -1/16 -1/16  1/16  1/16  1/16  1/16 -1/16 -1/16 -1/16
+# [15,] -1/16 -1/16 -1/16 -1/16  1/16  1/16  1/16  1/16 -1/16 -1/16 -1/16
+# [16,] -1/16 -1/16 -1/16 -1/16  1/16  1/16  1/16  1/16 -1/16 -1/16 -1/16
+#       [,12] [,13] [,14] [,15] [,16]
+#  [1,]  1/16 -1/16 -1/16 -1/16 -1/16
+#  [2,]  1/16 -1/16 -1/16 -1/16 -1/16
+#  [3,]  1/16 -1/16 -1/16 -1/16 -1/16
+#  [4,]  1/16 -1/16 -1/16 -1/16 -1/16
+#  [5,] -1/16  1/16  1/16  1/16  1/16
+#  [6,] -1/16  1/16  1/16  1/16  1/16
+#  [7,] -1/16  1/16  1/16  1/16  1/16
+#  [8,] -1/16  1/16  1/16  1/16  1/16
+#  [9,]  1/16 -1/16 -1/16 -1/16 -1/16
+# [10,]  1/16 -1/16 -1/16 -1/16 -1/16
+# [11,]  1/16 -1/16 -1/16 -1/16 -1/16
+# [12,]  1/16 -1/16 -1/16 -1/16 -1/16
+# [13,] -1/16  1/16  1/16  1/16  1/16
+# [14,] -1/16  1/16  1/16  1/16  1/16
+# [15,] -1/16  1/16  1/16  1/16  1/16
+# [16,] -1/16  1/16  1/16  1/16  1/16
+Qb &lt;- Mb - Mg
+MASS::fractions(Qb)
+#       [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]  [,9]  [,10] [,11]
+#  [1,]  1/16  1/16  1/16  1/16  1/16  1/16  1/16  1/16 -1/16 -1/16 -1/16
+#  [2,]  1/16  1/16  1/16  1/16  1/16  1/16  1/16  1/16 -1/16 -1/16 -1/16
+#  [3,]  1/16  1/16  1/16  1/16  1/16  1/16  1/16  1/16 -1/16 -1/16 -1/16
+#  [4,]  1/16  1/16  1/16  1/16  1/16  1/16  1/16  1/16 -1/16 -1/16 -1/16
+#  [5,]  1/16  1/16  1/16  1/16  1/16  1/16  1/16  1/16 -1/16 -1/16 -1/16
+#  [6,]  1/16  1/16  1/16  1/16  1/16  1/16  1/16  1/16 -1/16 -1/16 -1/16
+#  [7,]  1/16  1/16  1/16  1/16  1/16  1/16  1/16  1/16 -1/16 -1/16 -1/16
+#  [8,]  1/16  1/16  1/16  1/16  1/16  1/16  1/16  1/16 -1/16 -1/16 -1/16
+#  [9,] -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16  1/16  1/16  1/16
+# [10,] -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16  1/16  1/16  1/16
+# [11,] -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16  1/16  1/16  1/16
+# [12,] -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16  1/16  1/16  1/16
+# [13,] -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16  1/16  1/16  1/16
+# [14,] -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16  1/16  1/16  1/16
+# [15,] -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16  1/16  1/16  1/16
+# [16,] -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16  1/16  1/16  1/16
+#       [,12] [,13] [,14] [,15] [,16]
+#  [1,] -1/16 -1/16 -1/16 -1/16 -1/16
+#  [2,] -1/16 -1/16 -1/16 -1/16 -1/16
+#  [3,] -1/16 -1/16 -1/16 -1/16 -1/16
+#  [4,] -1/16 -1/16 -1/16 -1/16 -1/16
+#  [5,] -1/16 -1/16 -1/16 -1/16 -1/16
+#  [6,] -1/16 -1/16 -1/16 -1/16 -1/16
+#  [7,] -1/16 -1/16 -1/16 -1/16 -1/16
+#  [8,] -1/16 -1/16 -1/16 -1/16 -1/16
+#  [9,]  1/16  1/16  1/16  1/16  1/16
+# [10,]  1/16  1/16  1/16  1/16  1/16
+# [11,]  1/16  1/16  1/16  1/16  1/16
+# [12,]  1/16  1/16  1/16  1/16  1/16
+# [13,]  1/16  1/16  1/16  1/16  1/16
+# [14,]  1/16  1/16  1/16  1/16  1/16
+# [15,]  1/16  1/16  1/16  1/16  1/16
+# [16,]  1/16  1/16  1/16  1/16  1/16
+Qab &lt;- Mab - Ma - Mb + Mg
+MASS::fractions(Qab)
+#       [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]  [,9]  [,10] [,11]
+#  [1,]  1/16  1/16  1/16  1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16
+#  [2,]  1/16  1/16  1/16  1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16
+#  [3,]  1/16  1/16  1/16  1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16
+#  [4,]  1/16  1/16  1/16  1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16
+#  [5,] -1/16 -1/16 -1/16 -1/16  1/16  1/16  1/16  1/16  1/16  1/16  1/16
+#  [6,] -1/16 -1/16 -1/16 -1/16  1/16  1/16  1/16  1/16  1/16  1/16  1/16
+#  [7,] -1/16 -1/16 -1/16 -1/16  1/16  1/16  1/16  1/16  1/16  1/16  1/16
+#  [8,] -1/16 -1/16 -1/16 -1/16  1/16  1/16  1/16  1/16  1/16  1/16  1/16
+#  [9,] -1/16 -1/16 -1/16 -1/16  1/16  1/16  1/16  1/16  1/16  1/16  1/16
+# [10,] -1/16 -1/16 -1/16 -1/16  1/16  1/16  1/16  1/16  1/16  1/16  1/16
+# [11,] -1/16 -1/16 -1/16 -1/16  1/16  1/16  1/16  1/16  1/16  1/16  1/16
+# [12,] -1/16 -1/16 -1/16 -1/16  1/16  1/16  1/16  1/16  1/16  1/16  1/16
+# [13,]  1/16  1/16  1/16  1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16
+# [14,]  1/16  1/16  1/16  1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16
+# [15,]  1/16  1/16  1/16  1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16
+# [16,]  1/16  1/16  1/16  1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16 -1/16
+#       [,12] [,13] [,14] [,15] [,16]
+#  [1,] -1/16  1/16  1/16  1/16  1/16
+#  [2,] -1/16  1/16  1/16  1/16  1/16
+#  [3,] -1/16  1/16  1/16  1/16  1/16
+#  [4,] -1/16  1/16  1/16  1/16  1/16
+#  [5,]  1/16 -1/16 -1/16 -1/16 -1/16
+#  [6,]  1/16 -1/16 -1/16 -1/16 -1/16
+#  [7,]  1/16 -1/16 -1/16 -1/16 -1/16
+#  [8,]  1/16 -1/16 -1/16 -1/16 -1/16
+#  [9,]  1/16 -1/16 -1/16 -1/16 -1/16
+# [10,]  1/16 -1/16 -1/16 -1/16 -1/16
+# [11,]  1/16 -1/16 -1/16 -1/16 -1/16
+# [12,]  1/16 -1/16 -1/16 -1/16 -1/16
+# [13,] -1/16  1/16  1/16  1/16  1/16
+# [14,] -1/16  1/16  1/16  1/16  1/16
+# [15,] -1/16  1/16  1/16  1/16  1/16
+# [16,] -1/16  1/16  1/16  1/16  1/16
+Qr &lt;- Mp - Mab
+MASS::fractions(Qr)
+#       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12] [,13]
+#  [1,]  3/4 -1/4 -1/4 -1/4    0    0    0    0    0    0     0     0     0 
+#  [2,] -1/4  3/4 -1/4 -1/4    0    0    0    0    0    0     0     0     0 
+#  [3,] -1/4 -1/4  3/4 -1/4    0    0    0    0    0    0     0     0     0 
+#  [4,] -1/4 -1/4 -1/4  3/4    0    0    0    0    0    0     0     0     0 
+#  [5,]    0    0    0    0  3/4 -1/4 -1/4 -1/4    0    0     0     0     0 
+#  [6,]    0    0    0    0 -1/4  3/4 -1/4 -1/4    0    0     0     0     0 
+#  [7,]    0    0    0    0 -1/4 -1/4  3/4 -1/4    0    0     0     0     0 
+#  [8,]    0    0    0    0 -1/4 -1/4 -1/4  3/4    0    0     0     0     0 
+#  [9,]    0    0    0    0    0    0    0    0  3/4 -1/4  -1/4  -1/4     0 
+# [10,]    0    0    0    0    0    0    0    0 -1/4  3/4  -1/4  -1/4     0 
+# [11,]    0    0    0    0    0    0    0    0 -1/4 -1/4   3/4  -1/4     0 
+# [12,]    0    0    0    0    0    0    0    0 -1/4 -1/4  -1/4   3/4     0 
+# [13,]    0    0    0    0    0    0    0    0    0    0     0     0   3/4 
+# [14,]    0    0    0    0    0    0    0    0    0    0     0     0  -1/4 
+# [15,]    0    0    0    0    0    0    0    0    0    0     0     0  -1/4 
+# [16,]    0    0    0    0    0    0    0    0    0    0     0     0  -1/4 
+#       [,14] [,15] [,16]
+#  [1,]    0     0     0 
+#  [2,]    0     0     0 
+#  [3,]    0     0     0 
+#  [4,]    0     0     0 
+#  [5,]    0     0     0 
+#  [6,]    0     0     0 
+#  [7,]    0     0     0 
+#  [8,]    0     0     0 
+#  [9,]    0     0     0 
+# [10,]    0     0     0 
+# [11,]    0     0     0 
+# [12,]    0     0     0 
+# [13,] -1/4  -1/4  -1/4 
+# [14,]  3/4  -1/4  -1/4 
+# [15,] -1/4   3/4  -1/4 
+# [16,] -1/4  -1/4   3/4
+## Graus de liberdade
+(GLp &lt;- sum(diag(Qp))) # n - 1
+# [1] 15
+(GLa &lt;- sum(diag(Qa))) # a - 1
+# [1] 1
+(GLb &lt;- sum(diag(Qb))) # b - 1
+# [1] 1
+(GLab &lt;- sum(diag(Qab))) # (a-1)(b-1)
+# [1] 1
+(GLr &lt;- sum(diag(Qr))) # ab(r - 1)
+# [1] 12
+## Soma de quadrados
+(SQp &lt;- t(Y) %*% Qp %*% Y)
+#          [,1]
+# [1,] 246.7975
+(SQa &lt;- t(Y) %*% Qa %*% Y)
+#          [,1]
+# [1,] 131.1025
+(SQb &lt;- t(Y) %*% Qb %*% Y)
+#         [,1]
+# [1,] 12.6025
+(SQab &lt;- t(Y) %*% Qab %*% Y)
+#         [,1]
+# [1,] 27.5625
+(SQr &lt;- t(Y) %*% Qr %*% Y)
+#       [,1]
+# [1,] 75.53
+## Quadrado médio
+(QMa &lt;- SQa/GLa)
+#          [,1]
+# [1,] 131.1025
+(QMb &lt;- SQb/GLb)
+#         [,1]
+# [1,] 12.6025
+(QMab &lt;- SQab/GLab)
+#         [,1]
+# [1,] 27.5625
+(QMr &lt;- SQr/GLr)
+#          [,1]
+# [1,] 6.294167
+## F calculado
+(FcalcA &lt;- QMa/QMr)
+#          [,1]
+# [1,] 20.82921
+(FcalcB &lt;- QMb/QMr)
+#          [,1]
+# [1,] 2.002251
+(FcalcAB &lt;- QMab/QMr)
+#          [,1]
+# [1,] 4.379055
+## p-valor
+(p.valorA &lt;- pf(FcalcA, GLa, GLr, lower.tail = FALSE))
+#              [,1]
+# [1,] 0.0006503119
+(p.valorB &lt;- pf(FcalcB, GLb, GLr, lower.tail = FALSE))
+#           [,1]
+# [1,] 0.1824886
+(p.valorAB &lt;- pf(FcalcAB, GLab, GLr, lower.tail = FALSE))
+#            [,1]
+# [1,] 0.05830378
+## Tabela final
+tab.final &lt;- data.frame(&quot;GL&quot; = c(GLp, GLa, GLb, GLab, GLr),
+                        &quot;SQ&quot; = c(SQp, SQa, SQb, SQab, SQr),
+                        &quot;QM&quot; = c(NA, QMa, QMb, QMab, QMr),
+                        &quot;F&quot; = c(NA, FcalcA, FcalcB, FcalcAB, NA),
+                        &quot;p-valor&quot; = c(NA, p.valorA, p.valorB, p.valorAB, NA),
+                        row.names = c(&quot;Parcela&quot;, &quot; A&quot;, &quot; B&quot;,
+                                      &quot; A#B&quot;, &quot; Resíduo&quot;))
+tab.final
+#          GL       SQ         QM         F      p.valor
+# Parcela  15 246.7975         NA        NA           NA
+#  A        1 131.1025 131.102500 20.829207 0.0006503119
+#  B        1  12.6025  12.602500  2.002251 0.1824886319
+#  A#B      1  27.5625  27.562500  4.379055 0.0583037821
+#  Resíduo 12  75.5300   6.294167        NA           NA</code></pre>
+<p>Comparando os resultados com a função <code>aov()</code>:</p>
+<pre class="r"><code>summary(aov(var.resp ~ fatorA + fatorB + fatorA:fatorB))
+#               Df Sum Sq Mean Sq F value  Pr(&gt;F)    
+# fatorA         1 131.10  131.10  20.829 0.00065 ***
+# fatorB         1  12.60   12.60   2.002 0.18249    
+# fatorA:fatorB  1  27.56   27.56   4.379 0.05830 .  
+# Residuals     12  75.53    6.29                    
+# ---
+# Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## Usando a função Error() para identificar o confundimento
+summary(aov(var.resp ~ fatorA + fatorB + fatorA:fatorB +
+            Error(parcela)))
+# 
+# Error: parcela
+#               Df Sum Sq Mean Sq F value  Pr(&gt;F)    
+# fatorA         1 131.10  131.10  20.829 0.00065 ***
+# fatorB         1  12.60   12.60   2.002 0.18249    
+# fatorA:fatorB  1  27.56   27.56   4.379 0.05830 .  
+# Residuals     12  75.53    6.29                    
+# ---
+# Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<!-- Analisando os **efeitos** dos termos do modelo: -->
+</div>
+</div>
+
+<center>
+  <hr width="100%" size="3px">
+  <p> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.pt_BR">
+      <img src="img/CC_by-nc-sa_80x15.png" alt="Licença Creative Commons 4.0"> </a>
+  </p>
+  <p> <font size="2"> Este conteúdo
+      está disponível por meio da Licença Creative Commons 4.0 </font>
+  </p>
+</center>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

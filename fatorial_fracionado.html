@@ -1,0 +1,2202 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Experimentos fatoriais fracionados</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<script>
+ (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ ga('create', 'UA-102804671-3', 'auto');
+ ga('send', 'pageview');
+
+</script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = false;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">CE074</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="aulas.html">Aulas</a>
+</li>
+<li>
+  <a href="referencias.html">Referências</a>
+</li>
+<li>
+  <a href="recursos.html">Recursos</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Materiais
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Introdução e revisão</li>
+    <li>
+      <a href="catalizando-conhecimento.html">Catalizando a geração de conhecimento [HTML]</a>
+    </li>
+    <li>
+      <a href="modelos-lineares.html">Modelos lineares e reparametrizações [HTML]</a>
+    </li>
+    <li class="dropdown-header">Experimentos fatoriais</li>
+    <li>
+      <a href="anova-geral.html">ANOVA por meio de Diagramas de Hasse [HTML]</a>
+    </li>
+    <li>
+      <a href="fatorial_2-2.html">Experimentos fatorias 2^2 [HTML]</a>
+    </li>
+    <li>
+      <a href="fatorial_2-3.html">Experimentos fatorias 2^3 [HTML]</a>
+    </li>
+    <li>
+      <a href="fatorial_2-k.html">Experimentos fatorias 2^k, k &gt; 3 [HTML]</a>
+    </li>
+    <li>
+      <a href="fatorial_pontos-centrais.html">Adição de pontos centrais em planejamentos 2^k [HTML]</a>
+    </li>
+    <li>
+      <a href="confundimento-blocagem.html">Técnicas de confundimento para blocagem em fatorias 2^k [HTML]</a>
+    </li>
+    <li>
+      <a href="fatorial_fracionado.html">Experimentos fatorias fracionados 2^{k-p} [HTML]</a>
+    </li>
+    <li>
+      <a href="msr.html">Metodologia de Superfície de Resposta [HTML]</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Scripts</li>
+    <li>
+      <a href="scripts/script_racoes_pimentel.R">Tipos de contrastes em modelos lineares [R]</a>
+    </li>
+    <li>
+      <a href="scripts/script_catalisador.R">Interpretação de efeitos estimados em modelos lineares [R]</a>
+    </li>
+    <li>
+      <a href="scripts/script_fatorial_2-2.R">Análise completa de um fatorial 2^2 [R]</a>
+    </li>
+    <li>
+      <a href="scripts/script_fatorial_2-6.R">Análise completa de um fatorial 2^6 [R]</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Experimento</li>
+    <li>
+      <a href="instrucoes-planejamento.html">Instruções para o planejamento de experimentos [HTML]</a>
+    </li>
+    <li>
+      <a href="misc/guia-planejamento.html">Guia para o planejamento de experimentos [HTML]</a>
+    </li>
+    <li>
+      <a href="misc/guia-planejamento.Rmd">Guia para o planejamento de experimentos [Rmd]</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Exercícios</li>
+    <li>
+      <a href="exercicios/ex_revisao.pdf">Revisão de conhecimento [PDF]</a>
+    </li>
+    <li>
+      <a href="exercicios/ex_fatorial.pdf">Experimentos fatoriais [PDF]</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/fernandomayer/ce074">
+    <span class="fa fa-github fa-lg"></span>
+     
+    GitHub
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Experimentos fatoriais fracionados</h1>
+
+</div>
+
+
+<div id="introducao" class="section level1">
+<h1>Introdução</h1>
+<p>Nos experimentos fatoriais <span class="math inline">\(2^k\)</span>, o número de corridas cresce rapidamente com o número de fatores.</p>
+<pre><code>k 2 3  4  5  6   7   8   9   10
+n 4 8 16 32 64 128 256 512 1024</code></pre>
+<p>Com isso, se existe necessidade de estudar muitos fatores, esse tipo de planejamento oferece limitação devido ao elevado número de corridas exigidas na sua execução. Ao correr um experimento <span class="math inline">\(2^k\)</span>, é possível estimar efeitos principais, interações duplas e interações até de grau <span class="math inline">\(k\)</span>. Porém, essas interações de ordem elevada podem ser desconsideradas, já que normalmente não são de interesse prático e muitas vezes possuem efeitos desprezíveis. O que se considera mais importante são os efeitos principais e interações baixas (duplas, triplas). Assim, correr o experimento <span class="math inline">\(2^k\)</span> iria permitir estimar interações altas que de fato não seriam aproveitadas. Então o ponto é: não seria possível reduzir o número de corridas do experimento já qua há pouco interesse nas interações altas? Sim. É exatamente esse o elemento central dos <strong>experimentos fatoriais fracionados</strong>.</p>
+<p>Os fatoriais fracionários tem um uso importante nos <strong>experimentos exploratórios</strong> (<em>screening experiments</em>). Estes são experimentos em que muitos fatores são considerados, com a finalidade de se identificar aqueles fatores que possuem efeitos grandes. Experimentos exploratórios geralmente são realizados nos estágios iniciais de um projeto, quando é provavel que muitos dos fatores considerados tenham pouco ou nenhum efeito na resposta. Os fatores que forem identificados como importantes serão então investigados mais a fundo em experimentos subsequentes.</p>
+<p>A idéia básica é dividir as corridas do fatorial <span class="math inline">\(2^k\)</span> em frações, exatamente da mesma forma que fazemos para aplicar blocagem. Na blocagem escolhemos um efeito para propositalmente confundirmos com o efeito dos blocos. Nos fatoriais fracionados é similar: define-se efeitos que serão propositalmente confundidos. <strong>O confundimento entre efeitos é o preço que se paga para reduzir o número de corridas</strong>. Perceba que nosso objetivo é estudar <span class="math inline">\(k\)</span> fatores onde seria possível estudar com todas as corridas um fatorial com k* &lt; k. O ponto chave ao delinear o experimento é saber escolher os efeitos a serem confundidos para tirar a maior vantagem possível do experimento que é inferir sobre os efeitos principais e interações baixas.</p>
+</div>
+<div id="fatoriais-fracionados-2k-1-ou-meia-fracao-de-um-fatorial-2k" class="section level1">
+<h1>Fatoriais fracionados <span class="math inline">\(2^{k-1}\)</span> ou meia-fração de um fatorial <span class="math inline">\(2^k\)</span></h1>
+<p>Nesses experimentos avaliamos k fatores fazendo metade das corridas previstas para o fatorial <span class="math inline">\(2^k\)</span>, ou seja</p>
+<p><span class="math display">\[
+2^{k-1} = 2^k 2^{-1} = \frac{2^k}{2}
+\]</span></p>
+<p>Para saber que níveis de cada fator serão corridos, temos que montar a matriz de delineamento do experimento com <span class="math inline">\(k-1\)</span> fatores. Os níveis do <span class="math inline">\(k\)</span>-ésimo fator são determinados a partir dos precedentes e do efeito escolhido para o confundimento.</p>
+<p>Considere como exemplo, um experimento fatorial <span class="math inline">\(2^{3-1}\)</span>, ou seja, uma meia-fração de um <span class="math inline">\(2^3\)</span>. Esse planejamento possui apenas quatro corridas, em contraste com as oito corridas do planejamento original.</p>
+<p>A tabela de sinais para o planejamento <span class="math inline">\(2^3\)</span> é mostrada abaixo.</p>
+<pre><code>#     I  A  B  C AB AC BC ABC
+# a   1  1 -1 -1 -1 -1  1   1
+# b   1 -1  1 -1 -1  1 -1   1
+# c   1 -1 -1  1  1 -1 -1   1
+# abc 1  1  1  1  1  1  1   1
+# (1) 1 -1 -1 -1  1  1  1  -1
+# ab  1  1  1 -1  1 -1 -1  -1
+# ac  1  1 -1  1 -1  1 -1  -1
+# bc  1 -1  1  1 -1 -1  1  -1</code></pre>
+<p>Repare que esta tabela está propositalmente ordenada em ordem decrescente pela coluna ABC. Se selecionarmos as quatro combinações de tratamento onde a coluna ABC possui sinal positivo, ou seja, <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>, <span class="math inline">\(c\)</span>, <span class="math inline">\(abc\)</span>, estamos selecionando uma meia-fração desse planejamento. Sendo assim, dizemos que <span class="math inline">\(ABC\)</span> é o <strong>gerador</strong> dessa fração particular. Além disso, o elemento identidade <span class="math inline">\(I\)</span> possui também o mesmo sinal (positivo) para as quatro corridas. Assim, chamamos</p>
+<p><span class="math display">\[
+I = ABC
+\]</span></p>
+<p>de <strong>relação de definção</strong> para esse planejamento fracionário. Essa fração com sinal positivo na relação de definição é chamada de <strong>fração principal</strong>, enquanto que a fração com sinal negativo em ABC,</p>
+<p><span class="math display">\[
+I = -ABC
+\]</span></p>
+<p>é chamada de <strong>fração alternada</strong>.</p>
+<p>Ainda analisando a parte superior da tabela acima, note que os sinais que estimam os contrastes para o fator <span class="math inline">\(A\)</span> são os mesmos que estimam os contrastes para a interação <span class="math inline">\(BC\)</span>. Da mesma forma, os contrastes de <span class="math inline">\(B\)</span> são os mesmos de <span class="math inline">\(AC\)</span>, e assim por diante. Isso ocorre pois a relação de definição gera uma série de <strong>confundimentos</strong> no fatorial fracionário. De fato, todos os efeitos e interações estão confundidos com algum outro efeito ou interação. Se multiplicarmos cada fator ou interação pela relação de definição, e usarmos as propriedades da tabela de sinais, podemos ver que:</p>
+<p><span class="math display">\[
+\begin{align}
+A \cdot I = A \cdot ABC = A^2BC = BC \\
+B \cdot I = B \cdot ABC = AB^2C = AC \\
+C \cdot I = C \cdot ABC = ABC^2 = AB \\
+\end{align}
+\]</span></p>
+<p>Portanto, só precisamos estimar os efeitos de A, B, e C, pois BC, AC, e AB estão confundidos com estes efeitos. À estes efeitos que estão confundidos chamamos de <strong>pares associados</strong>, ou <em>aliases</em>. Em experimentos fatoriais fracionados <span class="math inline">\(2^{k-1}\)</span> todo efeito possui um par associado. Nesse caso específico de um fracionário <span class="math inline">\(2^{3-1}\)</span>, cada efeito principal tem um par associado de segunda ordem.</p>
+<p>Repare então que ao estimar o afeito de A, por exemplo, também estamos estimando o efeito de BC. Se este efeito for grande, não temos como saber se ele é causado por A ou por BC isoladamente, pois eles estão confundidos. No entanto, como vimos anteriormente, é muito mais comum que efeitos principais sejam mais importantes do que efeitos de ordens mais altas. Assim, se assumirmos que efeitos de ordens mais altas tem pouco ou nenhum efeito, então podemos concluir que um efeito grande de A seja exclusivamente desse efeito principal. O mesmo vale para os outros efeitos.</p>
+<p>Novamente aqui cabe uma frase já escrita anteriormente: <em>o confundimento entre efeitos é o preço que se paga para reduzir o número de corridas</em>. A ideia do experimento fatorial fracionário é de justamente correr experimentos com muitos fatores em frações menores, verificar os efeitos que realmente importam, e daí sim planejar fatoriais completos, mas com menos fatores, aqueles que realmente importam. Dessa forma, podemos correr uma sequência de experimentos pequenos e eficientes, combinar informações por meio de vários experimentos, e tirar vantagem de aprender sobre o processo que estamos experimentando à medida que continuamos. Esse é um bom exemplo do conceito de <strong>experimentos sequenciais</strong>.</p>
+<div id="construcao-de-um-fatorial-2k-1" class="section level2">
+<h2>Construção de um fatorial <span class="math inline">\(2^{k-1}\)</span></h2>
+<p>Um planejamento <span class="math inline">\(2^{k-1}\)</span> pode ser construído escrevendo as combinações dos tratamentos para um fatorial completo com <span class="math inline">\(k-1\)</span> fatores, chamado de <strong>planejamento básico</strong>. Depois, adiciona-se o <span class="math inline">\(k\)</span>-ésimo fator, identificando seus níveis alto e baixo com os sinais mais e menos da interação de mais alta ordem.</p>
+<p>Por exemplo, um fatorial fracionário <span class="math inline">\(2^{4-1}\)</span> é construído escrevendo o planejamento básico <span class="math inline">\(2^3\)</span>, e então igualando o fator <span class="math inline">\(D\)</span> com a interação <span class="math inline">\(ABC\)</span>, pois a relação de definição é <span class="math inline">\(I = ABCD\)</span> e <span class="math inline">\(D \cdot I = D \cdot ABCD = ABC\)</span>.</p>
+<pre class="r"><code>##======================================================================
+## Exemplo 2^(4-1), tabela de sinais do 2^3
+da &lt;- expand.grid(A = c(-1, 1), B = c(-1, 1), C = c(-1, 1))
+da
+#    A  B  C
+# 1 -1 -1 -1
+# 2  1 -1 -1
+# 3 -1  1 -1
+# 4  1  1 -1
+# 5 -1 -1  1
+# 6  1 -1  1
+# 7 -1  1  1
+# 8  1  1  1
+## Níveis de D gerados pelo efeito ABC
+da$D &lt;- with(da, A*B*C)
+row.names(da) &lt;- apply(da, 1,
+                       function(i) paste(letters[1:4][i==1], collapse = &quot;&quot;))
+row.names(da)[1] &lt;- &quot;(1)&quot;
+da
+#       A  B  C  D
+# (1)  -1 -1 -1 -1
+# ad    1 -1 -1  1
+# bd   -1  1 -1  1
+# ab    1  1 -1 -1
+# cd   -1 -1  1  1
+# ac    1 -1  1 -1
+# bc   -1  1  1 -1
+# abcd  1  1  1  1</code></pre>
+<p>Veja que propositalmente atribuímos os níveis de D sobre o efeito ABC, ou seja, confundimos estes dois efeitos. Mas sabemos que este não é o único par de efeitos que está confundido. Se obtermos a tabela de sinais para todos os efeitos veremos mais efeitos confundidos.</p>
+<pre class="r"><code>(tab &lt;- model.matrix(~ A*B*C*D, da))
+#      (Intercept)  A  B  C  D A:B A:C B:C A:D B:D C:D A:B:C A:B:D A:C:D
+# (1)            1 -1 -1 -1 -1   1   1   1   1   1   1    -1    -1    -1
+# ad             1  1 -1 -1  1  -1  -1   1   1  -1  -1     1    -1    -1
+# bd             1 -1  1 -1  1  -1   1  -1  -1   1  -1     1    -1     1
+# ab             1  1  1 -1 -1   1  -1  -1  -1  -1   1    -1    -1     1
+# cd             1 -1 -1  1  1   1  -1  -1  -1  -1   1     1     1    -1
+# ac             1  1 -1  1 -1  -1   1  -1  -1   1  -1    -1     1    -1
+# bc             1 -1  1  1 -1  -1  -1   1   1  -1  -1    -1     1     1
+# abcd           1  1  1  1  1   1   1   1   1   1   1     1     1     1
+#      B:C:D A:B:C:D
+# (1)     -1       1
+# ad       1       1
+# bd      -1       1
+# ab       1       1
+# cd      -1       1
+# ac       1       1
+# bc      -1       1
+# abcd     1       1
+# attr(,&quot;assign&quot;)
+#  [1]  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15</code></pre>
+<p>Os pares de efeitos <span class="math inline">\((A, BCD), (B, ACD), \ldots, (AB, CD)\)</span> estão confundidos, pois têm os mesmos sinais. Verificar aos pares as colunas para encontrar os pares associados é demorado, por isso é mais fácil fazer operações com o contraste de definição, <span class="math inline">\(I = ABCD\)</span>. Assim, para sabermos quem está confundido com quem, podemos fazer</p>
+<p><span class="math display">\[
+\begin{align}
+A \cdot I = A \cdot ABCD = A^2BCD = BCD \\
+B \cdot I = B \cdot ABCD = AB^2CD = ACD \\
+C \cdot I = C \cdot ABCD = ABC^2D = ABD \\
+D \cdot I = D \cdot ABCD = ABCD^2 = ABC \\
+\end{align}
+\]</span></p>
+<p>para os efeitos principais, e</p>
+<p><span class="math display">\[
+\begin{align}
+AB \cdot I = AB \cdot ABCD = A^2B^2CD = CD \\
+AC \cdot I = AC \cdot ABCD = A^2BC^2D = BD \\
+AD \cdot I = AD \cdot ABCD = A^2BCD^2 = BC \\
+\end{align}
+\]</span></p>
+<p>para os efeitos de segunda ordem. Veja que aqui, os efeitos principais estão confundidos com efeitos de terceira ordem, e efeitos de segunda ordem estão confundidos entre si.</p>
+<p>No R, podemos obter a tabela de sinais para os efeitos únicos através de</p>
+<pre class="r"><code>(tab &lt;- unique(tab, MARGIN = 2))
+#      (Intercept)  A  B  C  D A:B A:C B:C
+# (1)            1 -1 -1 -1 -1   1   1   1
+# ad             1  1 -1 -1  1  -1  -1   1
+# bd             1 -1  1 -1  1  -1   1  -1
+# ab             1  1  1 -1 -1   1  -1  -1
+# cd             1 -1 -1  1  1   1  -1  -1
+# ac             1  1 -1  1 -1  -1   1  -1
+# bc             1 -1  1  1 -1  -1  -1   1
+# abcd           1  1  1  1  1   1   1   1</code></pre>
+<p>Veja que ao usar esta tabela para estimar os efeitos de I, A, B, C, D, AB, AC, e BC, também estamos estimando BCD, ACD, ABD, ABC, CD, BD, e AD, respectivamente (efeitos confundidos). Note que a interação de ordem mais alta, ABCD, não é estimável pois ela se iguala à média geral do experimento (intercepto), ou seja, é a prórpia relação de definição <span class="math inline">\(I = ABCD\)</span>.</p>
+<p>Podemos escolher qualquer contraste para confundir, no entanto, usar as interações mais altas fazem com que os efeitos principais fiquem confundidos com estas, que podem ser assumidas como nulas. Então o valor observado do efeito pode ser considerado como exclusivamente do efeito principal.</p>
+<p>Uma outra forma de se construir um planejamento <span class="math inline">\(2^{k-1}\)</span> é usar a própria relação de definição para “fracionar” o experimento original. Nesse mesmo exemplo do fatorial <span class="math inline">\(2^{4-1}\)</span>, podemos então obter o experimento completo <span class="math inline">\(2^4\)</span></p>
+<pre class="r"><code>db &lt;- expand.grid(A = c(-1, 1), B = c(-1, 1),
+                  C = c(-1, 1), D = c(-1, 1))
+row.names(db) &lt;- apply(db, 1,
+                       function(i) paste(letters[1:4][i==1], collapse = &quot;&quot;))
+row.names(db)[1] &lt;- &quot;(1)&quot;
+db
+#       A  B  C  D
+# (1)  -1 -1 -1 -1
+# a     1 -1 -1 -1
+# b    -1  1 -1 -1
+# ab    1  1 -1 -1
+# c    -1 -1  1 -1
+# ac    1 -1  1 -1
+# bc   -1  1  1 -1
+# abc   1  1  1 -1
+# d    -1 -1 -1  1
+# ad    1 -1 -1  1
+# bd   -1  1 -1  1
+# abd   1  1 -1  1
+# cd   -1 -1  1  1
+# acd   1 -1  1  1
+# bcd  -1  1  1  1
+# abcd  1  1  1  1</code></pre>
+<p>Como a relação de definição é <span class="math inline">\(I = ABCD\)</span>, e ela é a geradora da meia-fração do experimento, então so precisamos calcular <span class="math inline">\(ABCD\)</span></p>
+<pre class="r"><code>db$ABCD &lt;- with(db, A*B*C*D)
+db[order(db$ABCD, decreasing = TRUE), ]
+#       A  B  C  D ABCD
+# (1)  -1 -1 -1 -1    1
+# ab    1  1 -1 -1    1
+# ac    1 -1  1 -1    1
+# bc   -1  1  1 -1    1
+# ad    1 -1 -1  1    1
+# bd   -1  1 -1  1    1
+# cd   -1 -1  1  1    1
+# abcd  1  1  1  1    1
+# a     1 -1 -1 -1   -1
+# b    -1  1 -1 -1   -1
+# c    -1 -1  1 -1   -1
+# abc   1  1  1 -1   -1
+# d    -1 -1 -1  1   -1
+# abd   1  1 -1  1   -1
+# acd   1 -1  1  1   -1
+# bcd  -1  1  1  1   -1</code></pre>
+<p>e selecionar a fração principal de <span class="math inline">\(ABCD\)</span>, ou seja, aquela com sinal positivo em <span class="math inline">\(ABCD\)</span>,</p>
+<pre class="r"><code>db &lt;- subset(db, ABCD == 1)
+db
+#       A  B  C  D ABCD
+# (1)  -1 -1 -1 -1    1
+# ab    1  1 -1 -1    1
+# ac    1 -1  1 -1    1
+# bc   -1  1  1 -1    1
+# ad    1 -1 -1  1    1
+# bd   -1  1 -1  1    1
+# cd   -1 -1  1  1    1
+# abcd  1  1  1  1    1</code></pre>
+<p>Veja que automaticamente ficamos com a relação anterior de <span class="math inline">\(D = ABC\)</span></p>
+<pre class="r"><code>db$D == with(db, A*B*C)
+# [1] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE</code></pre>
+<p>E as combinações de tratamentos selecionadas para a meia fração são as mesmas:</p>
+<pre class="r"><code>cbind(row.names(da), row.names(db))
+#      [,1]   [,2]  
+# [1,] &quot;(1)&quot;  &quot;(1)&quot; 
+# [2,] &quot;ad&quot;   &quot;ab&quot;  
+# [3,] &quot;bd&quot;   &quot;ac&quot;  
+# [4,] &quot;ab&quot;   &quot;bc&quot;  
+# [5,] &quot;cd&quot;   &quot;ad&quot;  
+# [6,] &quot;ac&quot;   &quot;bd&quot;  
+# [7,] &quot;bc&quot;   &quot;cd&quot;  
+# [8,] &quot;abcd&quot; &quot;abcd&quot;</code></pre>
+<p>Portanto as duas formas mostradas acima podem ser utilizadas para construir qualquer experimento fatorial fracionado <span class="math inline">\(2^{k-1}\)</span>.</p>
+<p><strong>Exercício</strong>: construa um experimento fatorial <span class="math inline">\(2^{5-1}\)</span>. Verifique os confundimentos.</p>
+</div>
+<div id="exemplo-de-um-fatorial-24-convertido-para-um-fatorial-24-1" class="section level2">
+<h2>Exemplo de um fatorial <span class="math inline">\(2^4\)</span> convertido para um fatorial <span class="math inline">\(2^{4-1}\)</span></h2>
+<p>Exemplo 14-5, Montgomery (EAPE): processo de ataque químico localizado sobre nitreto, por meio de uma sonda de plasma de pastilha única. Variável resposta: taxa de ataque do nitreto de silício. Variáveis explicativas:</p>
+<pre><code>                Fatores do experimento
+ Nível     Espaçamento   Pressão    Vazão de C2F6   Potência
+              (cm)       (m Torr)   (cm³ pad/min)     (W)
+ Baixo (-)    0.80         450           125          275
+ Alto  (+)    1.20         550           200          325</code></pre>
+<p>Este é um experimento fatorial <span class="math inline">\(2^4\)</span> completo, ou seja, foram corridas todas as 16 combinações de tratamentos possíveis. Vamos re-analisar estes dados completos aqui, e depois realizar o fracionamento desse experimento, com a intenção de verificar se chegamos à mesma conclusão.</p>
+<pre class="r"><code>##----------------------------------------------------------------------
+## Importação
+url &lt;- &quot;http://www.leg.ufpr.br/~fernandomayer/data/mont_14-5.txt&quot;
+dados &lt;- read.table(url, header = TRUE)
+row.names(dados) &lt;- apply(dados, 1,
+                          function(i) paste(letters[1:4][i==1], collapse = &quot;&quot;))
+row.names(dados)[1] &lt;- &quot;(1)&quot;
+dados
+#       A  B  C  D    y
+# (1)  -1 -1 -1 -1  550
+# a     1 -1 -1 -1  669
+# b    -1  1 -1 -1  604
+# ab    1  1 -1 -1  650
+# c    -1 -1  1 -1  633
+# ac    1 -1  1 -1  642
+# bc   -1  1  1 -1  601
+# abc   1  1  1 -1  635
+# d    -1 -1 -1  1 1037
+# ad    1 -1 -1  1  749
+# bd   -1  1 -1  1 1052
+# abd   1  1 -1  1  868
+# cd   -1 -1  1  1 1075
+# acd   1 -1  1  1  860
+# bcd  -1  1  1  1 1063
+# abcd  1  1  1  1  729
+## Definições do experimento
+k &lt;- 4
+r &lt;- 1
+
+##----------------------------------------------------------------------
+## Montando a tabela de sinais
+(tab &lt;- model.matrix(~A * B * C * D, data = dados))
+#      (Intercept)  A  B  C  D A:B A:C B:C A:D B:D C:D A:B:C A:B:D A:C:D
+# (1)            1 -1 -1 -1 -1   1   1   1   1   1   1    -1    -1    -1
+# a              1  1 -1 -1 -1  -1  -1   1  -1   1   1     1     1     1
+# b              1 -1  1 -1 -1  -1   1  -1   1  -1   1     1     1    -1
+# ab             1  1  1 -1 -1   1  -1  -1  -1  -1   1    -1    -1     1
+# c              1 -1 -1  1 -1   1  -1  -1   1   1  -1     1    -1     1
+# ac             1  1 -1  1 -1  -1   1  -1  -1   1  -1    -1     1    -1
+# bc             1 -1  1  1 -1  -1  -1   1   1  -1  -1    -1     1     1
+# abc            1  1  1  1 -1   1   1   1  -1  -1  -1     1    -1    -1
+# d              1 -1 -1 -1  1   1   1   1  -1  -1  -1    -1     1     1
+# ad             1  1 -1 -1  1  -1  -1   1   1  -1  -1     1    -1    -1
+# bd             1 -1  1 -1  1  -1   1  -1  -1   1  -1     1    -1     1
+# abd            1  1  1 -1  1   1  -1  -1   1   1  -1    -1     1    -1
+# cd             1 -1 -1  1  1   1  -1  -1  -1  -1   1     1     1    -1
+# acd            1  1 -1  1  1  -1   1  -1   1  -1   1    -1    -1     1
+# bcd            1 -1  1  1  1  -1  -1   1  -1   1   1    -1    -1    -1
+# abcd           1  1  1  1  1   1   1   1   1   1   1     1     1     1
+#      B:C:D A:B:C:D
+# (1)     -1       1
+# a       -1      -1
+# b        1      -1
+# ab       1       1
+# c        1      -1
+# ac       1       1
+# bc      -1       1
+# abc     -1      -1
+# d        1      -1
+# ad       1       1
+# bd      -1       1
+# abd     -1      -1
+# cd      -1       1
+# acd     -1      -1
+# bcd      1      -1
+# abcd     1       1
+# attr(,&quot;assign&quot;)
+#  [1]  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+
+##----------------------------------------------------------------------
+## Estimativa dos efeitos
+y &lt;- dados$y
+## Contrastes
+contr &lt;- t(tab[, -1]) %*% y
+## Efeitos = contraste/(n2^{k-1})
+ef &lt;- contr/(r * 2^(k - 1))
+
+##----------------------------------------------------------------------
+## Gráfico de probabilidade normal dos efeitos estimados
+qqaux &lt;- qqnorm(ef, col = 2, pch = 19); qqline(ef)
+text(qqaux$x, qqaux$y, rownames(qqaux$y), cex = 0.8, pos = 3)</code></pre>
+<p><img src="figures/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>
+##----------------------------------------------------------------------
+## Ajuste do modelo
+## Como vimos no gráfico anterior, as interações de ordem maior do que 2
+## são desnecessárias, portanto vamos ajustar o modelo com interações de
+## até segunda ordem apenas
+m0 &lt;- lm(y ~ (A + B + C + D)^2, data = dados)
+anova(m0)
+# Analysis of Variance Table
+# 
+# Response: y
+#           Df Sum Sq Mean Sq  F value    Pr(&gt;F)    
+# A          1  41311   41311  20.2765  0.006382 ** 
+# B          1     11      11   0.0052  0.945391    
+# C          1    218     218   0.1068  0.757069    
+# D          1 374850  374850 183.9879 3.903e-05 ***
+# A:B        1    248     248   0.1218  0.741351    
+# A:C        1   2475    2475   1.2148  0.320582    
+# A:D        1  94403   94403  46.3357  0.001042 ** 
+# B:C        1   7700    7700   3.7794  0.109498    
+# B:D        1      2       2   0.0008  0.978978    
+# C:D        1     18      18   0.0089  0.928641    
+# Residuals  5  10187    2037                       
+# ---
+# Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+## Modelo com efeitos significativos apenas
+m1 &lt;- update(m0, . ~ A * D, data = dados)
+anova(m1)
+# Analysis of Variance Table
+# 
+# Response: y
+#           Df Sum Sq Mean Sq F value    Pr(&gt;F)    
+# A          1  41311   41311  23.767 0.0003816 ***
+# D          1 374850  374850 215.661 4.951e-09 ***
+# A:D        1  94403   94403  54.312 8.621e-06 ***
+# Residuals 12  20858    1738                      
+# ---
+# Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+##----------------------------------------------------------------------
+## Residuos do modelo
+res &lt;- residuals(m1)
+## Quantis normais
+qqnorm(res); qqline(res)</code></pre>
+<p><img src="figures/unnamed-chunk-11-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Para ilustrar o uso da meia-fração, suponha que decidimos usar o planejamento <span class="math inline">\(2^{4-1}\)</span>, com a relação de definição <span class="math inline">\(I = ABCD\)</span>, para investigar os quatro fatores deste experimento. Esse planejamento será construído com o planejamento básico <span class="math inline">\(2^3\)</span> nos fatores A, B, C, e então estabelecendo os níveis do quarto fator <span class="math inline">\(D = ABC\)</span>, pois, através da relação de definição, temos que <span class="math inline">\(D \cdot I = D \cdot ABCD = ABC\)</span>.</p>
+<p>O primeiro passo é então criar um planejamento <span class="math inline">\(2^3\)</span> completo, e incluir a coluna <span class="math inline">\(D\)</span> como sendo <span class="math inline">\(D = ABC\)</span></p>
+<pre class="r"><code>dados2 &lt;- expand.grid(A = c(-1, 1), B = c(-1, 1), C = c(-1, 1))
+dados2$D &lt;- with(dados2, A*B*C)
+row.names(dados2) &lt;- apply(dados2, 1,
+                          function(i) paste(letters[1:4][i==1], collapse = &quot;&quot;))
+row.names(dados2)[1] &lt;- &quot;(1)&quot;
+dados2
+#       A  B  C  D
+# (1)  -1 -1 -1 -1
+# ad    1 -1 -1  1
+# bd   -1  1 -1  1
+# ab    1  1 -1 -1
+# cd   -1 -1  1  1
+# ac    1 -1  1 -1
+# bc   -1  1  1 -1
+# abcd  1  1  1  1</code></pre>
+<p>Outra forma de montar esse experimento é a seguinte. Se a relação de definição é <span class="math inline">\(I = ABCD\)</span>, então podemos usar os sinais dessa interação para separar as frações do experimento.</p>
+<pre class="r"><code>dados$ABCD &lt;- with(dados, A*B*C*D)
+dados[order(dados$ABCD, decreasing = TRUE), ]
+#       A  B  C  D    y ABCD
+# (1)  -1 -1 -1 -1  550    1
+# ab    1  1 -1 -1  650    1
+# ac    1 -1  1 -1  642    1
+# bc   -1  1  1 -1  601    1
+# ad    1 -1 -1  1  749    1
+# bd   -1  1 -1  1 1052    1
+# cd   -1 -1  1  1 1075    1
+# abcd  1  1  1  1  729    1
+# a     1 -1 -1 -1  669   -1
+# b    -1  1 -1 -1  604   -1
+# c    -1 -1  1 -1  633   -1
+# abc   1  1  1 -1  635   -1
+# d    -1 -1 -1  1 1037   -1
+# abd   1  1 -1  1  868   -1
+# acd   1 -1  1  1  860   -1
+# bcd  -1  1  1  1 1063   -1</code></pre>
+<p>As combinações de tratamento com sinal positivo em ABCD serão da fração principal, e os demais serão da fração alternada. Dessa forma, se ficarmos apenas com o sinal positivo de ABCD</p>
+<pre class="r"><code>dados &lt;- subset(dados, ABCD == 1)
+dados
+#       A  B  C  D    y ABCD
+# (1)  -1 -1 -1 -1  550    1
+# ab    1  1 -1 -1  650    1
+# ac    1 -1  1 -1  642    1
+# bc   -1  1  1 -1  601    1
+# ad    1 -1 -1  1  749    1
+# bd   -1  1 -1  1 1052    1
+# cd   -1 -1  1  1 1075    1
+# abcd  1  1  1  1  729    1</code></pre>
+<p>Ficamos essencialmente com o mesmo planejamento fracionário. Note que dessa forma, automaticamente temos <span class="math inline">\(D = ABC\)</span></p>
+<pre class="r"><code>all.equal(dados$D, with(dados, A * B * C))
+# [1] TRUE</code></pre>
+<p>Agora sabemos que as combinações de tratamento que serão corridas na meia-fração serão</p>
+<pre class="r"><code>row.names(dados)
+# [1] &quot;(1)&quot;  &quot;ab&quot;   &quot;ac&quot;   &quot;bc&quot;   &quot;ad&quot;   &quot;bd&quot;   &quot;cd&quot;   &quot;abcd&quot;</code></pre>
+<!-- Para concluir essa base de dados, vamos supor que os resultados desse -->
+<!-- experimento fatorial fracionado tenha sido o mesmo do experimento -->
+<!-- completo, para estas combinações de tratamentos -->
+<!-- ```{r} -->
+<!-- dados2 <- merge(dados2, dados, sort = FALSE) -->
+<!-- row.names(dados2) <- apply(dados2[,1:4], 1, -->
+<!--                           function(i) paste(letters[1:4][i==1], collapse = "")) -->
+<!-- row.names(dados2)[1] <- "(1)" -->
+<!-- dados2 -->
+<!-- ``` -->
+<p>O próximo passo então é criar a tabela de sinais</p>
+<pre class="r"><code>(tab &lt;- model.matrix(~ A*B*C*D, data = dados))
+#      (Intercept)  A  B  C  D A:B A:C B:C A:D B:D C:D A:B:C A:B:D A:C:D
+# (1)            1 -1 -1 -1 -1   1   1   1   1   1   1    -1    -1    -1
+# ab             1  1  1 -1 -1   1  -1  -1  -1  -1   1    -1    -1     1
+# ac             1  1 -1  1 -1  -1   1  -1  -1   1  -1    -1     1    -1
+# bc             1 -1  1  1 -1  -1  -1   1   1  -1  -1    -1     1     1
+# ad             1  1 -1 -1  1  -1  -1   1   1  -1  -1     1    -1    -1
+# bd             1 -1  1 -1  1  -1   1  -1  -1   1  -1     1    -1     1
+# cd             1 -1 -1  1  1   1  -1  -1  -1  -1   1     1     1    -1
+# abcd           1  1  1  1  1   1   1   1   1   1   1     1     1     1
+#      B:C:D A:B:C:D
+# (1)     -1       1
+# ab       1       1
+# ac       1       1
+# bc      -1       1
+# ad       1       1
+# bd      -1       1
+# cd      -1       1
+# abcd     1       1
+# attr(,&quot;assign&quot;)
+#  [1]  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15</code></pre>
+<p>Note que os tratamentos possuem pares combinados (<em>aliases</em>), pois muitas colunas são idênticas. Isso é natural, uma vez que temos um efeito confundido por definição, <span class="math inline">\(D = ABC\)</span>, outros também devem estar. Para saber quem são os pares combinados desse experimento, basta multiplicar cada fator pela relação de definição, por exemplo,</p>
+<p><span class="math display">\[
+\begin{align}
+A \cdot I = A \cdot ABCD = A^2BCD = BCD \\
+B \cdot I = B \cdot ABCD = AB^2CD = ACD \\
+C \cdot I = C \cdot ABCD = ABC^2D = ABD \\
+D \cdot I = D \cdot ABCD = ABCD^2 = ABC \\
+\end{align}
+\]</span></p>
+<p>Portanto, notamos que todos os efeitos principais estão confundidos com todas as interações de terceira ordem. Portanto, ao estimar um efeito principal, estamos também estimado a respectiva interação de terceira ordem. Como acreditamos que os efeitos das interações de ordem alta são desprezíveis, então podemos supor que o efeito estimado é de fato do efeto principal.</p>
+<p>Vemos também que as interações de segunda ordem estão associadas entre si, pois,</p>
+<p><span class="math display">\[
+\begin{align}
+AB \cdot I = AB \cdot ABCD = A^2B^2CD = CD \\
+AC \cdot I = AC \cdot ABCD = A^2BC^2D = BD \\
+AD \cdot I = AD \cdot ABCD = A^2BCD^2 = BC \\
+\end{align}
+\]</span></p>
+<p>Para facilitar a determinação dos pares associados, podemos usar a função abaixo:</p>
+<pre class="r"><code>aliases &lt;- function(ef, cd){
+    ## ef = efeitos
+    ## cd = contraste de definição
+    ali &lt;- function(ef, cd){
+        ef &lt;- gsub(&quot;\\W&quot;, &quot;&quot;, ef)
+        ef &lt;- unlist(strsplit(ef, &quot;&quot;))
+        cd &lt;- gsub(&quot;\\W&quot;, &quot;&quot;, cd)
+        cd &lt;- unlist(strsplit(cd, &quot;&quot;))
+        x &lt;- sort(c(ef, cd))
+        tb &lt;- table(x)
+        paste(names(tb[tb==1]), collapse=&quot;&quot;)
+    }
+    sapply(ef, simplify=FALSE,
+           function(e){
+               x &lt;- sapply(cd, function(i){
+                   x &lt;- ali(e, i)
+               })
+               x[order(nchar(x))]
+           })
+}</code></pre>
+<p>Assim:</p>
+<pre class="r"><code>aliases(colnames(tab)[-c(1,16)], &quot;ABCD&quot;)
+# $A
+#  ABCD 
+# &quot;BCD&quot; 
+# 
+# $B
+#  ABCD 
+# &quot;ACD&quot; 
+# 
+# $C
+#  ABCD 
+# &quot;ABD&quot; 
+# 
+# $D
+#  ABCD 
+# &quot;ABC&quot; 
+# 
+# $`A:B`
+# ABCD 
+# &quot;CD&quot; 
+# 
+# $`A:C`
+# ABCD 
+# &quot;BD&quot; 
+# 
+# $`B:C`
+# ABCD 
+# &quot;AD&quot; 
+# 
+# $`A:D`
+# ABCD 
+# &quot;BC&quot; 
+# 
+# $`B:D`
+# ABCD 
+# &quot;AC&quot; 
+# 
+# $`C:D`
+# ABCD 
+# &quot;AB&quot; 
+# 
+# $`A:B:C`
+# ABCD 
+#  &quot;D&quot; 
+# 
+# $`A:B:D`
+# ABCD 
+#  &quot;C&quot; 
+# 
+# $`A:C:D`
+# ABCD 
+#  &quot;B&quot; 
+# 
+# $`B:C:D`
+# ABCD 
+#  &quot;A&quot;</code></pre>
+<p>Com isso, não faz sentido estimar o efeito para todas as interações de segunda ordem, assim como estimar os efeitos de terceira ordem. Estimar os efeitos principais (que é de interesse), é virtualmente igual a estimar os efeitos de terceira ordem. Estimar os efeitos de segunda ordem AB, AC, e AD, é o mesmo que estimar CD, BD, e BC, respectivamente.</p>
+<p>Portanto, podemos identificar os fatores únicos na tabela de sinais</p>
+<pre class="r"><code>(tab &lt;- unique(tab, MARGIN = 2))
+#      (Intercept)  A  B  C  D A:B A:C B:C
+# (1)            1 -1 -1 -1 -1   1   1   1
+# ab             1  1  1 -1 -1   1  -1  -1
+# ac             1  1 -1  1 -1  -1   1  -1
+# bc             1 -1  1  1 -1  -1  -1   1
+# ad             1  1 -1 -1  1  -1  -1   1
+# bd             1 -1  1 -1  1  -1   1  -1
+# cd             1 -1 -1  1  1   1  -1  -1
+# abcd           1  1  1  1  1   1   1   1</code></pre>
+<p>A partir dessa tabela, podemos prosseguir a análise de forma usual, calculando os contrastes e efeitos, e verificando o tamanho dos efeitos através do gráfico de probabilidades normal. Note apenas que o <span class="math inline">\(k\)</span> para esse experimento fracionado é 3, e não 4 como o original, pois ele é um <span class="math inline">\(2^{4-1}\)</span> = <span class="math inline">\(2^{3}\)</span></p>
+<pre class="r"><code>##----------------------------------------------------------------------
+## Estimativa dos efeitos
+y &lt;- dados$y
+## Contrastes
+contr &lt;- t(tab[, -1]) %*% y
+## Efeitos = contraste/(r2^{k-1})
+## NOTE que agora o k é 3, pois o experimento básico é 2^{4-1} = 2^3
+k &lt;- 3
+ef &lt;- contr/(r * 2^(k-1))
+
+##----------------------------------------------------------------------
+## Gráfico de probabilidade normal dos efeitos estimados
+qqaux &lt;- qqnorm(ef, col = 2, pch = 19); qqline(ef)
+text(qqaux$x, qqaux$y, rownames(qqaux$y), cex = 0.8, pos = 3)</code></pre>
+<p><img src="figures/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Através destes resultados vemos que se destacam os fatores A, D, e a interação BC. Note que o par associado de BC é AD, portanto acreditamos que a interação que de fato é importante é AD. Esse resultado está de acordo com o resultado do experimento completo mostrado acima.</p>
+<p>Continuamos a análise como antes, ajustando um modelo apenas com os efeitos que notamos serem importantes na análise visual acima.</p>
+<pre class="r"><code>##----------------------------------------------------------------------
+## Ajuste do modelo
+## Modelo com efeitos significativos apenas
+## NOTE que os efeitos importantes foram A, D, e BC, mas como vimos,
+## BC = AD, portanto podemos ajustar o modelo com A + D + A:D
+m2 &lt;- lm(y ~ A * D, data = dados)
+anova(m2)
+# Analysis of Variance Table
+# 
+# Response: y
+#           Df Sum Sq Mean Sq F value    Pr(&gt;F)    
+# A          1  32258   32258  71.804 0.0010631 ** 
+# D          1 168781  168781 375.694 4.177e-05 ***
+# A:D        1  78013   78013 173.650 0.0001916 ***
+# Residuals  4   1797     449                      
+# ---
+# Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+##----------------------------------------------------------------------
+## Residuos do modelo
+res &lt;- residuals(m2)
+## Quantis normais
+qqnorm(res); qqline(res)</code></pre>
+<p><img src="figures/unnamed-chunk-22-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="fracoes-menores-o-fatorial-fracionario-2k-p" class="section level1">
+<h1>Frações menores: o fatorial fracionário <span class="math inline">\(2^{k-p}\)</span></h1>
+<p>Em geral , um planejamento fatorial <span class="math inline">\(2^k\)</span> pode ser corrido em uma fração <span class="math inline">\(1/2^p\)</span>, chamado de um planejamento fatorial fracionário <span class="math inline">\(2^{k-p}\)</span>, pois</p>
+<p><span class="math display">\[
+2^{k-p} = 2^k 2^{-p} = \frac{2^k}{2^p}
+\]</span></p>
+<p>Portanto, uma fração <span class="math inline">\(1/4\)</span> é chamada de um planejamento <span class="math inline">\(2^{k-2}\)</span>, uma fração <span class="math inline">\(1/8\)</span> é chamada de um planejamento <span class="math inline">\(2^{k-3}\)</span>, uma fração <span class="math inline">\(1/16\)</span> é chamada de <span class="math inline">\(2^{k-4}\)</span>, e assim por diante. Note que os experimentos com meia fração são um caso particular do planejamento <span class="math inline">\(2^{k-p}\)</span> com <span class="math inline">\(p = 1\)</span>.</p>
+<p>Com o objetivo de ilustrar a fração <span class="math inline">\(1/4\)</span>, considere um experimento com seis fatores, e suponha que o pesquisador esteja interessado principalmente nos efeitos principais, com alguma informação sobre as interações de segunda ordem. Um planejamento <span class="math inline">\(2^{6-1}\)</span> iria requerer 32 corridas. e necessitaríamos de 31 graus de liberdade para estimar os efeitos. Como há somente 6 efeitos principais e 15 interações de segunda ordem, a meia-fração é ineficiente pois ela requer mais corridas do que o necessário para o interesse do pesquisador. Suponha que consideramos uma fração <span class="math inline">\(1/4\)</span>, ou um experimento <span class="math inline">\(2^{6-2}\)</span>. Esse planejamento contém 16 corridas, e com 15 graus de liberdade permitirá que todos os efeitos principais sejam estimados, com alguma capacidade de gerar informações sobre as interações de segunda ordem.</p>
+<p>De modo a gerar esse planejamento, escrevemos o planejamento básico <span class="math inline">\(2^4\)</span> nos fatores A, B, C, e D, e então adicionamos duas novas colunas para E e F.</p>
+<pre class="r"><code>## Experimento básico 2^4
+da &lt;- expand.grid(A = c(-1, 1), B = c(-1, 1),
+                  C = c(-1, 1), D = c(-1, 1))
+row.names(da) &lt;- apply(da, 1,
+                       function(i) paste(letters[1:4][i==1], collapse = &quot;&quot;))
+row.names(da)[1] &lt;- &quot;(1)&quot;
+da
+#       A  B  C  D
+# (1)  -1 -1 -1 -1
+# a     1 -1 -1 -1
+# b    -1  1 -1 -1
+# ab    1  1 -1 -1
+# c    -1 -1  1 -1
+# ac    1 -1  1 -1
+# bc   -1  1  1 -1
+# abc   1  1  1 -1
+# d    -1 -1 -1  1
+# ad    1 -1 -1  1
+# bd   -1  1 -1  1
+# abd   1  1 -1  1
+# cd   -1 -1  1  1
+# acd   1 -1  1  1
+# bcd  -1  1  1  1
+# abcd  1  1  1  1</code></pre>
+<p>Um experimento <span class="math inline">\(2^{k-2}\)</span> requer dois <strong>contrastes de definição</strong>, ou os <strong>geradores do experimento</strong>. Considere que os dois geradores são</p>
+<p><span class="math display">\[
+I = ABCE \qquad \text{e} \qquad I = BCDF
+\]</span></p>
+<p>Dessa forma, a coluna <span class="math inline">\(E\)</span> seria encontrada a partir de <span class="math inline">\(E \cdot I = E \cdot ABCE = ABC\)</span>, e a coluna <span class="math inline">\(F\)</span> seria encontrada com <span class="math inline">\(F \cdot I = F \cdot BCDF = BCD\)</span>.</p>
+<pre class="r"><code>da$E &lt;- with(da, A*B*C)
+da$F &lt;- with(da, B*C*D)
+row.names(da) &lt;- apply(da, 1,
+                       function(i) paste(letters[1:6][i==1], collapse = &quot;&quot;))
+row.names(da)[1] &lt;- &quot;(1)&quot;
+da
+#         A  B  C  D  E  F
+# (1)    -1 -1 -1 -1 -1 -1
+# ae      1 -1 -1 -1  1 -1
+# bef    -1  1 -1 -1  1  1
+# abf     1  1 -1 -1 -1  1
+# cef    -1 -1  1 -1  1  1
+# acf     1 -1  1 -1 -1  1
+# bc     -1  1  1 -1 -1 -1
+# abce    1  1  1 -1  1 -1
+# df     -1 -1 -1  1 -1  1
+# adef    1 -1 -1  1  1  1
+# bde    -1  1 -1  1  1 -1
+# abd     1  1 -1  1 -1 -1
+# cde    -1 -1  1  1  1 -1
+# acd     1 -1  1  1 -1 -1
+# bcdf   -1  1  1  1 -1  1
+# abcdef  1  1  1  1  1  1</code></pre>
+<p>No entanto, sabemos que o produto de quaisquer duas colunas na tabela de sinais do planejamento <span class="math inline">\(2^k\)</span> é apenas outra coluna da tabela. Consequentemente, o produto entre <span class="math inline">\(ABCE\)</span> e <span class="math inline">\(BCDF\)</span></p>
+<p><span class="math display">\[
+ABCE \cdot BCDF = AB^2C^2DEF = ADEF
+\]</span></p>
+<p>é a <strong>interação generalizada</strong> de ABCE com BCDF, e também uma coluna identidade. Como consequência, o planejamento <span class="math inline">\(2^{6-2}\)</span> possui uma <strong>relação completa de definição</strong> dada por</p>
+<p><span class="math display">\[
+I = ABCE = BCDF = ADEF
+\]</span></p>
+<p>Referimo-nos a cada termo em uma relação de definição (ex.: <span class="math inline">\(ABCE\)</span>) como uma <strong>palavra</strong>. Para encontrar o par associado de qualquer efeito, simplesmente multiplicamos esse efeito por cada palavra na relação completa de definição acima. Por exemplo, o par associado de <span class="math inline">\(A\)</span> é</p>
+<p><span class="math display">\[
+A = BCE = ABCDF = DEF
+\]</span></p>
+<p>Para as duas relações de definição acima, vemos que os pares associados são</p>
+<p><span class="math display">\[
+\begin{align}
+E = ABC = ADF = BCDEF \\
+F = BCD = ADE = ABCEF
+\end{align}
+\]</span></p>
+<p>Portanto, poderíamos utilizar qualquer uma das interações <span class="math inline">\(ABC\)</span>, <span class="math inline">\(ADF\)</span>, ou <span class="math inline">\(BCDEF\)</span> para gerar a coluna <span class="math inline">\(E\)</span>, e da mesma forma, o resultado seria o mesmo para a coluna <span class="math inline">\(F\)</span> se utilizásemos qualquer uma das interações: <span class="math inline">\(BCD\)</span>, <span class="math inline">\(ADE\)</span>, ou <span class="math inline">\(ABCEF\)</span>.</p>
+<p>Com isso, vemos que as 16 combinações de tratamentos que deveriam ser corridas neste fatorial <span class="math inline">\(2^{6-2}\)</span> são</p>
+<pre class="r"><code>row.names(da)
+#  [1] &quot;(1)&quot;    &quot;ae&quot;     &quot;bef&quot;    &quot;abf&quot;    &quot;cef&quot;    &quot;acf&quot;    &quot;bc&quot;    
+#  [8] &quot;abce&quot;   &quot;df&quot;     &quot;adef&quot;   &quot;bde&quot;    &quot;abd&quot;    &quot;cde&quot;    &quot;acd&quot;   
+# [15] &quot;bcdf&quot;   &quot;abcdef&quot;</code></pre>
+<p>Outra forma de construir esse experimento <span class="math inline">\(2^{6-2}\)</span>, é usando diretamente os contrastes de definição, assim como fizemos no caso da meia-fração. A diferença é que aqui, como temos duas relações de definição, precisamos calcular as duas colunas com estas interações, e as frações serão definidas pelas combinações <span class="math inline">\((1,1), (1,-1), (-1,1), (-1,-1)\)</span> destas duas colunas.</p>
+<p>Para fazer dessa forma, geramos o experimento <span class="math inline">\(2^6\)</span> completo</p>
+<pre class="r"><code>db &lt;- expand.grid(A = c(-1, 1), B = c(-1, 1),
+                  C = c(-1, 1), D = c(-1, 1),
+                  E = c(-1, 1), F = c(-1, 1))
+row.names(db) &lt;- apply(db, 1,
+                       function(i) paste(letters[1:6][i==1], collapse = &quot;&quot;))
+row.names(db)[1] &lt;- &quot;(1)&quot;
+db
+#         A  B  C  D  E  F
+# (1)    -1 -1 -1 -1 -1 -1
+# a       1 -1 -1 -1 -1 -1
+# b      -1  1 -1 -1 -1 -1
+# ab      1  1 -1 -1 -1 -1
+# c      -1 -1  1 -1 -1 -1
+# ac      1 -1  1 -1 -1 -1
+# bc     -1  1  1 -1 -1 -1
+# abc     1  1  1 -1 -1 -1
+# d      -1 -1 -1  1 -1 -1
+# ad      1 -1 -1  1 -1 -1
+# bd     -1  1 -1  1 -1 -1
+# abd     1  1 -1  1 -1 -1
+# cd     -1 -1  1  1 -1 -1
+# acd     1 -1  1  1 -1 -1
+# bcd    -1  1  1  1 -1 -1
+# abcd    1  1  1  1 -1 -1
+# e      -1 -1 -1 -1  1 -1
+# ae      1 -1 -1 -1  1 -1
+# be     -1  1 -1 -1  1 -1
+# abe     1  1 -1 -1  1 -1
+# ce     -1 -1  1 -1  1 -1
+# ace     1 -1  1 -1  1 -1
+# bce    -1  1  1 -1  1 -1
+# abce    1  1  1 -1  1 -1
+# de     -1 -1 -1  1  1 -1
+# ade     1 -1 -1  1  1 -1
+# bde    -1  1 -1  1  1 -1
+# abde    1  1 -1  1  1 -1
+# cde    -1 -1  1  1  1 -1
+# acde    1 -1  1  1  1 -1
+# bcde   -1  1  1  1  1 -1
+# abcde   1  1  1  1  1 -1
+# f      -1 -1 -1 -1 -1  1
+# af      1 -1 -1 -1 -1  1
+# bf     -1  1 -1 -1 -1  1
+# abf     1  1 -1 -1 -1  1
+# cf     -1 -1  1 -1 -1  1
+# acf     1 -1  1 -1 -1  1
+# bcf    -1  1  1 -1 -1  1
+# abcf    1  1  1 -1 -1  1
+# df     -1 -1 -1  1 -1  1
+# adf     1 -1 -1  1 -1  1
+# bdf    -1  1 -1  1 -1  1
+# abdf    1  1 -1  1 -1  1
+# cdf    -1 -1  1  1 -1  1
+# acdf    1 -1  1  1 -1  1
+# bcdf   -1  1  1  1 -1  1
+# abcdf   1  1  1  1 -1  1
+# ef     -1 -1 -1 -1  1  1
+# aef     1 -1 -1 -1  1  1
+# bef    -1  1 -1 -1  1  1
+# abef    1  1 -1 -1  1  1
+# cef    -1 -1  1 -1  1  1
+# acef    1 -1  1 -1  1  1
+# bcef   -1  1  1 -1  1  1
+# abcef   1  1  1 -1  1  1
+# def    -1 -1 -1  1  1  1
+# adef    1 -1 -1  1  1  1
+# bdef   -1  1 -1  1  1  1
+# abdef   1  1 -1  1  1  1
+# cdef   -1 -1  1  1  1  1
+# acdef   1 -1  1  1  1  1
+# bcdef  -1  1  1  1  1  1
+# abcdef  1  1  1  1  1  1</code></pre>
+<p>Como as relações de definição são <span class="math inline">\(I = ABCE\)</span> e <span class="math inline">\(I = BCDF\)</span>, calculamos estas duas colunas a partir desse experimento completo</p>
+<pre class="r"><code>## Usando diretamente as relações de definição
+## I = ABCE e I = BCDF
+db$ABCE &lt;- with(db, A*B*C*E)
+db$BCDF &lt;- with(db, B*C*D*F)</code></pre>
+<p>Se olharmos este experimento ordenado por estas duas colunas, vemos que temos as quatro frações determinadas pela combinação de sinais destas duas colunas</p>
+<pre class="r"><code>db[order(db$ABCE, db$BCDF, decreasing = TRUE), ]
+#         A  B  C  D  E  F ABCE BCDF
+# (1)    -1 -1 -1 -1 -1 -1    1    1
+# bc     -1  1  1 -1 -1 -1    1    1
+# abd     1  1 -1  1 -1 -1    1    1
+# acd     1 -1  1  1 -1 -1    1    1
+# ae      1 -1 -1 -1  1 -1    1    1
+# abce    1  1  1 -1  1 -1    1    1
+# bde    -1  1 -1  1  1 -1    1    1
+# cde    -1 -1  1  1  1 -1    1    1
+# abf     1  1 -1 -1 -1  1    1    1
+# acf     1 -1  1 -1 -1  1    1    1
+# df     -1 -1 -1  1 -1  1    1    1
+# bcdf   -1  1  1  1 -1  1    1    1
+# bef    -1  1 -1 -1  1  1    1    1
+# cef    -1 -1  1 -1  1  1    1    1
+# adef    1 -1 -1  1  1  1    1    1
+# abcdef  1  1  1  1  1  1    1    1
+# ab      1  1 -1 -1 -1 -1    1   -1
+# ac      1 -1  1 -1 -1 -1    1   -1
+# d      -1 -1 -1  1 -1 -1    1   -1
+# bcd    -1  1  1  1 -1 -1    1   -1
+# be     -1  1 -1 -1  1 -1    1   -1
+# ce     -1 -1  1 -1  1 -1    1   -1
+# ade     1 -1 -1  1  1 -1    1   -1
+# abcde   1  1  1  1  1 -1    1   -1
+# f      -1 -1 -1 -1 -1  1    1   -1
+# bcf    -1  1  1 -1 -1  1    1   -1
+# abdf    1  1 -1  1 -1  1    1   -1
+# acdf    1 -1  1  1 -1  1    1   -1
+# aef     1 -1 -1 -1  1  1    1   -1
+# abcef   1  1  1 -1  1  1    1   -1
+# bdef   -1  1 -1  1  1  1    1   -1
+# cdef   -1 -1  1  1  1  1    1   -1
+# a       1 -1 -1 -1 -1 -1   -1    1
+# abc     1  1  1 -1 -1 -1   -1    1
+# bd     -1  1 -1  1 -1 -1   -1    1
+# cd     -1 -1  1  1 -1 -1   -1    1
+# e      -1 -1 -1 -1  1 -1   -1    1
+# bce    -1  1  1 -1  1 -1   -1    1
+# abde    1  1 -1  1  1 -1   -1    1
+# acde    1 -1  1  1  1 -1   -1    1
+# bf     -1  1 -1 -1 -1  1   -1    1
+# cf     -1 -1  1 -1 -1  1   -1    1
+# adf     1 -1 -1  1 -1  1   -1    1
+# abcdf   1  1  1  1 -1  1   -1    1
+# abef    1  1 -1 -1  1  1   -1    1
+# acef    1 -1  1 -1  1  1   -1    1
+# def    -1 -1 -1  1  1  1   -1    1
+# bcdef  -1  1  1  1  1  1   -1    1
+# b      -1  1 -1 -1 -1 -1   -1   -1
+# c      -1 -1  1 -1 -1 -1   -1   -1
+# ad      1 -1 -1  1 -1 -1   -1   -1
+# abcd    1  1  1  1 -1 -1   -1   -1
+# abe     1  1 -1 -1  1 -1   -1   -1
+# ace     1 -1  1 -1  1 -1   -1   -1
+# de     -1 -1 -1  1  1 -1   -1   -1
+# bcde   -1  1  1  1  1 -1   -1   -1
+# af      1 -1 -1 -1 -1  1   -1   -1
+# abcf    1  1  1 -1 -1  1   -1   -1
+# bdf    -1  1 -1  1 -1  1   -1   -1
+# cdf    -1 -1  1  1 -1  1   -1   -1
+# ef     -1 -1 -1 -1  1  1   -1   -1
+# bcef   -1  1  1 -1  1  1   -1   -1
+# abdef   1  1 -1  1  1  1   -1   -1
+# acdef   1 -1  1  1  1  1   -1   -1</code></pre>
+<p>Novamente se assumirmos que a combinação <span class="math inline">\((1,1)\)</span> é a fração principal, então o experimento fracionado <span class="math inline">\(2^{6-2}\)</span> seria obtido com</p>
+<pre class="r"><code>db &lt;- subset(db, ABCE == 1 &amp; BCDF == 1)
+db
+#         A  B  C  D  E  F ABCE BCDF
+# (1)    -1 -1 -1 -1 -1 -1    1    1
+# bc     -1  1  1 -1 -1 -1    1    1
+# abd     1  1 -1  1 -1 -1    1    1
+# acd     1 -1  1  1 -1 -1    1    1
+# ae      1 -1 -1 -1  1 -1    1    1
+# abce    1  1  1 -1  1 -1    1    1
+# bde    -1  1 -1  1  1 -1    1    1
+# cde    -1 -1  1  1  1 -1    1    1
+# abf     1  1 -1 -1 -1  1    1    1
+# acf     1 -1  1 -1 -1  1    1    1
+# df     -1 -1 -1  1 -1  1    1    1
+# bcdf   -1  1  1  1 -1  1    1    1
+# bef    -1  1 -1 -1  1  1    1    1
+# cef    -1 -1  1 -1  1  1    1    1
+# adef    1 -1 -1  1  1  1    1    1
+# abcdef  1  1  1  1  1  1    1    1</code></pre>
+<p>Portanto, as 16 combinações de tratamentos a serem corridas neste experimento seriam</p>
+<pre class="r"><code>row.names(db)
+#  [1] &quot;(1)&quot;    &quot;bc&quot;     &quot;abd&quot;    &quot;acd&quot;    &quot;ae&quot;     &quot;abce&quot;   &quot;bde&quot;   
+#  [8] &quot;cde&quot;    &quot;abf&quot;    &quot;acf&quot;    &quot;df&quot;     &quot;bcdf&quot;   &quot;bef&quot;    &quot;cef&quot;   
+# [15] &quot;adef&quot;   &quot;abcdef&quot;</code></pre>
+<p>E note que é o mesmo resultado se tivessemos planejado o experimento com o método anterior</p>
+<pre class="r"><code>cbind(sort(row.names(da)), sort(row.names(db)))
+#       [,1]     [,2]    
+#  [1,] &quot;(1)&quot;    &quot;(1)&quot;   
+#  [2,] &quot;abcdef&quot; &quot;abcdef&quot;
+#  [3,] &quot;abce&quot;   &quot;abce&quot;  
+#  [4,] &quot;abd&quot;    &quot;abd&quot;   
+#  [5,] &quot;abf&quot;    &quot;abf&quot;   
+#  [6,] &quot;acd&quot;    &quot;acd&quot;   
+#  [7,] &quot;acf&quot;    &quot;acf&quot;   
+#  [8,] &quot;adef&quot;   &quot;adef&quot;  
+#  [9,] &quot;ae&quot;     &quot;ae&quot;    
+# [10,] &quot;bc&quot;     &quot;bc&quot;    
+# [11,] &quot;bcdf&quot;   &quot;bcdf&quot;  
+# [12,] &quot;bde&quot;    &quot;bde&quot;   
+# [13,] &quot;bef&quot;    &quot;bef&quot;   
+# [14,] &quot;cde&quot;    &quot;cde&quot;   
+# [15,] &quot;cef&quot;    &quot;cef&quot;   
+# [16,] &quot;df&quot;     &quot;df&quot;</code></pre>
+<div id="exemplo-fatorial-26-2" class="section level2">
+<h2>Exemplo: fatorial <span class="math inline">\(2^{6-2}\)</span></h2>
+<p>Exemplo 14-9, Montgomery (EAPE): encolhimento excessivo em peças de moldagem por injeção. Analisando 6 fatores em um experimento fatorial fracionado <span class="math inline">\(2^{6-2}\)</span>, foram realizadas 16 corridas para estes seis fatores. O planejamento foi construído escrevendo um planejamento básico <span class="math inline">\(2^4\)</span> nos fatores <span class="math inline">\(A\)</span>, <span class="math inline">\(B\)</span>, <span class="math inline">\(C\)</span>, e <span class="math inline">\(D\)</span>, e então estabelecendo <span class="math inline">\(E = ABC\)</span>, e <span class="math inline">\(F = BCD\)</span>, pois as relações de definição escolhidas foram <span class="math inline">\(I = ABCE\)</span>, e <span class="math inline">\(I = BCDF\)</span>. O objetivo do planejamento era identificar os fatores que causavam o encolhimento excessivo, portanto as combinações de fatores que gerem <strong>menores</strong> valores da variável resposta (encolhimento) deverão ser utilizadas no processo de fabricação. Os dados deste experimento estão abaixo.</p>
+<pre class="r"><code>##======================================================================
+## Importa a base de dados
+url &lt;- &quot;http://www.leg.ufpr.br/~fernandomayer/data/montgomery_ex_14-9.txt&quot;
+dados &lt;- read.table(url, header = TRUE)
+row.names(dados) &lt;- apply(dados, 1,
+                          function(i) paste(letters[1:6][i==1], collapse = &quot;&quot;))
+row.names(dados)[1] &lt;- &quot;(1)&quot;
+dados
+#         A  B  C  D  E  F  y
+# (1)    -1 -1 -1 -1 -1 -1  6
+# ae      1 -1 -1 -1  1 -1 10
+# bef    -1  1 -1 -1  1  1 32
+# abf     1  1 -1 -1 -1  1 60
+# cef    -1 -1  1 -1  1  1  4
+# acf     1 -1  1 -1 -1  1 15
+# bc     -1  1  1 -1 -1 -1 26
+# abce    1  1  1 -1  1 -1 60
+# df     -1 -1 -1  1 -1  1  8
+# adef    1 -1 -1  1  1  1 12
+# bde    -1  1 -1  1  1 -1 34
+# abd     1  1 -1  1 -1 -1 60
+# cde    -1 -1  1  1  1 -1 16
+# acd     1 -1  1  1 -1 -1  5
+# bcdf   -1  1  1  1 -1  1 37
+# abcdef  1  1  1  1  1  1 52
+
+##----------------------------------------------------------------------
+## Montando a tabela de sinais
+(tab &lt;- model.matrix(~A * B * C * D * E * F, data = dados))
+#        (Intercept)  A  B  C  D  E  F A:B A:C B:C A:D B:D C:D A:E B:E C:E
+# (1)              1 -1 -1 -1 -1 -1 -1   1   1   1   1   1   1   1   1   1
+# ae               1  1 -1 -1 -1  1 -1  -1  -1   1  -1   1   1   1  -1  -1
+# bef              1 -1  1 -1 -1  1  1  -1   1  -1   1  -1   1  -1   1  -1
+# abf              1  1  1 -1 -1 -1  1   1  -1  -1  -1  -1   1  -1  -1   1
+# cef              1 -1 -1  1 -1  1  1   1  -1  -1   1   1  -1  -1  -1   1
+# acf              1  1 -1  1 -1 -1  1  -1   1  -1  -1   1  -1  -1   1  -1
+# bc               1 -1  1  1 -1 -1 -1  -1  -1   1   1  -1  -1   1  -1  -1
+# abce             1  1  1  1 -1  1 -1   1   1   1  -1  -1  -1   1   1   1
+# df               1 -1 -1 -1  1 -1  1   1   1   1  -1  -1  -1   1   1   1
+# adef             1  1 -1 -1  1  1  1  -1  -1   1   1  -1  -1   1  -1  -1
+# bde              1 -1  1 -1  1  1 -1  -1   1  -1  -1   1  -1  -1   1  -1
+# abd              1  1  1 -1  1 -1 -1   1  -1  -1   1   1  -1  -1  -1   1
+# cde              1 -1 -1  1  1  1 -1   1  -1  -1  -1  -1   1  -1  -1   1
+# acd              1  1 -1  1  1 -1 -1  -1   1  -1   1  -1   1  -1   1  -1
+# bcdf             1 -1  1  1  1 -1  1  -1  -1   1  -1   1   1   1  -1  -1
+# abcdef           1  1  1  1  1  1  1   1   1   1   1   1   1   1   1   1
+#        D:E A:F B:F C:F D:F E:F A:B:C A:B:D A:C:D B:C:D A:B:E A:C:E B:C:E
+# (1)      1   1   1   1   1   1    -1    -1    -1    -1    -1    -1    -1
+# ae      -1  -1   1   1   1  -1     1     1     1    -1    -1    -1     1
+# bef     -1  -1   1  -1  -1   1     1     1    -1     1    -1     1    -1
+# abf      1   1   1  -1  -1  -1    -1    -1     1     1    -1     1     1
+# cef     -1  -1  -1   1  -1   1     1    -1     1     1     1    -1    -1
+# acf      1   1  -1   1  -1  -1    -1     1    -1     1     1    -1     1
+# bc       1   1  -1  -1   1   1    -1     1     1    -1     1     1    -1
+# abce    -1  -1  -1  -1   1  -1     1    -1    -1    -1     1     1     1
+# df      -1  -1  -1  -1   1  -1    -1     1     1     1    -1    -1    -1
+# adef     1   1  -1  -1   1   1     1    -1    -1     1    -1    -1     1
+# bde      1   1  -1   1  -1  -1     1    -1     1    -1    -1     1    -1
+# abd     -1  -1  -1   1  -1   1    -1     1    -1    -1    -1     1     1
+# cde      1   1   1  -1  -1  -1     1     1    -1    -1     1    -1    -1
+# acd     -1  -1   1  -1  -1   1    -1    -1     1    -1     1    -1     1
+# bcdf    -1  -1   1   1   1  -1    -1    -1    -1     1     1     1    -1
+# abcdef   1   1   1   1   1   1     1     1     1     1     1     1     1
+#        A:D:E B:D:E C:D:E A:B:F A:C:F B:C:F A:D:F B:D:F C:D:F A:E:F B:E:F
+# (1)       -1    -1    -1    -1    -1    -1    -1    -1    -1    -1    -1
+# ae        -1     1     1     1     1    -1     1    -1    -1    -1     1
+# bef        1    -1     1    -1     1    -1     1    -1     1    -1     1
+# abf        1     1    -1     1    -1    -1    -1    -1     1    -1    -1
+# cef        1     1    -1     1    -1    -1     1     1    -1    -1    -1
+# acf        1    -1     1    -1     1    -1    -1     1    -1    -1     1
+# bc        -1     1     1     1     1    -1    -1     1     1    -1     1
+# abce      -1    -1    -1    -1    -1    -1     1     1     1    -1    -1
+# df         1     1     1     1     1     1    -1    -1    -1     1     1
+# adef       1    -1    -1    -1    -1     1     1    -1    -1     1    -1
+# bde       -1     1    -1     1    -1     1     1    -1     1     1    -1
+# abd       -1    -1     1    -1     1     1    -1    -1     1     1     1
+# cde       -1    -1     1    -1     1     1     1     1    -1     1     1
+# acd       -1     1    -1     1    -1     1    -1     1    -1     1    -1
+# bcdf       1    -1    -1    -1    -1     1    -1     1     1     1    -1
+# abcdef     1     1     1     1     1     1     1     1     1     1     1
+#        C:E:F D:E:F A:B:C:D A:B:C:E A:B:D:E A:C:D:E B:C:D:E A:B:C:F A:B:D:F
+# (1)       -1    -1       1       1       1       1       1       1       1
+# ae         1     1      -1       1       1       1      -1      -1      -1
+# bef       -1    -1      -1       1       1      -1       1       1       1
+# abf        1     1       1       1       1      -1      -1      -1      -1
+# cef        1    -1      -1       1      -1       1       1       1      -1
+# acf       -1     1       1       1      -1       1      -1      -1       1
+# bc         1    -1       1       1      -1      -1       1       1      -1
+# abce      -1     1      -1       1      -1      -1      -1      -1       1
+# df         1    -1      -1       1      -1      -1      -1      -1       1
+# adef      -1     1       1       1      -1      -1       1       1      -1
+# bde        1    -1       1       1      -1       1      -1      -1       1
+# abd       -1     1      -1       1      -1       1       1       1      -1
+# cde       -1    -1       1       1       1      -1      -1      -1      -1
+# acd        1     1      -1       1       1      -1       1       1       1
+# bcdf      -1    -1      -1       1       1       1      -1      -1      -1
+# abcdef     1     1       1       1       1       1       1       1       1
+#        A:C:D:F B:C:D:F A:B:E:F A:C:E:F B:C:E:F A:D:E:F B:D:E:F C:D:E:F
+# (1)          1       1       1       1       1       1       1       1
+# ae          -1       1       1       1      -1       1      -1      -1
+# bef         -1       1      -1       1      -1       1      -1       1
+# abf          1       1      -1       1       1       1       1      -1
+# cef          1       1       1      -1      -1       1       1      -1
+# acf         -1       1       1      -1       1       1      -1       1
+# bc          -1       1      -1      -1       1       1      -1      -1
+# abce         1       1      -1      -1      -1       1       1       1
+# df           1       1      -1      -1      -1       1       1       1
+# adef        -1       1      -1      -1       1       1      -1      -1
+# bde         -1       1       1      -1       1       1      -1       1
+# abd          1       1       1      -1      -1       1       1      -1
+# cde          1       1      -1       1       1       1       1      -1
+# acd         -1       1      -1       1      -1       1      -1       1
+# bcdf        -1       1       1       1      -1       1      -1      -1
+# abcdef       1       1       1       1       1       1       1       1
+#        A:B:C:D:E A:B:C:D:F A:B:C:E:F A:B:D:E:F A:C:D:E:F B:C:D:E:F
+# (1)           -1        -1        -1        -1        -1        -1
+# ae            -1         1        -1        -1        -1         1
+# bef           -1        -1         1         1        -1         1
+# abf           -1         1         1         1        -1        -1
+# cef           -1        -1         1        -1         1         1
+# acf           -1         1         1        -1         1        -1
+# bc            -1        -1        -1         1         1        -1
+# abce          -1         1        -1         1         1         1
+# df             1        -1         1        -1        -1        -1
+# adef           1         1         1        -1        -1         1
+# bde            1        -1        -1         1        -1         1
+# abd            1         1        -1         1        -1        -1
+# cde            1        -1        -1        -1         1         1
+# acd            1         1        -1        -1         1        -1
+# bcdf           1        -1         1         1         1        -1
+# abcdef         1         1         1         1         1         1
+#        A:B:C:D:E:F
+# (1)              1
+# ae               1
+# bef             -1
+# abf             -1
+# cef             -1
+# acf             -1
+# bc               1
+# abce             1
+# df               1
+# adef             1
+# bde             -1
+# abd             -1
+# cde             -1
+# acd             -1
+# bcdf             1
+# abcdef           1
+# attr(,&quot;assign&quot;)
+#  [1]  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22
+# [24] 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45
+# [47] 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63
+
+## Note que pela relação de definição I = ABCE = BCDF = ADEF, portanto
+tab[, which(apply(tab, 2, function(x) all(x == 1)))]
+#        (Intercept) A:B:C:E B:C:D:F A:D:E:F
+# (1)              1       1       1       1
+# ae               1       1       1       1
+# bef              1       1       1       1
+# abf              1       1       1       1
+# cef              1       1       1       1
+# acf              1       1       1       1
+# bc               1       1       1       1
+# abce             1       1       1       1
+# df               1       1       1       1
+# adef             1       1       1       1
+# bde              1       1       1       1
+# abd              1       1       1       1
+# cde              1       1       1       1
+# acd              1       1       1       1
+# bcdf             1       1       1       1
+# abcdef           1       1       1       1</code></pre>
+<p>Como sabemos, a tabela de sinais completa contém diversos fatores que estão confundidos, por isso devemos selecionar dessa tabela apenas os efeitos que sejam únicos, pois estimando um teremos os demais. Os pares associados podem ser encontrados a mão, ou usando a função <code>aliases()</code> definida acima</p>
+<pre class="r"><code>aliases(ef = colnames(tab)[-1], cd = c(&quot;ABCE&quot;, &quot;BCDF&quot;, &quot;ADEF&quot;))
+# $A
+#    ABCE    ADEF    BCDF 
+#   &quot;BCE&quot;   &quot;DEF&quot; &quot;ABCDF&quot; 
+# 
+# $B
+#    ABCE    BCDF    ADEF 
+#   &quot;ACE&quot;   &quot;CDF&quot; &quot;ABDEF&quot; 
+# 
+# $C
+#    ABCE    BCDF    ADEF 
+#   &quot;ABE&quot;   &quot;BDF&quot; &quot;ACDEF&quot; 
+# 
+# $D
+#    BCDF    ADEF    ABCE 
+#   &quot;BCF&quot;   &quot;AEF&quot; &quot;ABCDE&quot; 
+# 
+# $E
+#    ABCE    ADEF    BCDF 
+#   &quot;ABC&quot;   &quot;ADF&quot; &quot;BCDEF&quot; 
+# 
+# $F
+#    BCDF    ADEF    ABCE 
+#   &quot;BCD&quot;   &quot;ADE&quot; &quot;ABCEF&quot; 
+# 
+# $`A:B`
+#   ABCE   BCDF   ADEF 
+#   &quot;CE&quot; &quot;ACDF&quot; &quot;BDEF&quot; 
+# 
+# $`A:C`
+#   ABCE   BCDF   ADEF 
+#   &quot;BE&quot; &quot;ABDF&quot; &quot;CDEF&quot; 
+# 
+# $`B:C`
+#     ABCE     BCDF     ADEF 
+#     &quot;AE&quot;     &quot;DF&quot; &quot;ABCDEF&quot; 
+# 
+# $`A:D`
+#   ADEF   ABCE   BCDF 
+#   &quot;EF&quot; &quot;BCDE&quot; &quot;ABCF&quot; 
+# 
+# $`B:D`
+#   BCDF   ABCE   ADEF 
+#   &quot;CF&quot; &quot;ACDE&quot; &quot;ABEF&quot; 
+# 
+# $`C:D`
+#   BCDF   ABCE   ADEF 
+#   &quot;BF&quot; &quot;ABDE&quot; &quot;ACEF&quot; 
+# 
+# $`A:E`
+#     ABCE     ADEF     BCDF 
+#     &quot;BC&quot;     &quot;DF&quot; &quot;ABCDEF&quot; 
+# 
+# $`B:E`
+#   ABCE   BCDF   ADEF 
+#   &quot;AC&quot; &quot;CDEF&quot; &quot;ABDF&quot; 
+# 
+# $`C:E`
+#   ABCE   BCDF   ADEF 
+#   &quot;AB&quot; &quot;BDEF&quot; &quot;ACDF&quot; 
+# 
+# $`D:E`
+#   ADEF   ABCE   BCDF 
+#   &quot;AF&quot; &quot;ABCD&quot; &quot;BCEF&quot; 
+# 
+# $`A:F`
+#   ADEF   ABCE   BCDF 
+#   &quot;DE&quot; &quot;BCEF&quot; &quot;ABCD&quot; 
+# 
+# $`B:F`
+#   BCDF   ABCE   ADEF 
+#   &quot;CD&quot; &quot;ACEF&quot; &quot;ABDE&quot; 
+# 
+# $`C:F`
+#   BCDF   ABCE   ADEF 
+#   &quot;BD&quot; &quot;ABEF&quot; &quot;ACDE&quot; 
+# 
+# $`D:F`
+#     BCDF     ADEF     ABCE 
+#     &quot;BC&quot;     &quot;AE&quot; &quot;ABCDEF&quot; 
+# 
+# $`E:F`
+#   ADEF   ABCE   BCDF 
+#   &quot;AD&quot; &quot;ABCF&quot; &quot;BCDE&quot; 
+# 
+# $`A:B:C`
+#    ABCE    BCDF    ADEF 
+#     &quot;E&quot;   &quot;ADF&quot; &quot;BCDEF&quot; 
+# 
+# $`A:B:D`
+#  ABCE  BCDF  ADEF 
+# &quot;CDE&quot; &quot;ACF&quot; &quot;BEF&quot; 
+# 
+# $`A:C:D`
+#  ABCE  BCDF  ADEF 
+# &quot;BDE&quot; &quot;ABF&quot; &quot;CEF&quot; 
+# 
+# $`B:C:D`
+#    BCDF    ABCE    ADEF 
+#     &quot;F&quot;   &quot;ADE&quot; &quot;ABCEF&quot; 
+# 
+# $`A:B:E`
+#    ABCE    ADEF    BCDF 
+#     &quot;C&quot;   &quot;BDF&quot; &quot;ACDEF&quot; 
+# 
+# $`A:C:E`
+#    ABCE    ADEF    BCDF 
+#     &quot;B&quot;   &quot;CDF&quot; &quot;ABDEF&quot; 
+# 
+# $`B:C:E`
+#    ABCE    BCDF    ADEF 
+#     &quot;A&quot;   &quot;DEF&quot; &quot;ABCDF&quot; 
+# 
+# $`A:D:E`
+#    ADEF    ABCE    BCDF 
+#     &quot;F&quot;   &quot;BCD&quot; &quot;ABCEF&quot; 
+# 
+# $`B:D:E`
+#  ABCE  BCDF  ADEF 
+# &quot;ACD&quot; &quot;CEF&quot; &quot;ABF&quot; 
+# 
+# $`C:D:E`
+#  ABCE  BCDF  ADEF 
+# &quot;ABD&quot; &quot;BEF&quot; &quot;ACF&quot; 
+# 
+# $`A:B:F`
+#  ABCE  BCDF  ADEF 
+# &quot;CEF&quot; &quot;ACD&quot; &quot;BDE&quot; 
+# 
+# $`A:C:F`
+#  ABCE  BCDF  ADEF 
+# &quot;BEF&quot; &quot;ABD&quot; &quot;CDE&quot; 
+# 
+# $`B:C:F`
+#    BCDF    ABCE    ADEF 
+#     &quot;D&quot;   &quot;AEF&quot; &quot;ABCDE&quot; 
+# 
+# $`A:D:F`
+#    ADEF    BCDF    ABCE 
+#     &quot;E&quot;   &quot;ABC&quot; &quot;BCDEF&quot; 
+# 
+# $`B:D:F`
+#    BCDF    ADEF    ABCE 
+#     &quot;C&quot;   &quot;ABE&quot; &quot;ACDEF&quot; 
+# 
+# $`C:D:F`
+#    BCDF    ADEF    ABCE 
+#     &quot;B&quot;   &quot;ACE&quot; &quot;ABDEF&quot; 
+# 
+# $`A:E:F`
+#    ADEF    ABCE    BCDF 
+#     &quot;D&quot;   &quot;BCF&quot; &quot;ABCDE&quot; 
+# 
+# $`B:E:F`
+#  ABCE  BCDF  ADEF 
+# &quot;ACF&quot; &quot;CDE&quot; &quot;ABD&quot; 
+# 
+# $`C:E:F`
+#  ABCE  BCDF  ADEF 
+# &quot;ABF&quot; &quot;BDE&quot; &quot;ACD&quot; 
+# 
+# $`D:E:F`
+#    ADEF    BCDF    ABCE 
+#     &quot;A&quot;   &quot;BCE&quot; &quot;ABCDF&quot; 
+# 
+# $`A:B:C:D`
+#   ABCE   BCDF   ADEF 
+#   &quot;DE&quot;   &quot;AF&quot; &quot;BCEF&quot; 
+# 
+# $`A:B:C:E`
+#   ABCE   BCDF   ADEF 
+#     &quot;&quot; &quot;ADEF&quot; &quot;BCDF&quot; 
+# 
+# $`A:B:D:E`
+#   ABCE   ADEF   BCDF 
+#   &quot;CD&quot;   &quot;BF&quot; &quot;ACEF&quot; 
+# 
+# $`A:C:D:E`
+#   ABCE   ADEF   BCDF 
+#   &quot;BD&quot;   &quot;CF&quot; &quot;ABEF&quot; 
+# 
+# $`B:C:D:E`
+#   ABCE   BCDF   ADEF 
+#   &quot;AD&quot;   &quot;EF&quot; &quot;ABCF&quot; 
+# 
+# $`A:B:C:F`
+#   ABCE   BCDF   ADEF 
+#   &quot;EF&quot;   &quot;AD&quot; &quot;BCDE&quot; 
+# 
+# $`A:B:D:F`
+#   BCDF   ADEF   ABCE 
+#   &quot;AC&quot;   &quot;BE&quot; &quot;CDEF&quot; 
+# 
+# $`A:C:D:F`
+#   BCDF   ADEF   ABCE 
+#   &quot;AB&quot;   &quot;CE&quot; &quot;BDEF&quot; 
+# 
+# $`B:C:D:F`
+#   BCDF   ABCE   ADEF 
+#     &quot;&quot; &quot;ADEF&quot; &quot;ABCE&quot; 
+# 
+# $`A:B:E:F`
+#   ABCE   ADEF   BCDF 
+#   &quot;CF&quot;   &quot;BD&quot; &quot;ACDE&quot; 
+# 
+# $`A:C:E:F`
+#   ABCE   ADEF   BCDF 
+#   &quot;BF&quot;   &quot;CD&quot; &quot;ABDE&quot; 
+# 
+# $`B:C:E:F`
+#   ABCE   BCDF   ADEF 
+#   &quot;AF&quot;   &quot;DE&quot; &quot;ABCD&quot; 
+# 
+# $`A:D:E:F`
+#   ADEF   ABCE   BCDF 
+#     &quot;&quot; &quot;BCDF&quot; &quot;ABCE&quot; 
+# 
+# $`B:D:E:F`
+#   BCDF   ADEF   ABCE 
+#   &quot;CE&quot;   &quot;AB&quot; &quot;ACDF&quot; 
+# 
+# $`C:D:E:F`
+#   BCDF   ADEF   ABCE 
+#   &quot;BE&quot;   &quot;AC&quot; &quot;ABDF&quot; 
+# 
+# $`A:B:C:D:E`
+#  ABCE  BCDF  ADEF 
+#   &quot;D&quot; &quot;AEF&quot; &quot;BCF&quot; 
+# 
+# $`A:B:C:D:F`
+#  BCDF  ABCE  ADEF 
+#   &quot;A&quot; &quot;DEF&quot; &quot;BCE&quot; 
+# 
+# $`A:B:C:E:F`
+#  ABCE  BCDF  ADEF 
+#   &quot;F&quot; &quot;ADE&quot; &quot;BCD&quot; 
+# 
+# $`A:B:D:E:F`
+#  ADEF  ABCE  BCDF 
+#   &quot;B&quot; &quot;CDF&quot; &quot;ACE&quot; 
+# 
+# $`A:C:D:E:F`
+#  ADEF  ABCE  BCDF 
+#   &quot;C&quot; &quot;BDF&quot; &quot;ABE&quot; 
+# 
+# $`B:C:D:E:F`
+#  BCDF  ABCE  ADEF 
+#   &quot;E&quot; &quot;ADF&quot; &quot;ABC&quot; 
+# 
+# $`A:B:C:D:E:F`
+# ABCE BCDF ADEF 
+# &quot;DF&quot; &quot;AE&quot; &quot;BC&quot;
+
+## Portanto, montamos a tabela de sinais com os fatores únicos
+(tab &lt;- unique(tab, MARGIN = 2))
+#        (Intercept)  A  B  C  D  E  F A:B A:C B:C A:D B:D C:D D:E A:B:D
+# (1)              1 -1 -1 -1 -1 -1 -1   1   1   1   1   1   1   1    -1
+# ae               1  1 -1 -1 -1  1 -1  -1  -1   1  -1   1   1  -1     1
+# bef              1 -1  1 -1 -1  1  1  -1   1  -1   1  -1   1  -1     1
+# abf              1  1  1 -1 -1 -1  1   1  -1  -1  -1  -1   1   1    -1
+# cef              1 -1 -1  1 -1  1  1   1  -1  -1   1   1  -1  -1    -1
+# acf              1  1 -1  1 -1 -1  1  -1   1  -1  -1   1  -1   1     1
+# bc               1 -1  1  1 -1 -1 -1  -1  -1   1   1  -1  -1   1     1
+# abce             1  1  1  1 -1  1 -1   1   1   1  -1  -1  -1  -1    -1
+# df               1 -1 -1 -1  1 -1  1   1   1   1  -1  -1  -1  -1     1
+# adef             1  1 -1 -1  1  1  1  -1  -1   1   1  -1  -1   1    -1
+# bde              1 -1  1 -1  1  1 -1  -1   1  -1  -1   1  -1   1    -1
+# abd              1  1  1 -1  1 -1 -1   1  -1  -1   1   1  -1  -1     1
+# cde              1 -1 -1  1  1  1 -1   1  -1  -1  -1  -1   1   1     1
+# acd              1  1 -1  1  1 -1 -1  -1   1  -1   1  -1   1  -1    -1
+# bcdf             1 -1  1  1  1 -1  1  -1  -1   1  -1   1   1  -1    -1
+# abcdef           1  1  1  1  1  1  1   1   1   1   1   1   1   1     1
+#        A:C:D
+# (1)       -1
+# ae         1
+# bef       -1
+# abf        1
+# cef        1
+# acf       -1
+# bc         1
+# abce      -1
+# df         1
+# adef      -1
+# bde        1
+# abd       -1
+# cde       -1
+# acd        1
+# bcdf      -1
+# abcdef     1
+
+##----------------------------------------------------------------------
+## Estimativa dos efeitos
+## Contrastes
+contr &lt;- t(tab[, -1]) %*% dados$y
+## Efeitos = contraste/(r 2^{k-1})
+## NOTE que o k é 4, pois o planejamento básico é 2^{6-2} = 2^4
+k &lt;- 4
+r &lt;- 1
+(ef &lt;- contr/(r * 2^(k - 1)))
+#         [,1]
+# A     13.875
+# B     35.625
+# C     -0.875
+# D      1.375
+# E      0.375
+# F      0.375
+# A:B   11.875
+# A:C   -1.625
+# B:C   -1.875
+# A:D   -5.375
+# B:D   -0.125
+# C:D   -0.125
+# D:E    0.625
+# A:B:D  0.125
+# A:C:D -4.875
+
+##----------------------------------------------------------------------
+## Gráfico de probabilidade normal dos efeitos estimados
+qqaux &lt;- qqnorm(ef, col = 2, pch = 19); qqline(ef)
+text(qqaux$x, qqaux$y, rownames(qqaux$y), cex = 0.8, pos = 3)</code></pre>
+<p><img src="figures/unnamed-chunk-33-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>
+##----------------------------------------------------------------------
+## Ajuste do modelo
+## Como vimos no gráfico anterior, os efeitos A, B, e as interações AB,
+## AD, e ACD parecem importantes, então podemos ajustar o modelo
+m0 &lt;- lm(y ~ A + B + C + D + A:B + A:D + A:C:D, data = dados)
+anova(m0)
+# Analysis of Variance Table
+# 
+# Response: y
+#           Df Sum Sq Mean Sq   F value    Pr(&gt;F)    
+# A          1  770.1   770.1  224.0182 3.919e-07 ***
+# B          1 5076.6  5076.6 1476.8182 2.309e-10 ***
+# C          1    3.1     3.1    0.8909 0.3728597    
+# D          1    7.6     7.6    2.2000 0.1762999    
+# A:B        1  564.1   564.1  164.0909 1.301e-06 ***
+# A:D        1  115.6   115.6   33.6182 0.0004060 ***
+# A:C:D      1   95.1    95.1   27.6545 0.0007657 ***
+# Residuals  8   27.5     3.4                        
+# ---
+# Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+## Como as interações AD e ACD requerem a permanencia dos efeitos
+## principais (não significativos) C e D, podemos ajustar um modelo mais
+## simples, sem estes termos
+m1 &lt;- lm(y ~ A + B + A:B, data = dados)
+anova(m1)
+# Analysis of Variance Table
+# 
+# Response: y
+#           Df Sum Sq Mean Sq F value    Pr(&gt;F)    
+# A          1  770.1   770.1  37.149 5.377e-05 ***
+# B          1 5076.6  5076.6 244.899 2.392e-09 ***
+# A:B        1  564.1   564.1  27.211  0.000216 ***
+# Residuals 12  248.8    20.7                      
+# ---
+# Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+## E verificar se existe diferença com o nosso modelo inicial através
+## de um TRV. Se a diferença for significativa, significa que não podemos
+## ignorar os efeitos de AD e ACD (lembre que C e D precisam ser
+## mantidos, mesmo que não significativos, pelo princípio da
+## marginalidade)
+anova(m1, m0)
+# Analysis of Variance Table
+# 
+# Model 1: y ~ A + B + A:B
+# Model 2: y ~ A + B + C + D + A:B + A:D + A:C:D
+#   Res.Df    RSS Df Sum of Sq      F    Pr(&gt;F)    
+# 1     12 248.75                                  
+# 2      8  27.50  4    221.25 16.091 0.0006808 ***
+# ---
+# Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+## Como o resultado é que existe diferença, devemos ficar com o modelo
+## com mais parâmetros (m0)
+
+##----------------------------------------------------------------------
+## Residuos do modelo
+res &lt;- residuals(m0)
+## Quantis normais
+qqnorm(res); qqline(res)</code></pre>
+<p><img src="figures/unnamed-chunk-33-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Esse exemplo ilustra a importância do fatorial fracionado. Se tivessemos feito o experimento <span class="math inline">\(2^6 = 64\)</span> corridas, poderíamos estimar interações de ordens altas, mas com a fração <span class="math inline">\(1/4\)</span>, de 16 corridas, verificamos que só 2 efeitos principais, duas interações de segunda ordem e uma de terceira ordem são importantes. Com economia, selecionamos de 6 variáveis, apenas 2 principais, que são importantes, e que agora serão investigadas com maior rigor em experimento mais elaborados subsequentes. O fundamento do planejamento de experimentos é exatamente esse: obter maior informação possível, tirar o máximo de vantagem e da forma mais econômica, ou seja, ser eficiente na investigação.</p>
+</div>
+</div>
+<div id="resolucao-de-um-planejamento-fatorial-fracionado" class="section level1">
+<h1>Resolução de um planejamento fatorial fracionado</h1>
+<p>Resolução é uma propriedade dos experimentos fatoriais fracionados relacionada a ordem dos efeitos que estão confundidos. É representado por um subscrito romano. Considere a palavra resolução como sinônimo de grau de distinção, como em uma fotografia, com alta resolução é fácil distinguir elementos da imagem. Um experimento de alta resolução tem efeitos importantes (1ª e 2ª ordem) confundidos com interações de grau elevado, enquanto que resoluções baixas indicam que efeitos de 2ª ordem estão confundidos entre si e com efeitos principais.</p>
+<p>Planejamentos de resolução III, IV, e V são particularmente importantes, e possuem as seguintes características:</p>
+<ul>
+<li><strong>Planejamentos de resolução III</strong>: nenhum efeito principal está associado com qualquer outro efeito principal, porém efeitos principais estão associados com interações de segunda ordem, e algumas interações de segunda ordem <strong>podem</strong> estar associadas entre si. Exemplo: fatorial <span class="math inline">\(2^{3-1}_{III}\)</span></li>
+</ul>
+<pre class="r"><code>## Experimento fatorial 2^(3-1) com I = ABC
+da &lt;- expand.grid(A = c(-1, 1), B = c(-1, 1))
+da$C &lt;- with(da, A * B)
+tab &lt;- model.matrix(~ A * B * C, da)
+aliases(ef = colnames(tab)[-c(1, 8)], cd = &quot;ABC&quot;)
+# $A
+#  ABC 
+# &quot;BC&quot; 
+# 
+# $B
+#  ABC 
+# &quot;AC&quot; 
+# 
+# $C
+#  ABC 
+# &quot;AB&quot; 
+# 
+# $`A:B`
+# ABC 
+# &quot;C&quot; 
+# 
+# $`A:C`
+# ABC 
+# &quot;B&quot; 
+# 
+# $`B:C`
+# ABC 
+# &quot;A&quot;</code></pre>
+<ul>
+<li><strong>Planejamentos de resolução IV</strong>: nenhum efeito principal está associado com qualquer outro efeito principal ou com interações de segunda ordem, porém interações de segunda ordem estão associadas entre si. Exemplo: fatorial <span class="math inline">\(2^{4-1}_{IV}\)</span></li>
+</ul>
+<pre class="r"><code>## Experimento fatorial 2^(4-1) com I = ABCD
+da &lt;- expand.grid(A = c(-1, 1), B = c(-1, 1), C = c(-1, 1))
+da$D &lt;- with(da, A * B * C)
+tab &lt;- model.matrix(~ A * B * C * D, da)
+aliases(ef = colnames(tab)[-c(1, 16)], cd = &quot;ABCD&quot;)
+# $A
+#  ABCD 
+# &quot;BCD&quot; 
+# 
+# $B
+#  ABCD 
+# &quot;ACD&quot; 
+# 
+# $C
+#  ABCD 
+# &quot;ABD&quot; 
+# 
+# $D
+#  ABCD 
+# &quot;ABC&quot; 
+# 
+# $`A:B`
+# ABCD 
+# &quot;CD&quot; 
+# 
+# $`A:C`
+# ABCD 
+# &quot;BD&quot; 
+# 
+# $`B:C`
+# ABCD 
+# &quot;AD&quot; 
+# 
+# $`A:D`
+# ABCD 
+# &quot;BC&quot; 
+# 
+# $`B:D`
+# ABCD 
+# &quot;AC&quot; 
+# 
+# $`C:D`
+# ABCD 
+# &quot;AB&quot; 
+# 
+# $`A:B:C`
+# ABCD 
+#  &quot;D&quot; 
+# 
+# $`A:B:D`
+# ABCD 
+#  &quot;C&quot; 
+# 
+# $`A:C:D`
+# ABCD 
+#  &quot;B&quot; 
+# 
+# $`B:C:D`
+# ABCD 
+#  &quot;A&quot;</code></pre>
+<ul>
+<li><strong>Planejamentos de resolução V</strong>: nenhum efeito principal ou interação de segunda ordem estão associados com qualquer outro efeito principal ou interaçõs de segunda ordem, porém interações de segunda ordem estão associadas com interações de terceira ordem. Exemplo: fatorial <span class="math inline">\(2^{5-1}_{V}\)</span></li>
+</ul>
+<pre class="r"><code>## Experimento fatorial 2^(5-1) com I = ABCDE
+da &lt;- expand.grid(A = c(-1, 1), B = c(-1, 1), C = c(-1, 1), D = c(-1, 1))
+da$E &lt;- with(da, A * B * C * D)
+tab &lt;- model.matrix(~ A * B * C * D * E, da)
+aliases(ef = colnames(tab)[-c(1, 32)], cd = &quot;ABCDE&quot;)
+# $A
+#  ABCDE 
+# &quot;BCDE&quot; 
+# 
+# $B
+#  ABCDE 
+# &quot;ACDE&quot; 
+# 
+# $C
+#  ABCDE 
+# &quot;ABDE&quot; 
+# 
+# $D
+#  ABCDE 
+# &quot;ABCE&quot; 
+# 
+# $E
+#  ABCDE 
+# &quot;ABCD&quot; 
+# 
+# $`A:B`
+# ABCDE 
+# &quot;CDE&quot; 
+# 
+# $`A:C`
+# ABCDE 
+# &quot;BDE&quot; 
+# 
+# $`B:C`
+# ABCDE 
+# &quot;ADE&quot; 
+# 
+# $`A:D`
+# ABCDE 
+# &quot;BCE&quot; 
+# 
+# $`B:D`
+# ABCDE 
+# &quot;ACE&quot; 
+# 
+# $`C:D`
+# ABCDE 
+# &quot;ABE&quot; 
+# 
+# $`A:E`
+# ABCDE 
+# &quot;BCD&quot; 
+# 
+# $`B:E`
+# ABCDE 
+# &quot;ACD&quot; 
+# 
+# $`C:E`
+# ABCDE 
+# &quot;ABD&quot; 
+# 
+# $`D:E`
+# ABCDE 
+# &quot;ABC&quot; 
+# 
+# $`A:B:C`
+# ABCDE 
+#  &quot;DE&quot; 
+# 
+# $`A:B:D`
+# ABCDE 
+#  &quot;CE&quot; 
+# 
+# $`A:C:D`
+# ABCDE 
+#  &quot;BE&quot; 
+# 
+# $`B:C:D`
+# ABCDE 
+#  &quot;AE&quot; 
+# 
+# $`A:B:E`
+# ABCDE 
+#  &quot;CD&quot; 
+# 
+# $`A:C:E`
+# ABCDE 
+#  &quot;BD&quot; 
+# 
+# $`B:C:E`
+# ABCDE 
+#  &quot;AD&quot; 
+# 
+# $`A:D:E`
+# ABCDE 
+#  &quot;BC&quot; 
+# 
+# $`B:D:E`
+# ABCDE 
+#  &quot;AC&quot; 
+# 
+# $`C:D:E`
+# ABCDE 
+#  &quot;AB&quot; 
+# 
+# $`A:B:C:D`
+# ABCDE 
+#   &quot;E&quot; 
+# 
+# $`A:B:C:E`
+# ABCDE 
+#   &quot;D&quot; 
+# 
+# $`A:B:D:E`
+# ABCDE 
+#   &quot;C&quot; 
+# 
+# $`A:C:D:E`
+# ABCDE 
+#   &quot;B&quot; 
+# 
+# $`B:C:D:E`
+# ABCDE 
+#   &quot;A&quot;</code></pre>
+</div>
+<div id="resumindo" class="section level1">
+<h1>Resumindo</h1>
+<p>Em geral, um planejamento fracionário <span class="math inline">\(2^k\)</span>, contendo <span class="math inline">\(2^{k-p}\)</span> corridas é chamado de uma fração <span class="math inline">\(1/2^p\)</span> do planejamento <span class="math inline">\(2^k\)</span>, ou simplesmente de fatorial fracionado <span class="math inline">\(2^{k-p}\)</span>. Esses experimentos requerem a seleção de <span class="math inline">\(p\)</span> geradores independentes. A relação de definição para o planejamento consiste em <span class="math inline">\(p\)</span> geradores, inicialmente escolhidos, e <span class="math inline">\(2^p - p - 1\)</span> interações generalizadas.</p>
+<p>A estrutura de associação pode ser encontrada multiplicando cada coluna de efeito pela relação de definição. Cuidado deve ser tomado ao escolher os geradores, de modo que os efeitos de interesse potencial não estejam associados entre si. Cada efeito tem <span class="math inline">\(2^p - 1\)</span> pares associados.</p>
+<p>É importante selecionar os <span class="math inline">\(p\)</span> geradores para o planejamento fatorial fracionário <span class="math inline">\(2^{k-p}\)</span>, de tal maneira que obtenhamos as melhores relações possíveis de associação. Um critério razoável é selecionar os geradores de forma que o planejamento <span class="math inline">\(2^{k-p}\)</span> resultante tenha a <strong>mais alta resolução possível</strong>. Tabelas de geradores podem ser encontradas em livros como <a href="http://www.wiley.com/WileyCDA/WileyTitle/productCd-EHEP002024.html">Montgomery (2013)</a>. Veja um exemplo <a href="img/tab_fat_frac.pdf">aqui</a>.</p>
+</div>
+<div id="exercicios" class="section level1">
+<h1>Exercícios</h1>
+<ol style="list-style-type: decimal">
+<li>Considere os dados de um experimento completo <span class="math inline">\(2^5\)</span> disponível <a href="http://www.leg.ufpr.br/~fernandomayer/data/montgomery_14-41.txt">aqui</a>. Suponha que somente metade das 32 corridas pode ser feita. Com isso:
+<ol style="list-style-type: lower-alpha">
+<li>Escolha a metade que você pensa que deve ser corrida</li>
+<li>Determine as relações associadas para seu planejamento</li>
+<li>Estime os efeitos dos fatores</li>
+<li>Faça um gráfico de probabilidade normal para os efeitos estimados</li>
+<li>Faça a análise de variância para os fatores identificados como importantes no item anterior</li>
+<li>Analise os resíduos do modelo</li>
+</ol></li>
+<li>Considere que no experimento <span class="math inline">\(2^5\)</span> disponível <a href="http://www.leg.ufpr.br/~fernandomayer/data/montgomery_14-14.txt">aqui</a>, somente duas meia-frações (<span class="math inline">\(1/4\)</span>) das 32 corridas pode ser feita (fatorial <span class="math inline">\(2^{5-2}\)</span>). Com isso:
+<ol style="list-style-type: lower-alpha">
+<li>Escolha duas relações de definição, e selecione a fração que você pensa que deve ser corrida</li>
+<li>Determine as relações associadas para seu planejamento</li>
+<li>Estime os efeitos dos fatores</li>
+<li>Faça um gráfico de probabilidade normal para os efeitos estimados</li>
+<li>Faça a análise de variância para os fatores identificados como importantes no item anterior</li>
+<li>Analise os resíduos do modelo</li>
+</ol></li>
+</ol>
+<p>As respostas para os exercícios estão nesse <a href="scripts/fatorial_fracionado-respostas.R">script</a>.</p>
+</div>
+
+<center>
+  <hr width="100%" size="3px">
+  <p> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.pt_BR">
+      <img src="img/CC_by-nc-sa_80x15.png" alt="Licença Creative Commons 4.0"> </a>
+  </p>
+  <p> <font size="2"> Este conteúdo
+      está disponível por meio da Licença Creative Commons 4.0 </font>
+  </p>
+</center>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

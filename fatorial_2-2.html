@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Experimentos fatoriais 2^2</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<script>
+ (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ ga('create', 'UA-102804671-3', 'auto');
+ ga('send', 'pageview');
+
+</script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = false;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">CE074</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="aulas.html">Aulas</a>
+</li>
+<li>
+  <a href="referencias.html">Referências</a>
+</li>
+<li>
+  <a href="recursos.html">Recursos</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Materiais
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Introdução e revisão</li>
+    <li>
+      <a href="catalizando-conhecimento.html">Catalizando a geração de conhecimento [HTML]</a>
+    </li>
+    <li>
+      <a href="modelos-lineares.html">Modelos lineares e reparametrizações [HTML]</a>
+    </li>
+    <li class="dropdown-header">Experimentos fatoriais</li>
+    <li>
+      <a href="anova-geral.html">ANOVA por meio de Diagramas de Hasse [HTML]</a>
+    </li>
+    <li>
+      <a href="fatorial_2-2.html">Experimentos fatorias 2^2 [HTML]</a>
+    </li>
+    <li>
+      <a href="fatorial_2-3.html">Experimentos fatorias 2^3 [HTML]</a>
+    </li>
+    <li>
+      <a href="fatorial_2-k.html">Experimentos fatorias 2^k, k &gt; 3 [HTML]</a>
+    </li>
+    <li>
+      <a href="fatorial_pontos-centrais.html">Adição de pontos centrais em planejamentos 2^k [HTML]</a>
+    </li>
+    <li>
+      <a href="confundimento-blocagem.html">Técnicas de confundimento para blocagem em fatorias 2^k [HTML]</a>
+    </li>
+    <li>
+      <a href="fatorial_fracionado.html">Experimentos fatorias fracionados 2^{k-p} [HTML]</a>
+    </li>
+    <li>
+      <a href="msr.html">Metodologia de Superfície de Resposta [HTML]</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Scripts</li>
+    <li>
+      <a href="scripts/script_racoes_pimentel.R">Tipos de contrastes em modelos lineares [R]</a>
+    </li>
+    <li>
+      <a href="scripts/script_catalisador.R">Interpretação de efeitos estimados em modelos lineares [R]</a>
+    </li>
+    <li>
+      <a href="scripts/script_fatorial_2-2.R">Análise completa de um fatorial 2^2 [R]</a>
+    </li>
+    <li>
+      <a href="scripts/script_fatorial_2-6.R">Análise completa de um fatorial 2^6 [R]</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Experimento</li>
+    <li>
+      <a href="instrucoes-planejamento.html">Instruções para o planejamento de experimentos [HTML]</a>
+    </li>
+    <li>
+      <a href="misc/guia-planejamento.html">Guia para o planejamento de experimentos [HTML]</a>
+    </li>
+    <li>
+      <a href="misc/guia-planejamento.Rmd">Guia para o planejamento de experimentos [Rmd]</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Exercícios</li>
+    <li>
+      <a href="exercicios/ex_revisao.pdf">Revisão de conhecimento [PDF]</a>
+    </li>
+    <li>
+      <a href="exercicios/ex_fatorial.pdf">Experimentos fatoriais [PDF]</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/fernandomayer/ce074">
+    <span class="fa fa-github fa-lg"></span>
+     
+    GitHub
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Experimentos fatoriais <span class="math inline">\(2^2\)</span></h1>
+
+</div>
+
+
+<div id="introducao" class="section level1">
+<h1>Introdução</h1>
+<p>Para realizar um experimento fatorial, seleciona-se um número fixo de <strong>níveis</strong> de cada um dos <strong>fatores</strong> (variáveis explicativas ou tratamentos), e realiza-se os experimentos em todas as possíveis combinações. Vamos analisar inicialmente experimentos que possuem apenas dois níveis para cada fator, por isso são chamados de experimentos <span class="math inline">\(2^k\)</span>.</p>
+<pre><code>                       |-&gt; número de fatores
+                     2^k =  número de observações (mas pode ter repetições)
+  número de níveis &lt;-|</code></pre>
+<p>Os fatores podem ser qualitativos ou quantitativos. Dessa forma, dois níveis de uma variável quantitativa podem ser duas temperaturas, ou duas concentrações diferentes. Para fatores qualitativos, os níveis podem ser dois tipos de catalisador ou a presença/ausência de alguma substância.</p>
+<p>Experimentos fatorias com dois níveis são extremamente importantes porque:</p>
+<ol style="list-style-type: decimal">
+<li>Requerem relativamente poucas “corridas” para cada fator estudado.</li>
+<li>A interpretação dos resultados obtidos pode ser feita de forma direta, através do senso comum, aritmética simples e gráficos.</li>
+<li>Quando os fatores são quantitativos, embora não seja possível explorar uma vasta região do espaço do fator, pode-se determinar uma direção para experimentos futuros.</li>
+<li>Os experimentos podem ser convenientemente aumentados quando uma exploração mais completa for necessária, um processo chamado de <strong>exploração sequencial</strong>.</li>
+<li>Eles formam a base para os experimentos <strong>fatoriais fracionados</strong>, onde apenas uma parte (cuidadosamente escolhida) de um fatorial completo é realizada. Estes experimentos são de particular interesse quando se deseja fazer uma <em>triagem</em> para determinar os fatores mais importantes de um conjunto muito grande de variáveis (<em>factor screening</em>).</li>
+<li>Experimentos fatorias ou fatorias fracionados são naturalmente utilizados como uma estratégia sequencial de geração de conhecimento, conforme visto <a href="catalizando-conhecimento.html">anteriormente</a>.</li>
+</ol>
+<p>Por isso, os experimentos fatoriais são utilizados em fases exploratórias da região experimental pois permitem estudar com baixo custo um número grande de fatores. Isso permite selecionar os fatores de importância e indica uma nova região experimental para um próximo ensaio. Decorrente do uso de apenas 2 níveis por fator, assume-se que a resposta seja aproximadamente linear ao redor dos níveis dos fatores estudados.</p>
+</div>
+<div id="modelo-estatistico" class="section level1">
+<h1>Modelo estatístico</h1>
+<p>O modelo mais simples de um experimento fatorial <span class="math inline">\(2^2\)</span> é aquele que possui apenas uma observação para cada combinação dos dois fatores envolvidos, ou seja, não existem repetições, e o experimento possui apenas 4 observações. Nesse caso o modelo é</p>
+<p><span class="math display">\[
+y_{ij} = \mu + \alpha_i + \beta_j + \gamma_{ij} + \epsilon_{ij}
+\]</span></p>
+<p>onde <span class="math inline">\(\mu\)</span> é a média geral do experimento, <span class="math inline">\(\alpha_{i}\)</span> é o efeito do <span class="math inline">\(i\)</span>-ésimo nível do fator A, <span class="math inline">\(\beta_{j}\)</span> é o efeito do <span class="math inline">\(j\)</span>-ésimo nível do fator B, <span class="math inline">\(\gamma_{ij}\)</span> é o efeito da interação entre A e B, e <span class="math inline">\(\epsilon_{ij}\)</span> é o erro aleatório. Nesse caso particular de um experimento <span class="math inline">\(2^2\)</span>, temos <span class="math inline">\(i = 1, \ldots, a\)</span>, e <span class="math inline">\(j = 1, \ldots, b\)</span>, onde <span class="math inline">\(a = b = 2\)</span>.</p>
+<p>Se o experimento possui mais de uma observação por combinação dos fatores A e B, então dizemos que o experimento possui <span class="math inline">\(r\)</span> <strong>réplicas</strong> ou <strong>repetições</strong>. Nesse caso, uma observação na {<span class="math inline">\(ij\)</span>}-ésima célula para a <span class="math inline">\(k\)</span>-ésima repetição é denotada por <span class="math inline">\(y_{ijk}\)</span>, e o modelo fica</p>
+<p><span class="math display">\[
+y_{ijk} = \mu + \alpha_i + \beta_j + \gamma_{ij} + \epsilon_{ijk}
+\]</span></p>
+<p>com <span class="math inline">\(k = 1, \ldots, r\)</span> representando as repetições. Dessa forma, o número total de observações do experimento será <span class="math inline">\(n = abr\)</span>.</p>
+</div>
+<div id="analise-de-variancia-anova" class="section level1">
+<h1>Análise de Variância (ANOVA)</h1>
+<p>Conforme visto <a href="anova-geral.html#experimentos_fatoriais">anteriormente</a>, vamos considerar um experimento fatorial em um delineamento inteiramente casualizado, supondo que o fator A possui <span class="math inline">\(a\)</span> níveis, o fator B possui <span class="math inline">\(b\)</span> níveis, e ocorrem <span class="math inline">\(r\)</span> repetições de cada combinação dos fatores A e B. Também vamos considerar aqui que todos os fatores são de <strong>efeito fixo</strong>.</p>
+<p>Os modelos acima podem ser escritos na forma matricial como:</p>
+<p><span class="math display">\[
+\begin{align}
+\mathbf{Y} &amp;= \mathbf{X}\boldsymbol{\theta} +
+\boldsymbol{\epsilon} \\
+\mathbf{Y} &amp;= \mathbf{X_G}\boldsymbol{\mu} +
+\mathbf{X_A}\boldsymbol{\alpha} +
+\mathbf{X_B}\boldsymbol{\beta} +
+\mathbf{X_{AB}}\boldsymbol{\gamma} +
+\boldsymbol{\epsilon}
+\end{align}
+\]</span></p>
+<p>Onde as matrizes <span class="math inline">\(\mathbf{X}\)</span> são partições da matriz de delineamento geral do modelo. Pelo diagrama de Hasse, chegamos à tabela geral de ANOVA para experimentos fatoriais em DIC:</p>
+<table>
+<colgroup>
+<col width="15%" />
+<col width="11%" />
+<col width="18%" />
+<col width="31%" />
+<col width="24%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonte de variação</th>
+<th>GL</th>
+<th>SQ</th>
+<th>QM</th>
+<th>E[QM]</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Parcela</td>
+<td><span class="math inline">\(rab-1\)</span></td>
+<td><span class="math inline">\(\mathbf{Y&#39;Q_{P}Y}\)</span></td>
+<td><span class="math inline">\(\frac{\mathbf{Y&#39;Q_{P}Y}}{rab-1}\)</span></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>¬¬Fator A</td>
+<td><span class="math inline">\(a-1\)</span></td>
+<td><span class="math inline">\(\mathbf{Y&#39;Q_{A}Y}\)</span></td>
+<td><span class="math inline">\(\frac{\mathbf{Y&#39;Q_{A}Y}}{a-1}\)</span></td>
+<td><span class="math inline">\(\sigma^2_{P} + q_A(\Psi)\)</span></td>
+</tr>
+<tr class="odd">
+<td>¬¬Fator B</td>
+<td><span class="math inline">\(b-1\)</span></td>
+<td><span class="math inline">\(\mathbf{Y&#39;Q_{B}Y}\)</span></td>
+<td><span class="math inline">\(\frac{\mathbf{Y&#39;Q_{B}Y}}{b-1}\)</span></td>
+<td><span class="math inline">\(\sigma^2_{P} + q_B(\Psi)\)</span></td>
+</tr>
+<tr class="even">
+<td>¬¬A#B</td>
+<td><span class="math inline">\((a-1)(b-1)\)</span></td>
+<td><span class="math inline">\(\mathbf{Y&#39;Q_{AB}Y}\)</span></td>
+<td><span class="math inline">\(\frac{\mathbf{Y&#39;Q_{AB}Y}}{(a-1)(b-1)}\)</span></td>
+<td><span class="math inline">\(\sigma^2_{P} + q_{AB}(\Psi)\)</span></td>
+</tr>
+<tr class="odd">
+<td>¬¬Resíduo</td>
+<td><span class="math inline">\(ab(r-1)\)</span></td>
+<td><span class="math inline">\(\mathbf{Y&#39;Q_{Res}Y}\)</span></td>
+<td><span class="math inline">\(\frac{\mathbf{Y&#39;Q_{Res}Y}}{ab(r-1)}\)</span></td>
+<td><span class="math inline">\(\sigma^2_{P}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>As hipóteses a serem testadas, como vistas pela <span class="math inline">\(E[QM]\)</span> são então:</p>
+<p><span class="math display">\[
+\text{H}_0: q_A(\Psi) = 0 \qquad \text{H}_0: q_B(\Psi) = 0 \qquad
+\text{H}_0: q_{AB}(\Psi) = 0
+\]</span></p>
+<p>Que são hipóteses equivalentes a:</p>
+<p><span class="math display">\[
+\begin{align}
+\text{H}_0 &amp;: \alpha_1 = \cdots = \alpha_a = 0 \\
+\text{H}_1 &amp;: \text{pelo menos um}\ \alpha_i \neq 0 \\
+\end{align}
+\]</span></p>
+<p><span class="math display">\[
+\begin{align}
+\text{H}_0 &amp;: \beta_1 = \cdots = \beta_b = 0 \\
+\text{H}_1 &amp;: \text{pelo menos um}\ \beta_j \neq 0 \\
+\end{align}
+\]</span></p>
+<p><span class="math display">\[
+\begin{align}
+\text{H}_0 &amp;: \gamma_{11} = \cdots = \gamma_{ab} = 0 \\
+\text{H}_1 &amp;: \text{pelo menos um}\ \gamma_{ij} \neq 0 \\
+\end{align}
+\]</span></p>
+<p>Dessa forma os testes F associados às hipóteses acima são:</p>
+<p><span class="math display">\[
+\begin{align}
+F_A &amp;= \frac{\textrm{QMA}}{\textrm{QMRes}} \\
+F_B &amp;= \frac{\textrm{QMB}}{\textrm{QMRes}} \\
+F_{AB} &amp;= \frac{\textrm{QMAB}}{\textrm{QMRes}}
+\end{align}
+\]</span></p>
+<p>Geralmente na ANOVA fatorial, a interação é analisada por primeiro. Caso a interação seja significativa, então os efeitos principais (que podem ou não ser também significativos) não possuem muito valor prático, pois não faz sentido analisar os efeitos isoladamente quando eles dependem entre si. Caso a interação não seja significativa, ela pode ser retirada do modelo e a interpretação sobre os efeitos principais é direta.</p>
+</div>
+<div id="estimacao-dos-efeitos" class="section level1">
+<h1>Estimação dos efeitos</h1>
+<p>A ANOVA para experimentos fatoriais determina quais fatores são importantes, ou seja, aqueles que possuem influência na variável resposta. Como mencionado anteriormente, caso a interação entre dois fatores seja significativa, analisa-se apenas a interação, pois o comportamente de uma variável é influenciado pela presença da outra (e vice-versa), e não faz sentido analisá-las individualmente. Nesse caso não importa se os outros fatores são significativos ou não, mas sempre deve-se preservá-los no modelo pelo <a href="https://en.wikipedia.org/wiki/Principle_of_marginality">princípio da marginalidade</a>.</p>
+<p>Caso a interação seja não significativa, esse termo pode ser removido do modelo, e analisa-se os efeitos dos fatores individuais. Caso um dos fatores seja também não significativo, então remove-se esse termo do modelo e obtém-se um modelo de um fator simples. (Se nenhum deles for significativo, seu melhor modelo é a média geral!)</p>
+<p>Após realizar a ANOVA e verificar quais fatores são importantes, o interesse está então em se analisar qual o <strong>efeito</strong> que cada nível de cada fator (ou da interação) possui sob a variável resposta. A análise dos efeitos irá demonstrar se determinado nível possui influência positiva ou negativa sob a variável, e se essa influência é estatisticamente significativa (através de um teste <span class="math inline">\(t\)</span> sob a hipótese nula de que o efeito é zero).</p>
+<p>Os efeitos nada mais são do que os coeficientes dos parâmetros estimados do modelo. Nesse caso, lembre-se que em modelos de ANOVA, para que os parâmetros possam ser estimados é necessário redefinir o modelo, ou utilizar algum tipo de restrição para qua a matriz <span class="math inline">\(\mathbf{X}\)</span> do modelo seja de posto completo e possa ser invertida. Sendo assim, é de se esperar que <strong>as estimativas dos efeitos sejam dependentes do tipo de parametrização ou restrição adotada</strong>. (Isso é o oposto do que acontece na ANOVA, pois as somas de quadrados são invariantes quanto ao tipo de restrição adotada).</p>
+<p><a href="modelos-lineares.html#modelo_de_análise_de_variância_(anova)">Vimos que existem várias formas</a> de restrição para tornar a matriz <span class="math inline">\(\mathbf{X}\)</span> de posto completo, entre elas a restrição de zerar o primeiro nível de um fator (padrão no R) e a restrição soma zero.</p>
+<p>Apesar da restrição de zerar o primeiro nível ser muito comum (principalmente por ser o padrão no R), existem vários motivos (que veremos mais adiante) para se utilizar a restrição do tipo soma zero. Entre esses motivos estão questões históricas (o desenvolvimento principal da teoria foi realizada com esta restrição por Frank Yates), e a facilidade da interpretação dos efeitos estimados. Convém ressaltar que o tipo de restrição muda apenas a forma como se interpretam os efeitos, e não tem a capacidade de alterar a interpretação final dos resultados (um nível significativo sempre será significativo, independente da restrição adotada).</p>
+<div id="usando-restricao-soma-zero" class="section level2">
+<h2>Usando restrição soma zero</h2>
+<p>Os experimentos fatorias em geral satisfazem as condições regulares (fatores ortogonais e balanceamento) e nesse caso as médias amostrais podem ser usadas para estimar os efeitos dos fatores. Isso facilita a execução da análise que pode ser feita no local do experimento com lápis e papel, outro experimento pode ser realizado em seguida a partir das conclusões tiradas.</p>
+<p>Os efeitos como contrastes entre médias são obtidos através do <strong>contraste soma zero</strong>. Para obter esse contraste em um experimento fatorial com dois fatores, considere que:</p>
+<p><span class="math display">\[
+\sum_{i=1}^{a} \alpha_i = 0 \qquad \sum_{j=1}^{b} \beta_j = 0
+\qquad \sum_{i=1}^{a}\sum_{j=1}^{b} \gamma_{ij} = 0
+\]</span></p>
+<p>Se considerarmos um experimento fatorial <span class="math inline">\(2^2\)</span> sem repetição então temos as seguintes equivalências:</p>
+<p><span class="math display">\[
+\begin{align}
+\alpha_1 + \alpha_2 = 0 \quad &amp;\Rightarrow \quad \alpha_2 = -\alpha_1 \\
+\beta_1 + \beta_2 = 0 \quad &amp;\Rightarrow \quad \beta_2 = -\beta_1 \\
+\gamma_{11} + \gamma_{12} + \gamma_{21} + \gamma_{22} = 0 \quad
+&amp;\Rightarrow \quad \gamma_{22} = -\gamma_{11} - \gamma_{12} - \gamma_{21}
+\end{align}
+\]</span></p>
+<p>Portanto, o modelo fica:</p>
+<p><span class="math display">\[
+\begin{align}
+y_{11} &amp;= \mu + \alpha_1 + \beta_1 + \gamma_{11} + \epsilon_{11} \\
+y_{12} &amp;= \mu + \alpha_1 - \beta_1 - \gamma_{12} + \epsilon_{12} \\
+y_{21} &amp;= \mu - \alpha_1 + \beta_1 - \gamma_{21} + \epsilon_{21} \\
+y_{22} &amp;= \mu - \alpha_1 - \beta_1 + \gamma_{22} + \epsilon_{22}
+\end{align}
+\]</span></p>
+<p>E a matriz <span class="math inline">\(\mathbf{X}\)</span> do modelo fica:</p>
+<p><span class="math display">\[
+\mathbf{X} =
+ \begin{bmatrix}
+    1 &amp; 1  &amp; 1 &amp; 1 \\
+    1 &amp; 1 &amp; -1 &amp; -1 \\
+    1 &amp; -1 &amp; 1 &amp; -1 \\
+    1 &amp; -1 &amp; -1 &amp; 1
+  \end{bmatrix}
+\]</span></p>
+<p>Considerando o vetor de respostas na ordem padrão</p>
+<p><span class="math display">\[
+\mathbf{y} =
+\begin{bmatrix}
+y_{11} \\
+y_{12} \\
+y_{21} \\
+y_{22}
+\end{bmatrix}
+\]</span></p>
+<p>Podemos mostrar que a solução de mínimos quadrados dada por</p>
+<p><span class="math display">\[
+\boldsymbol{\hat\beta} = \mathbf{(X&#39;X)^{-1} X&#39;y}
+\]</span></p>
+<p>resulta em:</p>
+<p><span class="math display">\[
+\boldsymbol{\hat\beta} =
+\frac{1}{4}
+\begin{bmatrix}
+y_{11} + y_{12} + y_{21} + y_{22} \\
+(y_{11} + y_{12}) - (y_{21} + y_{22}) \\
+(y_{11} + y_{21}) - (y_{12} + y_{22}) \\
+(y_{11} + y_{22}) - (y_{12} + y_{21}) \\
+\end{bmatrix}
+\]</span></p>
+<p>Note que, seguindo as linhas dessa matriz:</p>
+<p><span class="math display">\[
+\begin{align}
+\frac{1}{4} (y_{11} + y_{12} + y_{21} + y_{22}) &amp;= \bar{y} \\
+\frac{1}{2} \left[ \frac{(y_{11} + y_{12})}{2} -
+ \frac{(y_{21} + y_{22})}{2} \right] &amp;=
+ \frac{1}{2} (\bar{y}_{1j} - \bar{y}_{2j}) \\
+\frac{1}{2} \left[ \frac{(y_{11} + y_{21})}{2} -
+ \frac{(y_{12} + y_{22})}{2} \right] &amp;=
+ \frac{1}{2} (\bar{y}_{i1} - \bar{y}_{i2}) \\
+\frac{1}{2} \left[ \frac{(y_{11} + y_{22})}{2} -
+ \frac{(y_{12} + y_{21})}{2} \right] &amp;=
+ \frac{1}{2} (\bar{y}_{ii} - \bar{y}_{ij})
+\end{align}
+\]</span></p>
+<p>Portanto, pode-se notar que:</p>
+<ul>
+<li>O primeiro coeficiente é a média geral do experimento</li>
+<li>Os efeitos dos fatores são calculados como as diferenças entre as médias dos níveis de cada fator</li>
+<li>O efeito da interação é a diferença entre as médias “cruzadas” de cada fator</li>
+</ul>
+</div>
+<div id="usando-esquema-de-sinais" class="section level2">
+<h2>Usando esquema de sinais</h2>
+<p>Uma outra forma de se chegar ao mesmo resultado é através do chamado <strong>esquema de sinais</strong>. Esse sistema é exatamente igual à restrição soma zero, mas tem a vantegam de poder ser representado geometricamente, o que pode facilitar a visualização e interpretação dos efeitos de experimentos fatorias mais complicados.</p>
+<p><strong>Nomenclatura</strong>:</p>
+<ul>
+<li>Fatores são representados por letras maiúsculas (A, B, C…)</li>
+<li>Os níveis de um fator são chamados de ALTO e BAIXO</li>
+<li>Um tratamento (combinação de fatores) é identificado por letras minúsculas</li>
+<li>Quando uma letra minúscula está presente é porque o fator correspondente ocorre no nível ALTO</li>
+</ul>
+<p><strong>Esquema de sinais</strong>:</p>
+<ul>
+<li>O sinal <code>+</code> é associado ao nível ALTO e <code>-</code> ao nível baixo</li>
+<li>A combinação de tratamentos com ambos os niveis baixos é representado por <code>(1)</code></li>
+<li>Os sinais das interações são obtidos pelo produto dos sinais dos fatores envolvidos</li>
+</ul>
+<p>Dessa forma, para um fatorial <span class="math inline">\(2^2\)</span>, o experimento pode ser representado geometricamente por:</p>
+<pre><code>[+]  b_________ab
+     |         |
+ B   |         |
+     |         |
+[-] (1)________a
+    [-]   A   [+]</code></pre>
+<p>E a chamada <strong>tabela de sinais</strong> é desenvolvida da seguinte forma:</p>
+<pre><code>----------------------------------------------------
+Nomenclatura      Sinais        Descrição
+----------------------------------------------------
+               A    B   AB
+(1)            -    -   +       A e B níveis baixos
+a              +    -   -       A alto e B baixo
+b              -    +   -       A baixo e B alto
+ab             +    +   +       A e B níveis altos
+----------------------------------------------------</code></pre>
+<p>Note que os sinais dos fatores na tabela de sinais é exatamente igual à restrição soma zero utilizada anteriormente. A ordem de entrada dos fatores e dos níveis nessa tabela é devido ao desenvolvimento de Frank Yates, e por isso, é chamada de <strong>ordem de Yates</strong>. A única diferença é que na ordem padrão da restrição soma zero, as observações no vetor <span class="math inline">\(\mathbf{y}\)</span> estavam dispostas como <span class="math inline">\(\mathbf{y} = [y_{11}, y_{12}, y_{21}, y_{22}]&#39;\)</span>, indicando que o nível alto do fator A é a observação <span class="math inline">\(y_{21}\)</span> e o nível alto do fator B por <span class="math inline">\(y_{12}\)</span>.</p>
+<p>Para manter as observações no ordem de Yates é necessário apenas inverter essas duas linhas, e assim ficamos com a equivalência:</p>
+<p><span class="math display">\[
+\mathbf{y} =
+\begin{bmatrix}
+y_{11} \\
+y_{21} \\
+y_{12} \\
+y_{22}
+\end{bmatrix}
+=
+\begin{bmatrix}
+(1) \\
+a \\
+b \\
+ab
+\end{bmatrix}
+\]</span></p>
+<p>Dessa forma, a matriz <span class="math inline">\(\mathbf{X}\)</span> fica:</p>
+<p><span class="math display">\[
+\mathbf{X} =
+ \begin{bmatrix}
+    1 &amp; -1  &amp; -1 &amp; 1 \\
+    1 &amp; 1 &amp; -1 &amp; -1 \\
+    1 &amp; -1 &amp; 1 &amp; -1 \\
+    1 &amp; 1 &amp; 1 &amp; 1
+  \end{bmatrix}
+\]</span></p>
+<p>E a solução de mínimos quadrados é dada por:</p>
+<p><span class="math display">\[
+\boldsymbol{\hat\beta} =
+\frac{1}{4}
+\begin{bmatrix}
+y_{11} + y_{12} + y_{21} + y_{22} \\
+(y_{21} + y_{22}) - (y_{11} + y_{12}) \\
+(y_{12} + y_{22}) - (y_{11} + y_{21}) \\
+(y_{11} + y_{22}) - (y_{12} + y_{21}) \\
+\end{bmatrix}
+\]</span></p>
+<p>Dessa forma, tem-se que</p>
+<p><span class="math display">\[
+\begin{align}
+\frac{1}{4} (y_{11} + y_{12} + y_{21} + y_{22}) &amp;= \bar{y} \\
+\frac{1}{2} \left[ \frac{(y_{21} + y_{22})}{2} -
+ \frac{(y_{11} + y_{12})}{2} \right] &amp;=
+ \frac{1}{2} (\bar{y}_{2j} - \bar{y}_{1j}) \\
+\frac{1}{2} \left[ \frac{(y_{12} + y_{22})}{2} -
+ \frac{(y_{11} + y_{21})}{2} \right] &amp;=
+ \frac{1}{2} (\bar{y}_{i2} - \bar{y}_{i1}) \\
+\frac{1}{2} \left[ \frac{(y_{11} + y_{22})}{2} -
+ \frac{(y_{12} + y_{21})}{2} \right] &amp;=
+ \frac{1}{2} (\bar{y}_{ii} - \bar{y}_{ij})
+\end{align}
+\]</span></p>
+<p>Ou seja, a interpretação é a mesma, apenas mudam as comparações que agora são entre a média do nível alto menos a média do nível baixo (i.e. muda apenas o sinal).</p>
+<p>Com o esquema de sinais, podemos escrever o vetor <span class="math inline">\(\mathbf{y}\)</span> como</p>
+<p><span class="math display">\[
+\mathbf{y} =
+\begin{bmatrix}
+(1) \\
+a \\
+b \\
+ab
+\end{bmatrix}
+\]</span></p>
+<p>e assim a solução de mínimos quadrados fica</p>
+<p><span class="math display">\[
+\boldsymbol{\hat\beta} =
+\frac{1}{4}
+\begin{bmatrix}
+a + b + ab + (1) \\
+(a + ab) - ((1) + b) \\
+(b + ab) - ((1) + a) \\
+((1) + ab) - (a + b) \\
+\end{bmatrix}
+\]</span></p>
+<p>Sendo que:</p>
+<p><span class="math display">\[
+\begin{align}
+\frac{1}{4} (a + b + ab + (1)) &amp;= \bar{y} \\
+\frac{1}{2} \left[ \frac{(a + ab)}{2} -
+ \frac{((1) + b)}{2} \right] &amp;=
+ \frac{1}{2} (\bar{y}_{A+} - \bar{y}_{A-}) \\
+\frac{1}{2} \left[ \frac{(b + ab)}{2} -
+ \frac{((1) + a)}{2} \right] &amp;=
+ \frac{1}{2} (\bar{y}_{B+} - \bar{y}_{B-}) \\
+\frac{1}{2} \left[ \frac{((1) + ab)}{2} -
+ \frac{(a + b)}{2} \right] &amp;=
+ \frac{1}{2} (\bar{y}_{AB+} - \bar{y}_{AB-})
+\end{align}
+\]</span></p>
+<p>Onde <span class="math inline">\(\bar{y_{A+}}\)</span> e <span class="math inline">\(\bar{y_{A-}}\)</span> são as médias dos níveis alto e baixo do fator A, respectivamente. Os demais são similares. Perceba então que os efeitos são sempre um <strong>contraste</strong>, ou seja, uma diferença entre as médias dos níveis alto e baixo de um mesmo fator.</p>
+<p>Note que essa diferença é sempre dividida por 2, ou seja, na verdade, é a metade da diferença entre as médias. Isso é consequência do fato de que estes coeficientes são calculados com base em um modelo linear, onde os parâmetros medem a alteração na variável resposta (<span class="math inline">\(\mathbf{Y}\)</span>) causada pela variação de uma unidade nas variáveis explicativas (<span class="math inline">\(\mathbf{X}\)</span>). Por isso, os coeficientes estimados dessa forma são chamados de <strong>semi-amplitude</strong> dos efeitos.</p>
+<p>Como pode ser visto na representação geométrica do experimento, a diferença entre as médias dos níveis alto e baixo de um fator é dada pela variação de duas unidades (entre -1 e +1). Dessa forma, dizemos que a <strong>amplitude</strong> dos efeitos de um fator mede o efeito ao se passar do nível baixo (-1) para o nível alto (+1). Assim definimos o <strong>efeito</strong> de um fator como sendo duas vezes a estimativa dos coeficientes dos níveis de cada fator.</p>
+<p>Assim, temos:</p>
+<p><span class="math display">\[
+\begin{align}
+Ef_A = \bar{y}_{A+} - \bar{y}_{A-} = \frac{(a + ab) - ((1) + b)}{2} =
+ \frac{contr_A}{2} \\
+Ef_B = \bar{y}_{B+} - \bar{y}_{B-} = \frac{(b + ab) - ((1) + a)}{2} =
+ \frac{contr_B}{2} \\
+Ef_{AB} = \bar{y}_{AB+} - \bar{y}_{AB-} = \frac{((1) + ab) - (a + b)}{2} =
+ \frac{contr_{AB}}{2}
+ \end{align}
+\]</span></p>
+<p>As quantidades no numerador são chamadas de <strong>contrastes</strong>, que são então apenas as diferenças entre os níveis alto e baixo de um fator.</p>
+<p>Como existem <span class="math inline">\(r2^{k-1}\)</span> observações para cada combinação dos fatores, então, para <strong>qualquer experimento</strong> <span class="math inline">\(2^k\)</span>, as estimativas dos efeitos podem ser calculadas de forma geral como:</p>
+<p><span class="math display">\[
+\begin{align}
+Ef_A &amp;= \frac{contr_A}{r2^{k-1}} \\
+Ef_B &amp;= \frac{contr_B}{r2^{k-1}} \\
+Ef_{AB} &amp;= \frac{contr_{AB}}{r2^{k-1}}
+\end{align}
+\]</span></p>
+<!-- # Exemplo -->
+<!-- Voltando ao exemplo de um fatorial $2^2$ utilizado nas [aulas -->
+<!-- anteriores](anova-geral.html#experimentos_fatoriais): -->
+<!-- Os dados apresentados a seguir referem-se às produções (kg/m$^2$) de -->
+<!-- soja quando cultivadas sob diferentes tratamentos (adubo e torta). O -->
+<!-- experimento foi instalado segundo o delineamento inteiramente -->
+<!-- casualizado (DIC), com 4 repetições. **Importante**: ambos os -->
+<!-- tratamentos são considerados como fixos. -->
+</div>
+</div>
+
+<center>
+  <hr width="100%" size="3px">
+  <p> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.pt_BR">
+      <img src="img/CC_by-nc-sa_80x15.png" alt="Licença Creative Commons 4.0"> </a>
+  </p>
+  <p> <font size="2"> Este conteúdo
+      está disponível por meio da Licença Creative Commons 4.0 </font>
+  </p>
+</center>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

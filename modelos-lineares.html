@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Modelos lineares</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<script>
+ (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ ga('create', 'UA-102804671-3', 'auto');
+ ga('send', 'pageview');
+
+</script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = false;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">CE074</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="aulas.html">Aulas</a>
+</li>
+<li>
+  <a href="referencias.html">Referências</a>
+</li>
+<li>
+  <a href="recursos.html">Recursos</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Materiais
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Introdução e revisão</li>
+    <li>
+      <a href="catalizando-conhecimento.html">Catalizando a geração de conhecimento [HTML]</a>
+    </li>
+    <li>
+      <a href="modelos-lineares.html">Modelos lineares e reparametrizações [HTML]</a>
+    </li>
+    <li class="dropdown-header">Experimentos fatoriais</li>
+    <li>
+      <a href="anova-geral.html">ANOVA por meio de Diagramas de Hasse [HTML]</a>
+    </li>
+    <li>
+      <a href="fatorial_2-2.html">Experimentos fatorias 2^2 [HTML]</a>
+    </li>
+    <li>
+      <a href="fatorial_2-3.html">Experimentos fatorias 2^3 [HTML]</a>
+    </li>
+    <li>
+      <a href="fatorial_2-k.html">Experimentos fatorias 2^k, k &gt; 3 [HTML]</a>
+    </li>
+    <li>
+      <a href="fatorial_pontos-centrais.html">Adição de pontos centrais em planejamentos 2^k [HTML]</a>
+    </li>
+    <li>
+      <a href="confundimento-blocagem.html">Técnicas de confundimento para blocagem em fatorias 2^k [HTML]</a>
+    </li>
+    <li>
+      <a href="fatorial_fracionado.html">Experimentos fatorias fracionados 2^{k-p} [HTML]</a>
+    </li>
+    <li>
+      <a href="msr.html">Metodologia de Superfície de Resposta [HTML]</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Scripts</li>
+    <li>
+      <a href="scripts/script_racoes_pimentel.R">Tipos de contrastes em modelos lineares [R]</a>
+    </li>
+    <li>
+      <a href="scripts/script_catalisador.R">Interpretação de efeitos estimados em modelos lineares [R]</a>
+    </li>
+    <li>
+      <a href="scripts/script_fatorial_2-2.R">Análise completa de um fatorial 2^2 [R]</a>
+    </li>
+    <li>
+      <a href="scripts/script_fatorial_2-6.R">Análise completa de um fatorial 2^6 [R]</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Experimento</li>
+    <li>
+      <a href="instrucoes-planejamento.html">Instruções para o planejamento de experimentos [HTML]</a>
+    </li>
+    <li>
+      <a href="misc/guia-planejamento.html">Guia para o planejamento de experimentos [HTML]</a>
+    </li>
+    <li>
+      <a href="misc/guia-planejamento.Rmd">Guia para o planejamento de experimentos [Rmd]</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Exercícios</li>
+    <li>
+      <a href="exercicios/ex_revisao.pdf">Revisão de conhecimento [PDF]</a>
+    </li>
+    <li>
+      <a href="exercicios/ex_fatorial.pdf">Experimentos fatoriais [PDF]</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/fernandomayer/ce074">
+    <span class="fa fa-github fa-lg"></span>
+     
+    GitHub
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Modelos lineares</h1>
+
+</div>
+
+
+<div id="modelo-linear-tradicional" class="section level1">
+<h1>Modelo linear tradicional</h1>
+<p>Considerando um modelo linear com uma variável resposta e apenas um preditor linear, temos que</p>
+<p><span class="math display">\[
+Y_i = \beta_0 + \beta_1 X_i + \epsilon_i\, \qquad i = 1, \ldots, n
+\]</span></p>
+<p>onde:</p>
+<ul>
+<li><span class="math inline">\(Y_i\)</span> é o valor da variável resposta da <span class="math inline">\(i\)</span>-ésima observação</li>
+<li><span class="math inline">\(\beta_0\)</span> e <span class="math inline">\(\beta_1\)</span> são parâmetros desconhecidos</li>
+<li><span class="math inline">\(X_i\)</span> é o valor do preditor da <span class="math inline">\(i\)</span>-ésima observação (uma constante conhecida)</li>
+<li><span class="math inline">\(\epsilon_i\)</span> é o erro aleatório (devido ao acaso) com <span class="math inline">\(E(\epsilon_i) =  0\)</span>, e <span class="math inline">\(V(\epsilon_i) = \sigma^2\)</span>. Além disso, <span class="math inline">\(\epsilon_i\)</span> e <span class="math inline">\(\epsilon_j\)</span> são não correlacionados, ou seja, <span class="math inline">\(Cov(\epsilon_i,  \epsilon_j) = 0, \forall\, i, j; i \neq j\)</span></li>
+</ul>
+<p><strong>Considerações importantes</strong>:</p>
+<ol style="list-style-type: decimal">
+<li>A variável resposta <span class="math inline">\(Y_i\)</span> é a soma de dois componentes: (1) um termo constante <span class="math inline">\(\beta_0 + \beta_1 X_i\)</span>, e (2) um termo aleatório <span class="math inline">\(\epsilon_i\)</span>. Portanto, <span class="math inline">\(Y_i\)</span> é uma <strong>variável aleatória</strong>.</li>
+<li>Como <span class="math inline">\(E(\epsilon_i) = 0\)</span>, <span class="math display">\[
+\begin{align}
+E(Y_i) &amp;= E(\beta_0 + \beta_1 X_i + \epsilon_i) \\
+   &amp;= \beta_0 + \beta_1 X_i + E(\epsilon_i) \\
+   &amp;= \beta_0 + \beta_1 X_i
+\end{align}
+\]</span></li>
+<li>A variável resposta <span class="math inline">\(Y_i\)</span> “desvia” da função de regressão por uma quantidade <span class="math inline">\(\epsilon_i\)</span></li>
+<li>Os erros aleatórios possuem variância constante <span class="math inline">\(\sigma^2\)</span>. Segue-se que dessa forma, a variável <span class="math inline">\(Y_i\)</span> possui a mesma variância <span class="math display">\[
+\begin{align}
+Var(Y_i) &amp;= Var(\beta_0 + \beta_1 X_i + \epsilon_i) \\
+   &amp;= Var(\epsilon_i) \\
+   &amp;= \sigma^2
+\end{align}
+\]</span> Portanto, o modelo assume que <span class="math inline">\(Y\)</span> possui a mesma variâncias, <strong>independente do nível da variável <span class="math inline">\(X\)</span></strong>.</li>
+<li>Como os erros <span class="math inline">\(\epsilon_i\)</span> e <span class="math inline">\(\epsilon_j\)</span> são não correlacionados, as variáveis <span class="math inline">\(Y_i\)</span> e <span class="math inline">\(Y_j\)</span> também são não correlacionadas (<em>i.e</em> independentes)</li>
+</ol>
+<p><strong>Métodos de estimação</strong></p>
+<p>Para encontrar as estimativas dos parâmetros desconhecidos <span class="math inline">\(\beta_0\)</span> e <span class="math inline">\(\beta_1\)</span>, podemos usar o método da <strong>máxima verossimilhança</strong> ou o <strong>método dos mínimos quadrados</strong>. Aqui iremos abordar somento o último.</p>
+<p>O método dos mínimos quadrados consiste em encontrar os estimadores que minimizam a diferença entre uma observação <span class="math inline">\(Y_i\)</span> e seu valor esperado <span class="math inline">\(E(Y_i)\)</span>, ou seja, <span class="math display">\[
+\begin{align}
+Y_i &amp;- E(Y_i) \\
+Y_i &amp;- (\beta_0 + \beta_1 X_i)
+\end{align}
+\]</span> Em particular, o método requer a soma dos <span class="math inline">\(n\)</span> desvios ao quadrado, ou seja, <span class="math display">\[
+Q = \sum_{i=1}^{n} (Y_i - \beta_0 - \beta_1 X_i)^2
+\]</span></p>
+<p>De acordo com o método dos mínimos quadrados, as estimativas de <span class="math inline">\(\beta_0\)</span> e <span class="math inline">\(\beta_1\)</span> são obtidas quando o critério <span class="math inline">\(Q\)</span> é mínimo. Lembre-se que para encontrar o mínimo de uma função, fazemos sua derivada (parcial, em relação à cada parâmetro), e igualamos o resultado a zero. Ao derivar <span class="math inline">\(Q\)</span> em relação à <span class="math inline">\(\beta_0\)</span> e <span class="math inline">\(\beta_1\)</span>, temos as seguintes equações <span class="math display">\[
+\begin{align}
+\frac{\partial Q}{\beta_0} &amp;= -2 \Sigma (Y_i - \beta_0 - \beta_1 X_i) \\
+\frac{\partial Q}{\beta_1} &amp;= -2 \Sigma X_i (Y_i - \beta_0 - \beta_1 X_i)
+\end{align}
+\]</span></p>
+<p>Igualando cada expressão a zero e expandindo os somatórios temos <span class="math display">\[
+\begin{align}
+n \hat\beta_0 + \hat\beta_1 \Sigma X_i &amp;= \Sigma Y_i \\
+\hat\beta_0 \Sigma X_i + \hat\beta_1 \Sigma X_i^2 &amp;= \Sigma X_i Y_i
+\end{align}
+\]</span> que é chamado de <strong>sistema de equações normais</strong>, e <span class="math inline">\(\hat\beta_0\)</span> e <span class="math inline">\(\hat\beta_1\)</span> são as estimativas pontuais para <span class="math inline">\(\beta_0\)</span> e <span class="math inline">\(\beta_1\)</span>, respectivamente. Isolando esses termos, encontramos as soluções: <span class="math display">\[
+\begin{align}
+\hat\beta_1 &amp;= \frac{\Sigma (X_i - \bar{X})(Y_i - \bar{Y})}
+{\Sigma (X_i - \bar{X})^2} \\
+\hat\beta_0 &amp;= \bar{Y} - \hat\beta_1 \bar{X}
+\end{align}
+\]</span> que são as chamadas <strong>soluções de mínimos quadrados</strong>.</p>
+<p><strong>Resíduos</strong></p>
+<p>O <span class="math inline">\(i\)</span>-ésimo resíduo é a diferença entre o valor observado <span class="math inline">\(Y_i\)</span> e seu correspondente valor predito <span class="math inline">\(\hat{Y}_i\)</span>, onde <span class="math display">\[
+\hat{Y}_i = \hat\beta_0 + \hat\beta_1 X_i\, \qquad i = 1, \ldots, n
+\]</span> é o valor <strong>ajustado</strong> ou <strong>predito</strong> para cada nível <span class="math inline">\(X\)</span> da variável preditora.</p>
+<p>Sendo assim, o resíduo <span class="math inline">\(e_i\)</span> é <span class="math display">\[
+\begin{align}
+e_i &amp;= Y_i - \hat{Y}_i \\
+    &amp;= Y_i - (\hat\beta_0 + \hat\beta_1 X_i) \\
+    &amp;= Y_i - \hat\beta_0 - \hat\beta_1 X_i
+\end{align}
+\]</span></p>
+<p>É importante notar a diferença entre <span class="math display">\[
+\epsilon_i = Y_i - E(Y_i)
+\]</span> e <span class="math display">\[
+e_i = Y_i - \hat{Y}_i
+\]</span> O primeiro envolve a diferença entra <span class="math inline">\(Y_i\)</span> e a verdadeira equação de regressão, que é desconhecida. O segundo é a diferença entre <span class="math inline">\(Y_i\)</span> e o valor ajustado <span class="math inline">\(\hat{Y}_i\)</span> da equação de regressão estimada, ou seja, é conhecido.</p>
+</div>
+<div id="modelo-linear-na-forma-matricial" class="section level1">
+<h1>Modelo linear na forma matricial</h1>
+<p>O modelo linear usual é definido por</p>
+<p><span class="math display">\[
+  \mathbf{Y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\epsilon}
+\]</span></p>
+<p>A estimativa de <span class="math inline">\(\boldsymbol{\hat\beta}\)</span> pelo método de <strong>mínimos quadrados</strong> (MQ) é determinada pela minimização da soma de quadrados dos erros</p>
+<p><span class="math display">\[
+  \min{\{\boldsymbol{\epsilon&#39;\epsilon}\}} = \min{\{(\mathbf{Y} -
+  \mathbf{X}\boldsymbol{\beta})&#39;(\mathbf{Y} -
+  \mathbf{X}\boldsymbol{\beta})\}}
+\]</span></p>
+<p>Seja</p>
+<p><span class="math display">\[
+\begin{align}
+Q &amp;= (\mathbf{Y} - \mathbf{X}\boldsymbol{\beta})&#39;(\mathbf{Y} -
+ \mathbf{X}\boldsymbol{\beta}) \\
+  &amp;= \mathbf{Y&#39;Y} - \boldsymbol{\beta&#39;}\mathbf{X&#39;Y} -
+ \mathbf{Y&#39;X}\boldsymbol{\beta} + \boldsymbol{\beta&#39;} \mathbf{X&#39;X}
+ \boldsymbol{\beta}
+\end{align}
+\]</span></p>
+<p>Note que <span class="math inline">\(\boldsymbol{\beta&#39;}\mathbf{X&#39;Y}\)</span> é <span class="math inline">\(1 \times 1\)</span>, portanto é igual a sua transposta, ou seja, <span class="math inline">\((\mathbf{Y&#39;X}\boldsymbol{\beta})&#39; = \boldsymbol{\beta&#39;}\mathbf{X&#39;Y}\)</span>. Portanto</p>
+<p><span class="math display">\[
+Q = \mathbf{Y&#39;Y} - 2\boldsymbol{\beta&#39;}\mathbf{X&#39;Y} +
+ \boldsymbol{\beta&#39;} \mathbf{X&#39;X}\boldsymbol{\beta}
+\]</span></p>
+<p>Para encontrar os valores de <span class="math inline">\(\boldsymbol{\beta}\)</span> que minimizam <span class="math inline">\(Q\)</span>, fazemos as derivadas parciais em relação à <span class="math inline">\(\boldsymbol{\beta}\)</span></p>
+<p><span class="math display">\[
+\frac{\partial Q}{\partial \boldsymbol{\beta}} =
+  \mathbf{0} - 2\mathbf{X&#39;Y} + 2\mathbf{X&#39;X}\boldsymbol{\beta}
+\]</span></p>
+<p>Igualando o resultado a zero, obtemos o <strong>sistema de equações normais</strong></p>
+<p><span class="math display">\[
+  \mathbf{X&#39;X}\boldsymbol{\hat\beta} = \mathbf{X&#39;Y}
+\]</span></p>
+<p>Note que (para um modelo considerando apenas dois parâmetros, <span class="math inline">\(\hat\beta_0\)</span> e <span class="math inline">\(\hat\beta_1\)</span>):</p>
+<p><span class="math display">\[
+\begin{align}
+\mathbf{X&#39;X}\boldsymbol{\hat\beta} &amp;= \mathbf{X&#39;Y} \\
+\begin{bmatrix}
+n &amp; \Sigma X_i \\
+\Sigma X_i &amp; \Sigma X_i^2
+\end{bmatrix}
+\begin{bmatrix}
+\hat\beta_0 \\
+\hat\beta_1 \\
+\end{bmatrix} &amp;=
+\begin{bmatrix}
+\Sigma Y_i \\
+\Sigma X_i Y_i
+\end{bmatrix} \\
+\begin{bmatrix}
+n \hat\beta_0 + \hat\beta_1 \Sigma X_i \\
+\hat\beta_0 \Sigma X_i + \hat\beta_1 \Sigma X_i^2
+\end{bmatrix} &amp;=
+\begin{bmatrix}
+\Sigma Y_i \\
+\Sigma X_i Y_i
+\end{bmatrix}
+\end{align}
+\]</span></p>
+<p>que é o sistema de equações normais usual para modelos de regressão com dois parâmetros.</p>
+<p>Para obter a solução para a estimativa dos parâmetros envolvidos, nós pré-multiplicamos ambos os lados da equação pela inversa de <span class="math inline">\(\mathbf{X&#39;X}\)</span>, assumindo que ela existe:</p>
+<p><span class="math display">\[
+  (\mathbf{X&#39;X})^{-1}\mathbf{X&#39;X}\boldsymbol{\hat\beta} =
+ (\mathbf{X&#39;X})^{-1}\mathbf{X&#39;Y}
+\]</span></p>
+<p>Sabendo que <span class="math inline">\((\mathbf{X&#39;X})^{-1}\mathbf{X&#39;X} = \mathbf{I}\)</span> e <span class="math inline">\(\mathbf{I}\boldsymbol{\hat\beta} = \boldsymbol{\hat\beta}\)</span>, então</p>
+<p><span class="math display">\[
+  \boldsymbol{\hat\beta} = (\mathbf{X&#39;X})^{-1}\mathbf{X&#39;Y}
+\]</span></p>
+<p><strong>Observação</strong>: essa solução só será possível quando <span class="math inline">\(\mathbf{X&#39;X}\)</span> é de <strong>posto completo</strong>, é não singular e admite inversa.</p>
+<p>Os valores <strong>ajustados</strong> (ou <strong>preditos</strong>) pelo modelo serão então estimados por</p>
+<p><span class="math display">\[
+\mathbf{\hat{Y}} = \mathbf{X}\boldsymbol{\hat\beta}
+\]</span></p>
+<p>Mas podemos escrever essa equação para <span class="math inline">\(\mathbf{\hat{Y}}\)</span>, usando a expressão para <span class="math inline">\(\boldsymbol{\hat\beta}\)</span>,</p>
+<p><span class="math display">\[
+\begin{align}
+\mathbf{\hat{Y}} &amp;= \mathbf{X}(\mathbf{X&#39;X})^{-1}\mathbf{X&#39;Y} \\
+  &amp;= \mathbf{HY}
+\end{align}
+\]</span></p>
+<p>Onde</p>
+<p><span class="math display">\[
+\mathbf{H} = \mathbf{X}(\mathbf{X&#39;X})^{-1}\mathbf{X&#39;} \\
+\]</span></p>
+<p>é chamada de <strong>matriz chapéu</strong>, ou <strong>matriz núcleo</strong>, ou <strong>matriz de projeção ortogonal</strong>. Como veremos mais adiante, esta matriz é de fundamental importância em modelos lineares. A matriz <span class="math inline">\(\mathbf{H}\)</span> possui duas propriedades fundamentais: é <strong>simétrica</strong> e <strong>idempotente</strong>, ou seja,</p>
+<p><span class="math display">\[
+\mathbf{H}\mathbf{H} = \mathbf{H}
+\]</span></p>
+<p>Os <strong>resíduos</strong> também podem ser calculados através da matriz <span class="math inline">\(\mathbf{H}\)</span>, pois</p>
+<p><span class="math display">\[
+\begin{align}
+\mathbf{e} &amp;= \mathbf{Y} - \mathbf{\hat{Y}} \\
+    &amp;= \mathbf{Y} - \mathbf{X}\boldsymbol{\hat\beta} \\
+    &amp;= \mathbf{Y} - \mathbf{HY} \\
+    &amp;= (\mathbf{I} - \mathbf{H})\mathbf{Y}
+\end{align}
+\]</span></p>
+<p>Onda a matriz <span class="math inline">\((\mathbf{I} - \mathbf{H})\)</span> também é simétrica e idempotente. Com isso, deve-se esperar que a matriz <span class="math inline">\(\mathbf{H}\)</span> também possua um papel importante no diagnóstico dos modelos baseado nos resíduos.</p>
+</div>
+<div id="modelo-de-regressao-linear-simples" class="section level1">
+<h1>Modelo de regressão linear simples</h1>
+<p>Modela a relação entre duas variáveis quantitativas.</p>
+<p>Especificando o modelo:</p>
+<p><span class="math display">\[
+  y_i = \beta_0 + \beta_1 x_i + \epsilon_i, \qquad i = 1, \ldots, n
+\]</span></p>
+<p><span class="math display">\[
+  \mathbf{y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\epsilon}
+\]</span></p>
+<p><span class="math display">\[
+\begin{bmatrix}
+  y_1 \\ y_2 \\ \vdots \\ y_n
+  \end{bmatrix}%_{n \times 1}
+  =
+  \begin{bmatrix}
+    1 &amp; x_{1} \\
+    1 &amp; x_{2} \\
+    \vdots &amp; \vdots \\
+    1 &amp; x_{n}
+  \end{bmatrix}%_{n \times (k+1)}
+  \begin{bmatrix}
+    \beta_0 \\ \beta_1
+  \end{bmatrix}%_{(k+1) \times 1}
+  +
+  \begin{bmatrix}
+    \epsilon_1 \\ \epsilon_2 \\ \vdots \\ \epsilon_n
+  \end{bmatrix}%_{n \times 1}
+  \]</span></p>
+<div id="exemplo-no-r" class="section level2">
+<h2>Exemplo no R</h2>
+<pre class="r"><code>##----------------------------------------------------------------------
+## Conjunto de dados
+data(cars)
+## Estrutura
+str(cars)</code></pre>
+<pre><code>&#39;data.frame&#39;:   50 obs. of  2 variables:
+ $ speed: num  4 4 7 7 8 9 10 10 10 11 ...
+ $ dist : num  2 10 4 22 16 10 18 26 34 17 ...</code></pre>
+<pre class="r"><code>## Gráfico de dispersão
+plot(dist ~ speed, data = cars)</code></pre>
+<p><img src="figures/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>##----------------------------------------------------------------------
+## Como x têm níveis quantitativos, ajustamos uma função
+m0 &lt;- lm(dist ~ speed, data = cars)
+coef(m0)</code></pre>
+<pre><code>(Intercept)       speed 
+ -17.579095    3.932409 </code></pre>
+<pre class="r"><code>##----------------------------------------------------------------------
+## Fazendo estimação &quot;na mão&quot;
+
+## Matriz do modelo
+(X &lt;- cbind(1, cars$speed))</code></pre>
+<pre><code>      [,1] [,2]
+ [1,]    1    4
+ [2,]    1    4
+ [3,]    1    7
+ [4,]    1    7
+ [5,]    1    8
+ [6,]    1    9
+ [7,]    1   10
+ [8,]    1   10
+ [9,]    1   10
+[10,]    1   11
+[11,]    1   11
+[12,]    1   12
+[13,]    1   12
+[14,]    1   12
+[15,]    1   12
+[16,]    1   13
+[17,]    1   13
+[18,]    1   13
+[19,]    1   13
+[20,]    1   14
+[21,]    1   14
+[22,]    1   14
+[23,]    1   14
+[24,]    1   15
+[25,]    1   15
+[26,]    1   15
+[27,]    1   16
+[28,]    1   16
+[29,]    1   17
+[30,]    1   17
+[31,]    1   17
+[32,]    1   18
+[33,]    1   18
+[34,]    1   18
+[35,]    1   18
+[36,]    1   19
+[37,]    1   19
+[38,]    1   19
+[39,]    1   20
+[40,]    1   20
+[41,]    1   20
+[42,]    1   20
+[43,]    1   20
+[44,]    1   22
+[45,]    1   23
+[46,]    1   24
+[47,]    1   24
+[48,]    1   24
+[49,]    1   24
+[50,]    1   25</code></pre>
+<pre class="r"><code>## Vetor de observações
+(y &lt;- matrix(cars$dist, ncol = 1))</code></pre>
+<pre><code>      [,1]
+ [1,]    2
+ [2,]   10
+ [3,]    4
+ [4,]   22
+ [5,]   16
+ [6,]   10
+ [7,]   18
+ [8,]   26
+ [9,]   34
+[10,]   17
+[11,]   28
+[12,]   14
+[13,]   20
+[14,]   24
+[15,]   28
+[16,]   26
+[17,]   34
+[18,]   34
+[19,]   46
+[20,]   26
+[21,]   36
+[22,]   60
+[23,]   80
+[24,]   20
+[25,]   26
+[26,]   54
+[27,]   32
+[28,]   40
+[29,]   32
+[30,]   40
+[31,]   50
+[32,]   42
+[33,]   56
+[34,]   76
+[35,]   84
+[36,]   36
+[37,]   46
+[38,]   68
+[39,]   32
+[40,]   48
+[41,]   52
+[42,]   56
+[43,]   64
+[44,]   66
+[45,]   54
+[46,]   70
+[47,]   92
+[48,]   93
+[49,]  120
+[50,]   85</code></pre>
+<pre class="r"><code>## X&#39;
+Xt &lt;- t(X)
+## X&#39;X
+(XtX &lt;- Xt %*% X)</code></pre>
+<pre><code>     [,1]  [,2]
+[1,]   50   770
+[2,]  770 13228</code></pre>
+<pre class="r"><code>## (X&#39;X)^-1
+solve(XtX)</code></pre>
+<pre><code>            [,1]         [,2]
+[1,]  0.19310949 -0.011240876
+[2,] -0.01124088  0.000729927</code></pre>
+<pre class="r"><code>## X&#39;y
+(Xty &lt;- Xt %*% y)</code></pre>
+<pre><code>      [,1]
+[1,]  2149
+[2,] 38482</code></pre>
+<pre class="r"><code>## Ajuste por mínimos quadrados
+## (X&#39;X)^-1 X&#39;y
+solve(XtX) %*% Xty</code></pre>
+<pre><code>           [,1]
+[1,] -17.579095
+[2,]   3.932409</code></pre>
+</div>
+</div>
+<div id="modelo-de-regressao-linear-multipla" class="section level1">
+<h1>Modelo de regressão linear múltipla</h1>
+<p>Modela a relação entre uma variável resposta e duas ou mais variáveis quantitativas.</p>
+<p>Especificando o modelo:</p>
+<p><span class="math display">\[
+  y_{ij} = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \cdots + \beta_k
+  x_{ik} +  \epsilon_i, \qquad i = 1, \ldots, n,\, j = 1, \ldots, k
+\]</span></p>
+<p><span class="math display">\[
+  \mathbf{y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\epsilon}
+\]</span></p>
+<p><span class="math display">\[
+\begin{bmatrix}
+  y_1 \\ y_2 \\ \vdots \\ y_n
+  \end{bmatrix}%_{n \times 1}
+  =
+  \begin{bmatrix}
+    1 &amp; x_{11} &amp; x_{12} &amp; \cdots &amp; x_{1k} \\
+    1 &amp; x_{21} &amp; x_{22} &amp; \cdots &amp; x_{2k} \\
+    \vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+    1 &amp; x_{n1} &amp; x_{n2} &amp; \cdots &amp; x_{nk}
+  \end{bmatrix}%_{n \times (k+1)}
+  \begin{bmatrix}
+    \beta_0 \\ \beta_1 \\ \vdots \\ \beta_k
+  \end{bmatrix}%_{(k+1) \times 1}
+  +
+  \begin{bmatrix}
+    \epsilon_1 \\ \epsilon_2 \\ \vdots \\ \epsilon_n
+  \end{bmatrix}%_{n \times 1}
+\]</span></p>
+<div id="exemplo-no-r-1" class="section level2">
+<h2>Exemplo no R</h2>
+<pre class="r"><code>##----------------------------------------------------------------------
+## Conjunto de dados
+data(stackloss)
+## Estrutura
+str(stackloss)</code></pre>
+<pre><code>&#39;data.frame&#39;:   21 obs. of  4 variables:
+ $ Air.Flow  : num  80 80 75 62 62 62 62 62 58 58 ...
+ $ Water.Temp: num  27 27 25 24 22 23 24 24 23 18 ...
+ $ Acid.Conc.: num  89 88 90 87 87 87 93 93 87 80 ...
+ $ stack.loss: num  42 37 37 28 18 18 19 20 15 14 ...</code></pre>
+<pre class="r"><code>## Gráfico de dispersão
+plot(stackloss)</code></pre>
+<p><img src="figures/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>##----------------------------------------------------------------------
+## Como x têm níveis quantitativos, ajustamos uma função
+m1 &lt;- lm(stack.loss ~ Air.Flow +  Water.Temp +  Acid.Conc.,
+         data = stackloss)
+coef(m1)</code></pre>
+<pre><code>(Intercept)    Air.Flow  Water.Temp  Acid.Conc. 
+-39.9196744   0.7156402   1.2952861  -0.1521225 </code></pre>
+<pre class="r"><code>##----------------------------------------------------------------------
+## Fazendo estimação &quot;na mão&quot;
+
+## Matriz do modelo
+(X &lt;- with(stackloss,
+           cbind(1, Air.Flow, Water.Temp, Acid.Conc.)))</code></pre>
+<pre><code>        Air.Flow Water.Temp Acid.Conc.
+ [1,] 1       80         27         89
+ [2,] 1       80         27         88
+ [3,] 1       75         25         90
+ [4,] 1       62         24         87
+ [5,] 1       62         22         87
+ [6,] 1       62         23         87
+ [7,] 1       62         24         93
+ [8,] 1       62         24         93
+ [9,] 1       58         23         87
+[10,] 1       58         18         80
+[11,] 1       58         18         89
+[12,] 1       58         17         88
+[13,] 1       58         18         82
+[14,] 1       58         19         93
+[15,] 1       50         18         89
+[16,] 1       50         18         86
+[17,] 1       50         19         72
+[18,] 1       50         19         79
+[19,] 1       50         20         80
+[20,] 1       56         20         82
+[21,] 1       70         20         91</code></pre>
+<pre class="r"><code>## Vetor de observações
+(y &lt;- matrix(stackloss$stack.loss, ncol = 1))</code></pre>
+<pre><code>      [,1]
+ [1,]   42
+ [2,]   37
+ [3,]   37
+ [4,]   28
+ [5,]   18
+ [6,]   18
+ [7,]   19
+ [8,]   20
+ [9,]   15
+[10,]   14
+[11,]   14
+[12,]   13
+[13,]   11
+[14,]   12
+[15,]    8
+[16,]    7
+[17,]    8
+[18,]    8
+[19,]    9
+[20,]   15
+[21,]   15</code></pre>
+<pre class="r"><code>## X&#39;
+Xt &lt;- t(X)
+## X&#39;X
+(XtX &lt;- Xt %*% X)</code></pre>
+<pre><code>                Air.Flow Water.Temp Acid.Conc.
+             21     1269        443       1812
+Air.Flow   1269    78365      27223     109988
+Water.Temp  443    27223       9545      38357
+Acid.Conc. 1812   109988      38357     156924</code></pre>
+<pre class="r"><code>## (X&#39;X)^-1
+solve(XtX)</code></pre>
+<pre><code>                            Air.Flow    Water.Temp    Acid.Conc.
+           13.45272669  0.0273387119 -6.196112e-02 -1.593550e-01
+Air.Flow    0.02733871  0.0017288737 -3.470791e-03 -6.790801e-04
+Water.Temp -0.06196112 -0.0034707913  1.287542e-02  9.959521e-07
+Acid.Conc. -0.15935503 -0.0006790801  9.959521e-07  2.322167e-03</code></pre>
+<pre class="r"><code>## X&#39;y
+(Xty &lt;- Xt %*% y)</code></pre>
+<pre><code>            [,1]
+             368
+Air.Flow   23953
+Water.Temp  8326
+Acid.Conc. 32189</code></pre>
+<pre class="r"><code>## Ajuste por mínimos quadrados
+## (X&#39;X)^-1 X&#39;y
+solve(XtX) %*% Xty</code></pre>
+<pre><code>                  [,1]
+           -39.9196744
+Air.Flow     0.7156402
+Water.Temp   1.2952861
+Acid.Conc.  -0.1521225</code></pre>
+</div>
+</div>
+<div id="modelo-de-analise-de-variancia-anova" class="section level1">
+<h1>Modelo de Análise de Variância (ANOVA)</h1>
+<p>O interesse é e comparar diversas populações, ou diversas condições de um experimento.</p>
+<p>Modelos de ANOVA podem ser considerados como modelos lineares de valores restritos de <span class="math inline">\(x\)</span>, frequentemente 0 para indicar ausência de um nível, e 1 para indicar presença de um nível.</p>
+<p>Especificando o modelo para um fator com 2 níveis (<span class="math inline">\(i = 1, 2 = k\)</span>) e 3 repetições (<span class="math inline">\(j = 1,2,3 = r\)</span>):</p>
+<p><span class="math display">\[
+  y_{ij} = \mu + \alpha_i + \epsilon_{ij}, \qquad i = 1, 2 \quad j = 1,2,3
+\]</span></p>
+<p>Onde <span class="math inline">\(\mu\)</span> é a média geral das observações, <span class="math inline">\(\alpha_i\)</span> é o <strong>efeito</strong> adicional na média geral para o nível <span class="math inline">\(i\)</span> do tratamento, e <span class="math inline">\(\epsilon_{ij}\)</span> é o erro aleatório associado à cada observação.</p>
+<p>O modelo na forma matricial é definido por:</p>
+<p><span class="math display">\[
+  \mathbf{y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\epsilon}
+\]</span></p>
+<p><span class="math display">\[
+\begin{bmatrix}
+  y_{11} \\ y_{12} \\ y_{13} \\ y_{21} \\ y_{22} \\ y_{23}
+\end{bmatrix}%_{n \times 1}
+  =
+  \begin{bmatrix}
+    1 &amp; 1 &amp; 0 \\
+    1 &amp; 1 &amp; 0 \\
+    1 &amp; 1 &amp; 0 \\
+    1 &amp; 0 &amp; 1 \\
+    1 &amp; 0 &amp; 1 \\
+    1 &amp; 0 &amp; 1
+  \end{bmatrix}%_{n \times (k+1)}
+  \begin{bmatrix}
+    \mu \\ \alpha_1 \\ \alpha_2
+  \end{bmatrix}%_{(k+1) \times 1}
+  +
+  \begin{bmatrix}
+ \epsilon_{11} \\ \epsilon_{12} \\ \epsilon_{13} \\ \epsilon_{21} \\ \epsilon_{22} \\ \epsilon_{23}
+  \end{bmatrix}%_{n \times 1}
+\]</span></p>
+<p>Qual o problema com esse modelo, da forma como ele está definido?</p>
+<p>A matriz <span class="math inline">\(\mathbf{X}\)</span> é <span class="math inline">\(6 \times 3\)</span> e de <strong>posto</strong> 2, porque a primeira coluna é igual à soma da segunda e da terceira colunas, que são <em>linearmente independentes</em>.</p>
+<p>Como <span class="math inline">\(\mathbf{X}\)</span> não tem posto completo, os parâmetros <span class="math inline">\(\mu\)</span>, <span class="math inline">\(\alpha_1\)</span> e <span class="math inline">\(\alpha_2\)</span> não podem ser estimados por <span class="math inline">\(\boldsymbol{\hat\beta} = (\mathbf{X&#39;X})^{-1}\mathbf{X&#39;y}\)</span> porque a inversa de <span class="math inline">\(\mathbf{X&#39;X}\)</span> <strong>não existe</strong> (<em>i.e</em> a matriz é <strong>singular</strong>).</p>
+<p>Por isso, modelos de ANOVA são também chamados de <strong>modelos de posto incompleto</strong>.</p>
+<p>Com 3 parâmetros a seren estimados e <span class="math inline">\(posto(\mathbf{X}) = 2\)</span> o modelo é dito <strong>superparametrizado</strong>.</p>
+<div id="exemplo-no-r-2" class="section level2">
+<h2>Exemplo no R</h2>
+<pre class="r"><code>##----------------------------------------------------------------------
+## Fator com 2 níveis (k) e 3 repetições (r)
+k &lt;- 2
+r &lt;- 3
+fator &lt;- factor(rep(c(&quot;A&quot;, &quot;B&quot;), each = r))
+
+## Cria a matriz do modelo sem nenhuma restrição
+X &lt;- matrix(0, nrow = k*r, ncol = k)
+X[cbind(seq_along(fator), fator)] &lt;- 1
+(X &lt;- cbind(1, X))</code></pre>
+<pre><code>     [,1] [,2] [,3]
+[1,]    1    1    0
+[2,]    1    1    0
+[3,]    1    1    0
+[4,]    1    0    1
+[5,]    1    0    1
+[6,]    1    0    1</code></pre>
+<pre class="r"><code>## X&#39;
+Xt &lt;- t(X)
+## X&#39;X
+(XtX &lt;- Xt %*% X)</code></pre>
+<pre><code>     [,1] [,2] [,3]
+[1,]    6    3    3
+[2,]    3    3    0
+[3,]    3    0    3</code></pre>
+<pre class="r"><code>## (X&#39;X)^-1
+solve(XtX)</code></pre>
+<pre><code>Error in solve.default(XtX): Lapack routine dgesv: system is exactly singular: U[3,3] = 0</code></pre>
+<p>Como podemos ver nesse exemplo, a matriz <span class="math inline">\(\mathbf{X}\)</span> sendo de posto incompleto é singular e não invertível.</p>
+<p>Algumas abordagens para remediar o problema de superparametrização:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Redefinir</strong> o modelo com 2 novos parâmetros que sejam únicos = <em>reparametrização</em> = modelo de médias de caselas (sem intercepto)</li>
+<li><strong>Restringir</strong> os parâmetros (várias formas)</li>
+<li><strong>Combinar linearmente</strong> os parâmetros (várias formas)</li>
+</ol>
+</div>
+<div id="redefinindo-o-modelo" class="section level2">
+<h2>Redefinindo o modelo</h2>
+<p>Usando a abordagem 1 acima podemos redefinir o modelo para que ele possua 2 parâmetros, fazendo com que a matriz <span class="math inline">\(\mathbf{X}\)</span> tenha posto completo, e por consequência seja invertível.</p>
+<p>Uma forma de redefinir esse modelo seria assumir que</p>
+<p><span class="math display">\[
+\mu_{ij} = \mu + \alpha_i
+\]</span></p>
+<p>Portanto o modelo se resumiria a</p>
+<p><span class="math display">\[
+\begin{align}
+y_{ij} &amp;= \mu + \alpha_i + \epsilon_{ij} \\
+       &amp;= \mu_{ij} + \epsilon_{ij}
+\end{align}
+\]</span></p>
+<p>Dessa forma, assumindo o mesmo exemplo com <span class="math inline">\(i = 1,2\)</span> níveis e <span class="math inline">\(j = 1,2,3\)</span> repetições, temos um modelo com apenas dois parâmetros a serem estimados: <span class="math inline">\(\mu_1\)</span> e <span class="math inline">\(\mu_2\)</span>, que agora representam o efeito médio do tratamento <em>após</em> a aplicação dos níveis 1 e 2, respectivamente.</p>
+<p>O modelo na forma matricial fica:</p>
+<p><span class="math display">\[
+  \mathbf{y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\epsilon}
+\]</span></p>
+<p><span class="math display">\[
+\begin{bmatrix}
+  y_{11} \\ y_{12} \\ y_{13} \\ y_{21} \\ y_{22} \\ y_{23}
+\end{bmatrix}%_{n \times 1}
+  =
+  \begin{bmatrix}
+    1 &amp; 0 \\
+    1 &amp; 0 \\
+    1 &amp; 0 \\
+    0 &amp; 1 \\
+    0 &amp; 1 \\
+    0 &amp; 1
+  \end{bmatrix}%_{n \times (k+1)}
+  \begin{bmatrix}
+    \mu_1 \\ \mu_2 \\
+  \end{bmatrix}%_{(k+1) \times 1}
+  +
+  \begin{bmatrix}
+ \epsilon_{11} \\ \epsilon_{12} \\ \epsilon_{13} \\ \epsilon_{21} \\ \epsilon_{22} \\ \epsilon_{23}
+  \end{bmatrix}%_{n \times 1}
+\]</span></p>
+<p>Dessa forma, o posto de <span class="math inline">\(\mathbf{X}\)</span> é 2 (pois temos duas colunas linearmente independentes), e a matriz é invertível. Usando o mesmo exemplo anterior no R:</p>
+<pre class="r"><code>##----------------------------------------------------------------------
+## A matriz X para o modelo anterior é a mesma, com excessão da primeira
+## coluna. Portanto, chamando de X2 essa nova matriz,
+(X2 &lt;- X[ , -1])</code></pre>
+<pre><code>     [,1] [,2]
+[1,]    1    0
+[2,]    1    0
+[3,]    1    0
+[4,]    0    1
+[5,]    0    1
+[6,]    0    1</code></pre>
+<pre class="r"><code>## X&#39;
+X2t &lt;- t(X2)
+## X&#39;X
+(X2tX2 &lt;- X2t %*% X2)</code></pre>
+<pre><code>     [,1] [,2]
+[1,]    3    0
+[2,]    0    3</code></pre>
+<pre class="r"><code>## (X&#39;X)^-1
+solve(X2tX2)</code></pre>
+<pre><code>          [,1]      [,2]
+[1,] 0.3333333 0.0000000
+[2,] 0.0000000 0.3333333</code></pre>
+<p>Note que nesse caso específico, ficamos com uma matriz diagonal que é facilmente invertida</p>
+<pre class="r"><code>MASS::fractions(solve(X2tX2))</code></pre>
+<pre><code>     [,1] [,2]
+[1,] 1/3    0 
+[2,]   0  1/3 </code></pre>
+<p>Dessa forma, podemos estimar os parâmetros <span class="math inline">\(\mu_1\)</span> e <span class="math inline">\(\mu_2\)</span>. O modelo como especificado dessa forma é também chamado de modelo de <strong>média de caselas</strong>.</p>
+</div>
+<div id="restringindo-os-parametros" class="section level2">
+<h2>Restringindo os parâmetros</h2>
+<p>Usando a abordagem 2 acima, a ideia de restringir os parâmetros tem o mesmo objetivo: reduzir o número de parâmetros a serem estimados de forma que a matriz <span class="math inline">\(\mathbf{X}\)</span> tenha posto completo e seja invertível.</p>
+<p>Existem várias formas de restringir os parâmetros, como por exemplo, assumir que um determinado parâmetro é fixo, e estimar os demais desconhecidos. As restrições mais comuns, por serem mais fáceis de serem interpretadas, são:</p>
+<ul>
+<li>Assumir que a soma de todos os efeitos é igual a zero, ou seja, <span class="math inline">\(\sum_{i=1}^{k} \alpha_i = 0\)</span></li>
+<li>Assumir que o primeiro nível do fator é zero, ou seja, <span class="math inline">\(\alpha_1 = 0\)</span></li>
+<li>Assumir que o último nível do fator é zero, ou seja, <span class="math inline">\(\alpha_k = 0\)</span></li>
+</ul>
+<p>Estas restrições reduzem o número de parâmetros a serem estimados. Como todas elas impõem algum tipo de relação entre os parâmetros, estas restrições também são chamadas de <strong>contrastes</strong>.</p>
+<div id="soma-zero" class="section level3">
+<h3>Soma zero</h3>
+<p>O contraste do tipo soma zero, assume que a soma de todos os efeitos é igual a zero. Continuando com o exemplo anterior, onde temos um fator com 2 níveis e 3 repetições, o contraste é</p>
+<p><span class="math display">\[
+    \sum_{i=1}^{k} \alpha_i = 0 \quad \Rightarrow \quad \alpha_1 +
+    \alpha_2 = 0
+\]</span></p>
+<p>Como</p>
+<p><span class="math display">\[
+\alpha_1 + \alpha_2 = 0 \quad \Rightarrow \quad \alpha_2 = -\alpha_1
+\]</span></p>
+<p>então o modelo fica</p>
+<p><span class="math display">\[
+y_{1j} = \mu + \alpha_1 + \epsilon_{1j} \\
+y_{2j} = \mu - \alpha_1 + \epsilon_{2j}
+\]</span></p>
+<p>E na forma matricial</p>
+<p><span class="math display">\[
+  \mathbf{y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\epsilon}
+\]</span></p>
+<p><span class="math display">\[
+\begin{bmatrix}
+  y_{11} \\ y_{12} \\ y_{13} \\ y_{21} \\ y_{22} \\ y_{23}
+\end{bmatrix}%_{n \times 1}
+  =
+  \begin{bmatrix}
+    1 &amp; 1 \\
+    1 &amp; 1 \\
+    1 &amp; 1 \\
+    1 &amp; -1 \\
+    1 &amp; -1 \\
+    1 &amp; -1
+  \end{bmatrix}%_{n \times (k+1)}
+  \begin{bmatrix}
+    \mu \\ \alpha_1 \\
+  \end{bmatrix}%_{(k+1) \times 1}
+  +
+  \begin{bmatrix}
+ \epsilon_{11} \\ \epsilon_{12} \\ \epsilon_{13} \\ \epsilon_{21} \\ \epsilon_{22} \\ \epsilon_{23}
+  \end{bmatrix}%_{n \times 1}
+\]</span></p>
+<p>Dessa forma, o posto de <span class="math inline">\(\mathbf{X}\)</span> é 2 (pois temos duas colunas linearmente independentes), e a matriz é invertível. Usando o mesmo exemplo anterior no R:</p>
+<pre class="r"><code>##----------------------------------------------------------------------
+## A matriz X para o modelo anterior é a diferença entra as duas colunas
+## finais da matriz X original. Portanto, chamando de X3 essa nova
+## matriz,
+(X3 &lt;- cbind(X[, 1], X[, 2] - X[, 3]))</code></pre>
+<pre><code>     [,1] [,2]
+[1,]    1    1
+[2,]    1    1
+[3,]    1    1
+[4,]    1   -1
+[5,]    1   -1
+[6,]    1   -1</code></pre>
+<pre class="r"><code>## X&#39;
+X3t &lt;- t(X3)
+## X&#39;X
+(X3tX3 &lt;- X3t %*% X3)</code></pre>
+<pre><code>     [,1] [,2]
+[1,]    6    0
+[2,]    0    6</code></pre>
+<pre class="r"><code>## (X&#39;X)^-1
+solve(X3tX3)</code></pre>
+<pre><code>          [,1]      [,2]
+[1,] 0.1666667 0.0000000
+[2,] 0.0000000 0.1666667</code></pre>
+<p>Note que nesse caso específico, ficamos com uma matriz diagonal que é facilmente invertida</p>
+<pre class="r"><code>MASS::fractions(solve(X3tX3))</code></pre>
+<pre><code>     [,1] [,2]
+[1,] 1/6    0 
+[2,]   0  1/6 </code></pre>
+<p>Dessa forma, podemos estimar os parâmetros <span class="math inline">\(\mu\)</span> e <span class="math inline">\(\alpha_1\)</span>. Note que, pela definição da matriz do modelo, o parâmetro <span class="math inline">\(\mu\)</span> é a média geral das observações, e o parâmetro <span class="math inline">\(\alpha_1\)</span> é o acréscimo (ou decréscimo) associado a cada nível do tratamento em relação à média geral. Por exemplo, os efeitos (médias) de cada tratamento serão dados por</p>
+<p><span class="math display">\[
+\mu_{1j} = \mu + \alpha_1 \\
+\mu_{2j} = \mu - \alpha_1
+\]</span></p>
+</div>
+<div id="primeiro-nivel-zero" class="section level3">
+<h3>Primeiro nível zero</h3>
+<p>Assumir que o primeiro nível do fator é igual a zero implica em assumir que um parâmetro do modelo é conhecido, portanto não precisa ser estimado, e assim se reduz o número de parâmetros. Do exemplo anterior, assumindo</p>
+<p><span class="math display">\[
+\alpha_1 = 0
+\]</span></p>
+<p>o modelo fica</p>
+<p><span class="math display">\[
+y_{1j} = \mu + 0 + \epsilon_{1j} \\
+y_{2j} = \mu + \alpha_2 + \epsilon_{2j}
+\]</span></p>
+<p>E na forma matricial</p>
+<p><span class="math display">\[
+  \mathbf{y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\epsilon}
+\]</span></p>
+<p><span class="math display">\[
+\begin{bmatrix}
+  y_{11} \\ y_{12} \\ y_{13} \\ y_{21} \\ y_{22} \\ y_{23}
+\end{bmatrix}%_{n \times 1}
+  =
+  \begin{bmatrix}
+    1 &amp; 0 \\
+    1 &amp; 0 \\
+    1 &amp; 0 \\
+    1 &amp; 1 \\
+    1 &amp; 1 \\
+    1 &amp; 1
+  \end{bmatrix}%_{n \times (k+1)}
+  \begin{bmatrix}
+    \mu \\ \alpha_2 \\
+  \end{bmatrix}%_{(k+1) \times 1}
+  +
+  \begin{bmatrix}
+ \epsilon_{11} \\ \epsilon_{12} \\ \epsilon_{13} \\ \epsilon_{21} \\ \epsilon_{22} \\ \epsilon_{23}
+  \end{bmatrix}%_{n \times 1}
+\]</span></p>
+<p>Dessa forma, o posto de <span class="math inline">\(\mathbf{X}\)</span> é 2 (pois temos duas colunas linearmente independentes), e a matriz é invertível. Usando o mesmo exemplo anterior no R:</p>
+<pre class="r"><code>##----------------------------------------------------------------------
+## A matriz X para o modelo anterior é igual a matriz X original, menos
+## a segunda coluna. Portanto, chamando de X4 essa nova matriz,
+(X4 &lt;- X[, -2])</code></pre>
+<pre><code>     [,1] [,2]
+[1,]    1    0
+[2,]    1    0
+[3,]    1    0
+[4,]    1    1
+[5,]    1    1
+[6,]    1    1</code></pre>
+<pre class="r"><code>## X&#39;
+X4t &lt;- t(X4)
+## X&#39;X
+(X4tX4 &lt;- X4t %*% X4)</code></pre>
+<pre><code>     [,1] [,2]
+[1,]    6    3
+[2,]    3    3</code></pre>
+<pre class="r"><code>## (X&#39;X)^-1
+solve(X4tX4)</code></pre>
+<pre><code>           [,1]       [,2]
+[1,]  0.3333333 -0.3333333
+[2,] -0.3333333  0.6666667</code></pre>
+<p>Note que a matriz não é diagonal, mas é invertível. Dessa forma, podemos estimar os parâmetros <span class="math inline">\(\mu\)</span> e <span class="math inline">\(\alpha_2\)</span>. Pela definição da matriz desse modelo, o parâmetro <span class="math inline">\(\mu\)</span> é a média do nível 1, pois na primeira equação temos</p>
+<p><span class="math display">\[
+y_{1j} = \mu + \epsilon_{1j} \quad \Rightarrow \quad \text{E}[y_{1j}] = \mu
+\]</span></p>
+<p>Como</p>
+<p><span class="math display">\[
+y_{2j} = \mu + \alpha_2 + \epsilon_{2j} \quad \Rightarrow \quad
+\text{E}[y_{2j}] = \mu + \alpha_2 = \text{E}[y_{1j}] + \alpha_2
+\]</span></p>
+<p>então o parâmetro <span class="math inline">\(\alpha_2\)</span> deve ser interpretado como a diferença entre a média do nível 1 com o efeito do nível 2 (um contraste). O sinal de <span class="math inline">\(\alpha_2\)</span> indicará se o efeito do nível 2 é maior (<span class="math inline">\(+\)</span>) ou menor (<span class="math inline">\(-\)</span>) do que do nível 1.</p>
+</div>
+<div id="ultimo-nivel-zero" class="section level3">
+<h3>Último nível zero</h3>
+<p>Assumir que o último nível do fator é igual a zero implica em assumir que um parâmetro do modelo é conhecido, portanto não precisa ser estimado, e assim se reduz o número de parâmetros. Do exemplo anterior, assumindo</p>
+<p><span class="math display">\[
+\alpha_2 = 0
+\]</span></p>
+<p>o modelo fica</p>
+<p><span class="math display">\[
+y_{1j} = \mu + \alpha_1 + \epsilon_{1j} \\
+y_{2j} = \mu + 0 + \epsilon_{2j}
+\]</span></p>
+<p>E na forma matricial</p>
+<p><span class="math display">\[
+  \mathbf{y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\epsilon}
+\]</span></p>
+<p><span class="math display">\[
+\begin{bmatrix}
+  y_{11} \\ y_{12} \\ y_{13} \\ y_{21} \\ y_{22} \\ y_{23}
+\end{bmatrix}%_{n \times 1}
+  =
+  \begin{bmatrix}
+    1 &amp; 1 \\
+    1 &amp; 1 \\
+    1 &amp; 1 \\
+    1 &amp; 0 \\
+    1 &amp; 0 \\
+    1 &amp; 0
+  \end{bmatrix}%_{n \times (k+1)}
+  \begin{bmatrix}
+    \mu \\ \alpha_1 \\
+  \end{bmatrix}%_{(k+1) \times 1}
+  +
+  \begin{bmatrix}
+ \epsilon_{11} \\ \epsilon_{12} \\ \epsilon_{13} \\ \epsilon_{21} \\ \epsilon_{22} \\ \epsilon_{23}
+  \end{bmatrix}%_{n \times 1}
+\]</span></p>
+<p>Dessa forma, o posto de <span class="math inline">\(\mathbf{X}\)</span> é 2 (pois temos duas colunas linearmente independentes), e a matriz é invertível. Usando o mesmo exemplo anterior no R:</p>
+<pre class="r"><code>##----------------------------------------------------------------------
+## A matriz X para o modelo anterior é igual a matriz X original, menos
+## a terceira coluna. Portanto, chamando de X5 essa nova matriz,
+(X5 &lt;- X[, -3])</code></pre>
+<pre><code>     [,1] [,2]
+[1,]    1    1
+[2,]    1    1
+[3,]    1    1
+[4,]    1    0
+[5,]    1    0
+[6,]    1    0</code></pre>
+<pre class="r"><code>## X&#39;
+X5t &lt;- t(X5)
+## X&#39;X
+(X5tX5 &lt;- X5t %*% X5)</code></pre>
+<pre><code>     [,1] [,2]
+[1,]    6    3
+[2,]    3    3</code></pre>
+<pre class="r"><code>## (X&#39;X)^-1
+solve(X5tX5)</code></pre>
+<pre><code>           [,1]       [,2]
+[1,]  0.3333333 -0.3333333
+[2,] -0.3333333  0.6666667</code></pre>
+<p>Note que a matriz não é diagonal, mas é invertível. Dessa forma, podemos estimar os parâmetros <span class="math inline">\(\mu\)</span> e <span class="math inline">\(\alpha_1\)</span>. Pela definição da matriz desse modelo, o parâmetro <span class="math inline">\(\mu\)</span> é a média do nível 2, pois na segunda equação temos</p>
+<p><span class="math display">\[
+y_{2j} = \mu + \epsilon_{2j} \quad \Rightarrow \quad \text{E}[y_{2j}] = \mu
+\]</span></p>
+<p>Como</p>
+<p><span class="math display">\[
+y_{1j} = \mu + \alpha_1 + \epsilon_{1j} \quad \Rightarrow \quad
+\text{E}[y_{1j}] = \mu + \alpha_1 = \text{E}[y_{2j}] + \alpha_1
+\]</span></p>
+<p>então o parâmetro <span class="math inline">\(\alpha_1\)</span> deve ser interpretado como a diferença entre a média do nível 2 com o efeito do nível 1 (um contraste). O sinal de <span class="math inline">\(\alpha_1\)</span> indicará se o efeito do nível 1 é maior (<span class="math inline">\(+\)</span>) ou menor (<span class="math inline">\(-\)</span>) do que do nível 2.</p>
+</div>
+</div>
+</div>
+
+<center>
+  <hr width="100%" size="3px">
+  <p> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.pt_BR">
+      <img src="img/CC_by-nc-sa_80x15.png" alt="Licença Creative Commons 4.0"> </a>
+  </p>
+  <p> <font size="2"> Este conteúdo
+      está disponível por meio da Licença Creative Commons 4.0 </font>
+  </p>
+</center>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

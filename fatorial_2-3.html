@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Experimentos fatoriais 2^3</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<script>
+ (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ ga('create', 'UA-102804671-3', 'auto');
+ ga('send', 'pageview');
+
+</script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = false;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">CE074</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="aulas.html">Aulas</a>
+</li>
+<li>
+  <a href="referencias.html">Referências</a>
+</li>
+<li>
+  <a href="recursos.html">Recursos</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Materiais
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Introdução e revisão</li>
+    <li>
+      <a href="catalizando-conhecimento.html">Catalizando a geração de conhecimento [HTML]</a>
+    </li>
+    <li>
+      <a href="modelos-lineares.html">Modelos lineares e reparametrizações [HTML]</a>
+    </li>
+    <li class="dropdown-header">Experimentos fatoriais</li>
+    <li>
+      <a href="anova-geral.html">ANOVA por meio de Diagramas de Hasse [HTML]</a>
+    </li>
+    <li>
+      <a href="fatorial_2-2.html">Experimentos fatorias 2^2 [HTML]</a>
+    </li>
+    <li>
+      <a href="fatorial_2-3.html">Experimentos fatorias 2^3 [HTML]</a>
+    </li>
+    <li>
+      <a href="fatorial_2-k.html">Experimentos fatorias 2^k, k &gt; 3 [HTML]</a>
+    </li>
+    <li>
+      <a href="fatorial_pontos-centrais.html">Adição de pontos centrais em planejamentos 2^k [HTML]</a>
+    </li>
+    <li>
+      <a href="confundimento-blocagem.html">Técnicas de confundimento para blocagem em fatorias 2^k [HTML]</a>
+    </li>
+    <li>
+      <a href="fatorial_fracionado.html">Experimentos fatorias fracionados 2^{k-p} [HTML]</a>
+    </li>
+    <li>
+      <a href="msr.html">Metodologia de Superfície de Resposta [HTML]</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Scripts</li>
+    <li>
+      <a href="scripts/script_racoes_pimentel.R">Tipos de contrastes em modelos lineares [R]</a>
+    </li>
+    <li>
+      <a href="scripts/script_catalisador.R">Interpretação de efeitos estimados em modelos lineares [R]</a>
+    </li>
+    <li>
+      <a href="scripts/script_fatorial_2-2.R">Análise completa de um fatorial 2^2 [R]</a>
+    </li>
+    <li>
+      <a href="scripts/script_fatorial_2-6.R">Análise completa de um fatorial 2^6 [R]</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Experimento</li>
+    <li>
+      <a href="instrucoes-planejamento.html">Instruções para o planejamento de experimentos [HTML]</a>
+    </li>
+    <li>
+      <a href="misc/guia-planejamento.html">Guia para o planejamento de experimentos [HTML]</a>
+    </li>
+    <li>
+      <a href="misc/guia-planejamento.Rmd">Guia para o planejamento de experimentos [Rmd]</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Exercícios</li>
+    <li>
+      <a href="exercicios/ex_revisao.pdf">Revisão de conhecimento [PDF]</a>
+    </li>
+    <li>
+      <a href="exercicios/ex_fatorial.pdf">Experimentos fatoriais [PDF]</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/fernandomayer/ce074">
+    <span class="fa fa-github fa-lg"></span>
+     
+    GitHub
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Experimentos fatoriais <span class="math inline">\(2^3\)</span></h1>
+
+</div>
+
+
+<div id="introducao" class="section level1">
+<h1>Introdução</h1>
+<p>Já vimos que em geral, os experimentos fatoriais <span class="math inline">\(2^k\)</span> são compostos por <span class="math inline">\(k\)</span> tratamentos, cada um com apenas dois níveis (que chamamos de alto e baixo). A representação geométrica e as formas de estimação para todos os componentes de um experimento fatorial <span class="math inline">\(2^2\)</span> já foram vistas <a href="fatorial_2-2.Rmd">aqui</a>.</p>
+<p>Nesta seção veremos as adatações necessárias para se obter todos os componentes de um experimento fatorial com 3 fatores, cada um com dois níveis. O modelo estatístico geral para um experimento fatorial <span class="math inline">\(2^3\)</span> pode ser escrito como</p>
+<p><span class="math display">\[
+y_{ijkl} = \mu + \alpha_i + \beta_j + \gamma_k + (\alpha\beta)_{ij} +
+         (\alpha\gamma)_{ik} + (\beta\gamma)_{jk} +
+         (\alpha\beta\gamma)_{ijk} + \epsilon_{ijkl}
+\]</span></p>
+<p>Com <span class="math inline">\(i = 1, \ldots, a\)</span> niveis do fator A <span class="math inline">\(j = 1, \ldots, b\)</span> niveis do fator B, <span class="math inline">\(k = 1, \ldots, c\)</span> niveis do fator C, e <span class="math inline">\(l = 1, \ldots, r\)</span> repetições. De maneira simpllificada podemos também escrever esse modelo como</p>
+<p><span class="math display">\[
+y = A + B + C + AB + AC + BC + ABC + \epsilon
+\]</span></p>
+<p>Portanto, esse planejamento permite estimar 3 efeitos principais, 3 efeitos de interações de segunda ordem, e 1 interação de terceira ordem.</p>
+<p>Usando a representação geométrica (que já vimos ser equivalente à restrição do tipo soma zero em modelos lineares gerais), temos agora um cubo, onde cada dimensão representa um fator:</p>
+<pre><code>        bc ------- abc
+        .|        .|
+ [+]  c__|______ac |
+      |  |      |  |
+  C   |  b -----|- ab [+]
+      | .       | .   B
+ [-] (1)________a  [-]
+     [-]   A   [+]</code></pre>
+<p>Dessa forma, obtemos também a seguinte tabela de sinais para os afeitos principais, seguindo a ordem de Yates:</p>
+<pre><code>   nom A B C
+ 1   1 - - -
+ 2   a + - -
+ 3   b - + -
+ 4  ab + + -
+ 5   c - - +
+ 6  ac + - +
+ 7  bc - + +
+ 8 abc + + +</code></pre>
+<p>As colunas das interações são obtidas multiplicando-se as colunas dos respectivos fatores. Nota-se que em um experimento fatorial <span class="math inline">\(2^3\)</span> temos então 8 combinações possíveis para os 3 tratamentos.</p>
+</div>
+<div id="analise-atraves-de-um-exemplo" class="section level1">
+<h1>Análise através de um exemplo</h1>
+<p>No capítulo 5 de <a href="http://statisticsforexperimenters.net">Box, Hunter e Hunter (2005)</a> é apresentado um experimento que avalia o rendimento de um processo na presença de 3 fatores: temperatura (<strong>T</strong>) e concentração (<strong>C</strong>), ambos quantitativos, e tipo de catalisador (<strong>K</strong>), qualitativo. O experimento foi executado com 2 repetições, e pode ser visto abaixo (disponível <a href="http://leg.ufpr.br/~fernandomayer/data/BHH2/tab0503.dat">aqui</a>):</p>
+<pre class="r"><code>url &lt;- &quot;http://leg.ufpr.br/~fernandomayer/data/BHH2/tab0503.dat&quot;
+dados &lt;- read.table(url, header = TRUE)
+str(dados)
+# &#39;data.frame&#39;: 16 obs. of  5 variables:
+#  $ run: int  6 2 1 5 8 9 3 7 13 4 ...
+#  $ T  : int  -1 1 -1 1 -1 1 -1 1 -1 1 ...
+#  $ C  : int  -1 -1 1 1 -1 -1 1 1 -1 -1 ...
+#  $ K  : int  -1 -1 -1 -1 1 1 1 1 -1 -1 ...
+#  $ y  : int  59 74 50 69 50 81 46 81 61 70 ...</code></pre>
+<p>Em um primeiro momento, para simplificação da explicação abaixo, foi considerado como resposta a média de rendimento das duas repetições do experimento, ficando apenas com 8 observações. Estes dados podem ser visualizados abaixo:</p>
+<pre class="r"><code>da &lt;- aggregate(y ~ T + C + K, data = dados, FUN = mean)
+str(da)
+# &#39;data.frame&#39;: 8 obs. of  4 variables:
+#  $ T: int  -1 1 -1 1 -1 1 -1 1
+#  $ C: int  -1 -1 1 1 -1 -1 1 1
+#  $ K: int  -1 -1 -1 -1 1 1 1 1
+#  $ y: num  60 72 54 68 52 83 45 81
+kable(da)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">T</th>
+<th align="right">C</th>
+<th align="right">K</th>
+<th align="right">y</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">-1</td>
+<td align="right">-1</td>
+<td align="right">-1</td>
+<td align="right">60</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="right">-1</td>
+<td align="right">-1</td>
+<td align="right">72</td>
+</tr>
+<tr class="odd">
+<td align="right">-1</td>
+<td align="right">1</td>
+<td align="right">-1</td>
+<td align="right">54</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">-1</td>
+<td align="right">68</td>
+</tr>
+<tr class="odd">
+<td align="right">-1</td>
+<td align="right">-1</td>
+<td align="right">1</td>
+<td align="right">52</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="right">-1</td>
+<td align="right">1</td>
+<td align="right">83</td>
+</tr>
+<tr class="odd">
+<td align="right">-1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">45</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">81</td>
+</tr>
+</tbody>
+</table>
+<p>Os níveis -1 (baixo) e 1 (alto) de cada fator são os seguintes:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center"></th>
+<th align="center"><strong>(-)</strong></th>
+<th align="center"><strong>(+)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>T</strong></td>
+<td align="center">160</td>
+<td align="center">180</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>C</strong></td>
+<td align="center">20</td>
+<td align="center">40</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>K</strong></td>
+<td align="center">A</td>
+<td align="center">B</td>
+</tr>
+</tbody>
+</table>
+<p>A representação geométrica desse experimento é então:</p>
+<p><img src="img/bhh2_fig5-3_1.png" width="80%" style="display: block; margin: auto;" /></p>
+<p>E as definições básicas são:</p>
+<pre class="r"><code>## Número de fatores
+k &lt;- 3
+## Número de níveis
+a &lt;- b &lt;- c &lt;- 2
+## Número de repetições
+r &lt;- 1</code></pre>
+<div id="contrastes" class="section level2">
+<h2>Contrastes</h2>
+<p>Já vimos que um contraste é, por definição, a diferença entre as observações do nível alto e baixo de um fator. No caso de um experimento fatorial <span class="math inline">\(2^2\)</span> essa dedução é simplificada pois a representação geométrica é um quadrado. Naquele caso bastava olhar para a diferença entra as médias das arestas paralelas do quadrado.</p>
+<p>No caso de um experimento fatorial <span class="math inline">\(2^3\)</span> onde a representação geométrica se dá em um cubo, a dedução é a mesma, mas agora as diferenças serão realizadas entre <strong>planos</strong> do cubo. Por exemplo, o contraste para o fator A (temperatura) pode ser calculado como:</p>
+<p><span class="math display">\[
+contr_A = (a + ab + ac + abc) - (b + c + bc + (1))
+\]</span></p>
+<p>Note que todos os elementos da primeira soma contém a letra <span class="math inline">\(a\)</span> que representa o nível alto do fator A. De maneira análoga, podemos deduzir os contrastes para os fatores B e C:</p>
+<p><span class="math display">\[
+\begin{align}
+contr_B = (b + ab + bc + abc) - (a + c + ac + (1)) \\
+contr_C = (c + ac + bc + abc) - (a + b + ab + (1))
+\end{align}
+\]</span></p>
+<p>Os contrastes para as interações podem ser obtido de maneira similar. Considere por exemplo a interação <span class="math inline">\(TK\)</span>. Quando a concentração (<span class="math inline">\(C\)</span>) está no nível baixo, então</p>
+<p><span class="math display">\[
+contr_{TK(C-)} = ((1) + ab) - (a + b)
+\]</span></p>
+<p>E quando a concentração está no nível alto, então</p>
+<p><span class="math display">\[
+contr_{TK(C+)} = (c + abc) - (ac + bc)
+\]</span></p>
+<p>Portanto, a interação <span class="math inline">\(TK\)</span> é simplesmente a soma das interações para cada nível de <span class="math inline">\(C\)</span>. Assim, de maneira geral, o contraste da interação <span class="math inline">\(AB\)</span> é</p>
+<p><span class="math display">\[
+contr_{AB} = (ab + (1) + abc + c) - (a + b + ac + bc)
+\]</span></p>
+<p>De maneira similar, os contrastes para as outras duas interações duplas são:</p>
+<p><span class="math display">\[
+\begin{align}
+contr_{AC} = (ac + (1) + abc + b) - (a + c + ab + bc) \\
+contr_{BC} = (bc + (1) + abc + a) - (b + c + ab + ac)
+\end{align}
+\]</span></p>
+<p>O efeito da interação de terceira ordem (<span class="math inline">\(TCK\)</span>) é obtida quando se considera a interação <span class="math inline">\(TC\)</span> nos níveis alto e baixo de <span class="math inline">\(K\)</span>, mas com os sinais trocados. De maneira geral, a interação ABC é obtida a partir da interação de AB em cada nível de C, ou seja,</p>
+<p><span class="math display">\[
+contr_{ABC} = (a + b + c + abc) - ((1) + ab + ac + bc)
+\]</span></p>
+<p>Geometricamente os contrastes acima podem ser visualizados na figura abaixo.</p>
+<p><img src="img/bhh2_fig5-4.png" width="80%" style="display: block; margin: auto;" /></p>
+<div id="tabela-de-contrastes" class="section level3">
+<h3>Tabela de contrastes</h3>
+<p>Note que a partir do momento que o número de fatores <span class="math inline">\(k\)</span> for aumentando, a dedução geometrica ficará cada vez mais difícil. Por isso, podemos utilizar a <strong>tabela de contrastes</strong> para auxiliar no cálculo dos contrastes de qualquer ordem.</p>
+<p>Para qualquer experimento fatorial <span class="math inline">\(2^k\)</span> definimos a tabela de contrastes como sendo a tabela de sinais para cada fator, adicionada das colunas de média geral (que chamaremos de <span class="math inline">\(I\)</span>) e das colunas com todas as interações possíveis.</p>
+<p>Dessa forma, a partir da tabela de sinais do experimento</p>
+<pre class="r"><code>da[, c(&quot;T&quot;, &quot;C&quot;, &quot;K&quot;)]
+#    T  C  K
+# 1 -1 -1 -1
+# 2  1 -1 -1
+# 3 -1  1 -1
+# 4  1  1 -1
+# 5 -1 -1  1
+# 6  1 -1  1
+# 7 -1  1  1
+# 8  1  1  1</code></pre>
+<p>obtemos a tabela completa de contrastes da seguinte forma:</p>
+<pre class="r"><code>tab.sinais &lt;- cbind(I = 1, da[, c(&quot;T&quot;, &quot;C&quot;, &quot;K&quot;)])
+tab.sinais &lt;- transform(tab.sinais,
+                        TC = T*C,
+                        TK = T*K,
+                        CK = C*K,
+                        TCK = T*C*K)
+row.names(tab.sinais) &lt;- c(&quot;(1)&quot;, &quot;a&quot;, &quot;b&quot;, &quot;ab&quot;, &quot;c&quot;, &quot;ac&quot;, &quot;bc&quot;, &quot;abc&quot;)
+tab.sinais
+#     I  T  C  K TC TK CK TCK
+# (1) 1 -1 -1 -1  1  1  1  -1
+# a   1  1 -1 -1 -1 -1  1   1
+# b   1 -1  1 -1 -1  1 -1   1
+# ab  1  1  1 -1  1 -1 -1  -1
+# c   1 -1 -1  1  1 -1 -1   1
+# ac  1  1 -1  1 -1  1 -1  -1
+# bc  1 -1  1  1 -1 -1  1  -1
+# abc 1  1  1  1  1  1  1   1</code></pre>
+<p>Note agora que cada coluna da tabela de sinais representa a própria definição de contraste para cada efeito principal ou interação, conforme foi deduzido anteriormente.</p>
+<p>Dessa forma, os contrastes podem ser facilmente calculados apenas multiplindo-se cada coluna pelo vetor de observações:</p>
+<pre class="r"><code>(contr &lt;- t(tab.sinais[, -1]) %*% da$y)
+#     [,1]
+# T     93
+# C    -19
+# K      7
+# TC     7
+# TK    41
+# CK     1
+# TCK    3</code></pre>
+<p>Note que a tabela de sinais completa para qualquer experimento fatorial <span class="math inline">\(2^k\)</span> pode ser obtida dessa mesma forma. Essa tabela possui algumas propriedades extremamente interessantes:</p>
+<ol style="list-style-type: decimal">
+<li>Exceto pela coluna identidade <span class="math inline">\(I\)</span>, cada coluna tem um número igual de sinais mais ou menos.</li>
+<li>A soma dos produtos dos sinais de quaisquer duas colunas é zero. Isto é, o <strong>produto interno</strong> de qualquer par de colunas será zero, o que define que os contrastes são <strong>ortogonais</strong>, garantindo que cada estimativa de efeito não é alterada pela magnitude dos efeitos e sinais das outras.</li>
+<li>A multiplicação de qualquer coluna pela couna <span class="math inline">\(I\)</span> deixa a coluna inalterada, ou seja, <span class="math inline">\(I\)</span> é um <strong>elemento identidade</strong>.</li>
+<li>O produto de quaisquer duas colunas resulta em uma coluna da tabela. Por exemplo: <span class="math inline">\(A \times B = AB\)</span> e <span class="math inline">\(AB \times ABC = A^2B^2C = C\)</span>, uma vez que cada coluna multiplicada por si mesma é a identidade.</li>
+</ol>
+<p>A partir dos contrastes, podemos agora calcular os efeitos de cada fator e das interações. Vimos que, de forma, geral, os efeitos são</p>
+<p><span class="math display">\[
+\begin{align}
+Ef &amp;= \bar{y}_{+} - \bar{y}_{-} \\
+   &amp;= \frac{contr}{r2^{k-1}}
+\end{align}
+\]</span></p>
+<p>Dessa forma, os efeitos podem ser calculados como:</p>
+<pre class="r"><code>(ef &lt;- contr/(r * 2^(k-1)))
+#      [,1]
+# T   23.25
+# C   -4.75
+# K    1.75
+# TC   1.75
+# TK  10.25
+# CK   0.25
+# TCK  0.75</code></pre>
+<p>Os efeitos principais de um fator podem ser interpretados individualmente somente se não existem evidências de que aquele fator não interage com outros. Quando existe interação, as variáveis que interagem devem ser analisados em conjunto.</p>
+<p>Pelos resultados acima, apenas a interação <span class="math inline">\(TK\)</span> parece ser importante. Dessa forma, temperatura e catalisador não podem ter seus efeitos analisados individualmente (independente do tamanho dos efeitos individuais). De maneira geral, as seguintes conclusões podem ser obtidas:</p>
+<ol style="list-style-type: decimal">
+<li>O efeito de mudar a concentração (<span class="math inline">\(C\)</span>) de alta para baixa, é diminuir o rendimento em 4.75 unidades, <strong>independente do nível das outras variáveis</strong>, pois não há interação com essa variável.</li>
+<li>Os efeitos de temperatura (<span class="math inline">\(T\)</span>) e catalisador (<span class="math inline">\(K\)</span>) não podem ser interpretados separadamente por causa do grande efeito da interação <span class="math inline">\(TK\)</span>. O aumento no rendimento é muito maior ao se utilizar o catalisador B (1) do que o A (-1), conforme podemos ver na figura abaixo.</li>
+</ol>
+<pre class="r"><code>with(da, interaction.plot(T, K, y))</code></pre>
+<p><img src="figures/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Embora essa análise visual nos permita tirar algumas conclusões, devemos nos preocupar em testar se os efeitos são realmente significativos ou se seus valores observados são apenas devido ao acaso. Com apenas uma repetição do experimento não é possível obter estimativas de erro e nem testar hipóteses. Por isso, para os demais tópicos que seguem, vamos utilizar os dados completos, considerando as duas repetições do experimento.</p>
+<p>Os contrastes para o experimento completo são então:</p>
+<pre class="r"><code>## Obtém tabela de sinais
+tab.sinais &lt;- cbind(I = 1, dados[, c(&quot;T&quot;, &quot;C&quot;, &quot;K&quot;)])
+tab.sinais &lt;- transform(tab.sinais,
+                        TC = T*C,
+                        TK = T*K,
+                        CK = C*K,
+                        TCK = T*C*K)
+tab.sinais
+#    I  T  C  K TC TK CK TCK
+# 1  1 -1 -1 -1  1  1  1  -1
+# 2  1  1 -1 -1 -1 -1  1   1
+# 3  1 -1  1 -1 -1  1 -1   1
+# 4  1  1  1 -1  1 -1 -1  -1
+# 5  1 -1 -1  1  1 -1 -1   1
+# 6  1  1 -1  1 -1  1 -1  -1
+# 7  1 -1  1  1 -1 -1  1  -1
+# 8  1  1  1  1  1  1  1   1
+# 9  1 -1 -1 -1  1  1  1  -1
+# 10 1  1 -1 -1 -1 -1  1   1
+# 11 1 -1  1 -1 -1  1 -1   1
+# 12 1  1  1 -1  1 -1 -1  -1
+# 13 1 -1 -1  1  1 -1 -1   1
+# 14 1  1 -1  1 -1  1 -1  -1
+# 15 1 -1  1  1 -1 -1  1  -1
+# 16 1  1  1  1  1  1  1   1
+## Calcula os contrastes pela tabela de sinais
+(contr &lt;- t(tab.sinais[, -1]) %*% dados$y)
+#     [,1]
+# T    186
+# C    -38
+# K     14
+# TC    14
+# TK    82
+# CK     2
+# TCK    6</code></pre>
+<p>Assim como esperado, os contrastes agora são o dobro daqueles obtidos anteriormente, uma vez que utilizamos a média das duas repetições.</p>
+</div>
+</div>
+<div id="somas-de-quadrados-e-anova" class="section level2">
+<h2>Somas de quadrados e ANOVA</h2>
+<p>Já foi demonstrado também que a soma de quadrados de qualquer fator pode ser calculada como</p>
+<p><span class="math display">\[
+SQ = \frac{[contr]^2}{r2^k}
+\]</span></p>
+<p>onde os contrastes são específicos para cada fator e <span class="math inline">\(r2^k\)</span> é o total de observações do experimento.</p>
+<p>Para esse exemplo específico temos então</p>
+<pre class="r"><code>## Novas definições do experimento
+k &lt;- 3
+a &lt;- b &lt;- c &lt;- 2
+r &lt;- 2 # aumenta o número de repetições
+n &lt;- r*2^k
+(SQ &lt;- contr^2/(r * 2^k))
+#        [,1]
+# T   2162.25
+# C     90.25
+# K     12.25
+# TC    12.25
+# TK   420.25
+# CK     0.25
+# TCK    2.25</code></pre>
+<p>Para calcular os quadrados médios precisamos dos graus de liberdade. Para um experimento fatorial <span class="math inline">\(2^k\)</span> as somas de quadrados e os graus de liberdade podem ser decompostos em:</p>
+<p><span class="math display">\[
+\begin{align}
+SQTot &amp;= SQA + SQB + SQC + SQAB + SQAC + SQBC + SQABC + SQRes \\
+abcr - 1 &amp;= (a-1) + (b-1) + (c-1) + (a-1)(b-1) + (a-1)(c-1) +
+(b-1)(c-1) + (a-1)(b-1)(c-1) + abc(r-1)
+\end{align}
+\]</span></p>
+<p>(Obtenha essas quantidades pelo diagrama de Hasse). A <span class="math inline">\(SQTot\)</span> é calculada da maneira usual, e a <span class="math inline">\(SQRes\)</span> obtida por diferença:</p>
+<pre class="r"><code>## SQTot
+(SQTot &lt;- sum(dados$y^2) - (sum(dados$y)^2/n))
+# [1] 2761.75
+## SQRes
+(SQRes &lt;- SQTot - sum(SQ))
+# [1] 62</code></pre>
+<p>Assim, os graus de liberdade são:</p>
+<pre class="r"><code>(glA &lt;- a - 1)
+# [1] 1
+(glB &lt;- b - 1)
+# [1] 1
+(glC &lt;- c - 1)
+# [1] 1
+(glAB &lt;- (a-1)*(b-1))
+# [1] 1
+(glAC &lt;- (a-1)*(c-1))
+# [1] 1
+(glBC &lt;- (b-1)*(c-1))
+# [1] 1
+(glABC &lt;- (a-1)*(b-1)*(c-1))
+# [1] 1
+(glRES &lt;- a*b*c*(r-1))
+# [1] 8</code></pre>
+<p>E os quadrados médios são, portanto,</p>
+<pre class="r"><code>(MQ &lt;- SQ/c(glA, glB, glC, glAB, glAC, glBC, glABC))
+#        [,1]
+# T   2162.25
+# C     90.25
+# K     12.25
+# TC    12.25
+# TK   420.25
+# CK     0.25
+# TCK    2.25
+## Resíduo
+(MQRes &lt;- SQRes/glRES)
+# [1] 7.75</code></pre>
+<p>Para completar a tabela de ANOVA, calculamos os valores F, os p-valores correspondentes e montamos a tabela final:</p>
+<pre class="r"><code>## Valores F
+f &lt;- MQ/MQRes
+## Valores p
+p &lt;- pf(f, df1 = glA, df2 = glRES, lower.tail = FALSE)
+## Tabela de ANOVA
+tab.anova &lt;- data.frame(&quot;GL&quot; = c(glA, glB, glC, glAB, glAC, glBC, glABC, glRES),
+                        &quot;SQ&quot; = c(SQ, SQRes),
+                        &quot;QM&quot; = c(MQ, MQRes),
+                        &quot;F&quot; = c(f, NA),
+                        &quot;p-valor&quot; = c(p, NA),
+                        row.names = c(&quot;T&quot;, &quot;C&quot;, &quot;K&quot;, &quot;T:C&quot;, &quot;T:K&quot;,
+                                      &quot;C:K&quot;, &quot;T:C:K&quot;, &quot;Resíduo&quot;))
+tab.anova
+#         GL      SQ      QM            F      p.valor
+# T        1 2162.25 2162.25 279.00000000 1.669518e-07
+# C        1   90.25   90.25  11.64516129 9.189134e-03
+# K        1   12.25   12.25   1.58064516 2.441287e-01
+# T:C      1   12.25   12.25   1.58064516 2.441287e-01
+# T:K      1  420.25  420.25  54.22580645 7.888440e-05
+# C:K      1    0.25    0.25   0.03225806 8.619282e-01
+# T:C:K    1    2.25    2.25   0.29032258 6.046793e-01
+# Resíduo  8   62.00    7.75           NA           NA</code></pre>
+<p>Lembrando que a ANOVA testa as hipóteses de que as médias são iguais para cada fator, concluimos então que a interação <span class="math inline">\(TK\)</span> é importante e o efeito isolado de <span class="math inline">\(C\)</span> também. O efeito de <span class="math inline">\(K\)</span> sozinho não é importante, mas pelo princípio da marginalidade esse termo deve permanecer no modelo.</p>
+</div>
+<div id="efeitos-coeficientes-e-erro-padrao" class="section level2">
+<h2>Efeitos, coeficientes e erro-padrão</h2>
+<p>Como já mencionado acima, os efeitos são as diferenças entre as médias dos níveis alto e baixo de um fator, e que podem ser calculadas a partir dos contrastes como:</p>
+<p><span class="math display">\[
+\begin{align}
+Ef &amp;= \bar{y}_{+} - \bar{y}_{-} \\
+   &amp;= \frac{contr}{r2^{k-1}}
+\end{align}
+\]</span></p>
+<p>Com isso os efeitos calculados são:</p>
+<pre class="r"><code>(ef &lt;- contr/(r*2^(k-1)))
+#      [,1]
+# T   23.25
+# C   -4.75
+# K    1.75
+# TC   1.75
+# TK  10.25
+# CK   0.25
+# TCK  0.75</code></pre>
+<p>Note que os efeitos são os mesmos que obtivemos antes quando tinhamos apenas a média disponível.</p>
+<p>Os coeficientes dos efeitos são a metade dos efeitos,</p>
+<p><span class="math display">\[
+\hat{\beta} = Coef = \frac{Ef}{2}
+\]</span></p>
+<p>E portanto são:</p>
+<pre class="r"><code>(coef &lt;- ef/2)
+#       [,1]
+# T   11.625
+# C   -2.375
+# K    0.875
+# TC   0.875
+# TK   5.125
+# CK   0.125
+# TCK  0.375</code></pre>
+<p>Com isso, podemos calcular os erros-padrões dos coeficientes dos efeitos através de</p>
+<p><span class="math display">\[
+EP[\hat{\beta}] = \hat{\sigma} \sqrt{(1/r2^k)}
+\]</span></p>
+<p>Onde <span class="math inline">\(\hat{\sigma}\)</span> é uma estimativa do desvio-padrão amostral, obtida através do quadrado médio do resíduo, ou seja,</p>
+<p><span class="math display">\[
+\hat{\sigma} = \sqrt{QMRes}
+\]</span></p>
+<p>Então:</p>
+<pre class="r"><code>(sigma &lt;- sqrt(MQRes))
+# [1] 2.783882
+(ep &lt;- sigma * sqrt((1/(r * 2^k))))
+# [1] 0.6959705</code></pre>
+<p>Sabemos também que <span class="math inline">\(\frac{\hat{\beta}}{EP[\hat{\beta}]}\)</span> tem distribuição <span class="math inline">\(t\)</span> com graus de liberdade igual aos graus de liberdade da soma de quadrados do resíduo (ou da estimativa da variância). Por isso, podemos fazer um teste <span class="math inline">\(t\)</span> para a hipótese <span class="math inline">\(H_0: \beta = 0\)</span>.</p>
+<p>Com isso, calculamos os valores <span class="math inline">\(t\)</span>, os respectivos p-valores, e montamos a tabela final com as estimativas e testes para os coeficientes dos efeitos:</p>
+<pre class="r"><code>## Valores t
+t &lt;- coef/ep
+## Valores p
+p &lt;- pt(abs(t), df = glRES, lower.tail = FALSE) * 2
+## Tabela final
+tab.coef &lt;- data.frame(Coeficientes = coef,
+                       EP = ep,
+                       t = t,
+                       &quot;p-valor&quot; = p)
+tab.coef
+#     Coeficientes        EP          t      p.valor
+# T         11.625 0.6959705 16.7032931 1.669518e-07
+# C         -2.375 0.6959705 -3.4125007 9.189134e-03
+# K          0.875 0.6959705  1.2572371 2.441287e-01
+# TC         0.875 0.6959705  1.2572371 2.441287e-01
+# TK         5.125 0.6959705  7.3638174 7.888440e-05
+# CK         0.125 0.6959705  0.1796053 8.619282e-01
+# TCK        0.375 0.6959705  0.5388159 6.046793e-01</code></pre>
+<p>Nota-se então que, de acordo com a tabela de ANOVA, os efeitos significativamente diferentes de zero são da interação <span class="math inline">\(TK\)</span> e do efeito isolado de <span class="math inline">\(C\)</span>.</p>
+</div>
+</div>
+<div id="analise-usando-as-funcoes-do-r" class="section level1">
+<h1>Análise usando as funções do R</h1>
+<p>Nesta seção usaremos as funções básicas do R para executar a análise deste experimento, mas agora avaliando o melhor modelo, analisando resíduos e fazendo a predição.</p>
+<div id="analise-exploratoria" class="section level2">
+<h2>Análise exploratória</h2>
+<pre class="r"><code>## Gráficos de interação
+par(mfrow = c(1, 3))
+with(dados, {
+     interaction.plot(T, K, y)
+     interaction.plot(C, K, y)
+     interaction.plot(T, C, y)
+})</code></pre>
+<p><img src="figures/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>par(mfrow = c(1, 1))
+## Usando o pacote dae
+dae::interaction.ABC.plot(y, T, C, K, data = dados)</code></pre>
+<p><img src="figures/unnamed-chunk-21-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dae::interaction.ABC.plot(y, T, K, C, data = dados)</code></pre>
+<p><img src="figures/unnamed-chunk-21-3.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="anova-e-coeficientes-dos-efeitos" class="section level2">
+<h2>ANOVA e coeficientes dos efeitos</h2>
+<p>A declaração do modelo completo pode ser feita da seguinte forma:</p>
+<pre class="r"><code>## Modelo usando lm()
+m0 &lt;- lm(y ~ T * C * K, data = dados)</code></pre>
+<p>Quando ajustamos um modelo a um conjunto de dados, podemos ter basicamente dois objetivos:</p>
+<ol style="list-style-type: decimal">
+<li>Verificar quais variáveis influenciam na média da variável resposta <span class="math inline">\(Y\)</span></li>
+<li>Fazer predições com base nos parâmetros estimados</li>
+</ol>
+<p>Para verificar as variáves que infuenciam na resposta, vemos a ANOVA do modelo,</p>
+<pre class="r"><code>anova(m0)
+# Analysis of Variance Table
+# 
+# Response: y
+#           Df  Sum Sq Mean Sq  F value    Pr(&gt;F)    
+# T          1 2162.25 2162.25 279.0000 1.670e-07 ***
+# C          1   90.25   90.25  11.6452  0.009189 ** 
+# K          1   12.25   12.25   1.5806  0.244129    
+# T:C        1   12.25   12.25   1.5806  0.244129    
+# T:K        1  420.25  420.25  54.2258 7.888e-05 ***
+# C:K        1    0.25    0.25   0.0323  0.861928    
+# T:C:K      1    2.25    2.25   0.2903  0.604679    
+# Residuals  8   62.00    7.75                       
+# ---
+# Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Se o nosso objetivo fosse simplesmente construir um modelo para avaliar quais efeitos e interações influenciam no processo, então a análise poderia parar aqui, pois já temos esse resultado. Então deveria se proceder para a análise dos resíduos para verificar as suposições do modelo.</p>
+<p>Caso o nosso objetivo seja fazer uma predição para a variável resposta, então devemos ajustar o modelo mais <strong>parcimonioso</strong> possível. Um modelo parcimonioso é aquele que consegue explicar a maior parte da variabilidade dos dados, com o menor número de parâmetros possível.</p>
+<p>Verificando os resultados da ANOVA, vemos que a interação TK é significativa, assim como T e C. Pelo princípio da marginalidade, devemos também manter o efeito K, mesmo não sendo significativo, pois ele está presente na interação TK. Assim, atualizamos o modelo da seguinte forma:</p>
+<pre class="r"><code>m1 &lt;- update(m0, . ~ T*K + C)</code></pre>
+<p>Como, por construção, o modelo é ortogonal, então as somas de quadrados e os coeficientes estimados também serão ortogonais. Dessa forma, a retirada de termos do modelo não interfere nos coeficientes estimados. No caso da ANOVA, as somas de quadrados permanecem as mesmas, mas a <span class="math inline">\(SQRes\)</span> e os <span class="math inline">\(GL\)</span> associados aumentam, pois as <span class="math inline">\(SQ\)</span> dos fatores retirados são incorporados aos resíduos. Veja:</p>
+<pre class="r"><code>anova(m0)
+# Analysis of Variance Table
+# 
+# Response: y
+#           Df  Sum Sq Mean Sq  F value    Pr(&gt;F)    
+# T          1 2162.25 2162.25 279.0000 1.670e-07 ***
+# C          1   90.25   90.25  11.6452  0.009189 ** 
+# K          1   12.25   12.25   1.5806  0.244129    
+# T:C        1   12.25   12.25   1.5806  0.244129    
+# T:K        1  420.25  420.25  54.2258 7.888e-05 ***
+# C:K        1    0.25    0.25   0.0323  0.861928    
+# T:C:K      1    2.25    2.25   0.2903  0.604679    
+# Residuals  8   62.00    7.75                       
+# ---
+# Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+anova(m1)
+# Analysis of Variance Table
+# 
+# Response: y
+#           Df  Sum Sq Mean Sq  F value    Pr(&gt;F)    
+# T          1 2162.25 2162.25 309.8990 2.091e-09 ***
+# K          1   12.25   12.25   1.7557  0.212027    
+# C          1   90.25   90.25  12.9349  0.004196 ** 
+# T:K        1  420.25  420.25  60.2313 8.707e-06 ***
+# Residuals 11   76.75    6.98                       
+# ---
+# Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Porque se alteram os p-valores?</p>
+<pre class="r"><code>## Exemplo para T
+## Usando o modelo completo
+pf(anova(m0)$&quot;F value&quot;[1], df1 = anova(m0)$&quot;Df&quot;[1],
+   df2 = anova(m0)$&quot;Df&quot;[8], lower.tail = FALSE)
+# [1] 1.669518e-07
+## Exemplo para o modelo sob avaliação
+pf(anova(m1)$&quot;F value&quot;[1], df1 = anova(m1)$&quot;Df&quot;[1],
+   df2 = anova(m1)$&quot;Df&quot;[5], lower.tail = FALSE)
+# [1] 2.091296e-09</code></pre>
+<p>Porque mudam os graus de liberdade do numerador e do denominador, altera a distribuição.</p>
+<p>Para comparar se o modelo reduzido pode de fato ser utilizado no lugar do modelo completo, podemos fazer o <strong>teste da razão de verossimilhança</strong> (TRV) entre os dois modelos encaixados.</p>
+<pre class="r"><code>anova(m1, m0)
+# Analysis of Variance Table
+# 
+# Model 1: y ~ T + K + C + T:K
+# Model 2: y ~ T * C * K
+#   Res.Df   RSS Df Sum of Sq      F Pr(&gt;F)
+# 1     11 76.75                           
+# 2      8 62.00  3     14.75 0.6344 0.6134</code></pre>
+<p>Como a diferença das somas de quadrados residuais entre os dois modelos não é significativa, então concluímos que o modelo com menos parâmetros pode ser utilizado no lugar do modelo com mais parâmetros - este é o <strong>princípio da parcimônia</strong>.</p>
+<p>Concluímos então que o modelo que melhor explica a variável resposta é o segundo, com menos termos, e é esse modelo que deve ser utilizado para predição ou inferância.</p>
+<p>Os coeficientes estimados e respectivos erros e teste de hipótese podem ser obtidos com o <code>summary()</code>:</p>
+<pre class="r"><code>summary(m1)
+# 
+# Call:
+# lm(formula = y ~ T + K + C + T:K, data = dados)
+# 
+# Residuals:
+#    Min     1Q Median     3Q    Max 
+# -4.625 -1.188  0.250  1.438  3.375 
+# 
+# Coefficients:
+#             Estimate Std. Error t value Pr(&gt;|t|)    
+# (Intercept)  64.3750     0.6604  97.484  &lt; 2e-16 ***
+# T            11.6250     0.6604  17.604 2.09e-09 ***
+# K             0.8750     0.6604   1.325   0.2120    
+# C            -2.3750     0.6604  -3.597   0.0042 ** 
+# T:K           5.1250     0.6604   7.761 8.71e-06 ***
+# ---
+# Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+# 
+# Residual standard error: 2.641 on 11 degrees of freedom
+# Multiple R-squared:  0.9722,  Adjusted R-squared:  0.9621 
+# F-statistic: 96.21 on 4 and 11 DF,  p-value: 1.754e-08</code></pre>
+<p>Note que se compararmos esse resultado com aquele do modelo completo:</p>
+<pre class="r"><code>summary(m0)
+# 
+# Call:
+# lm(formula = y ~ T * C * K, data = dados)
+# 
+# Residuals:
+#    Min     1Q Median     3Q    Max 
+#  -4.00  -1.25   0.00   1.25   4.00 
+# 
+# Coefficients:
+#             Estimate Std. Error t value Pr(&gt;|t|)    
+# (Intercept)   64.375      0.696  92.497 2.08e-13 ***
+# T             11.625      0.696  16.703 1.67e-07 ***
+# C             -2.375      0.696  -3.413  0.00919 ** 
+# K              0.875      0.696   1.257  0.24413    
+# T:C            0.875      0.696   1.257  0.24413    
+# T:K            5.125      0.696   7.364 7.89e-05 ***
+# C:K            0.125      0.696   0.180  0.86193    
+# T:C:K          0.375      0.696   0.539  0.60468    
+# ---
+# Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+# 
+# Residual standard error: 2.784 on 8 degrees of freedom
+# Multiple R-squared:  0.9776,  Adjusted R-squared:  0.9579 
+# F-statistic: 49.76 on 7 and 8 DF,  p-value: 5.695e-06</code></pre>
+<p>notamos que as estimativas dos coeficientes não se alteram (pois são ortogonais), mas os erros são alterados. Isso ocorre porque os graus de liberdade dos resíduos foram alterados quando passamos do modelo completo para o modelo reduzido</p>
+</div>
+<div id="analise-dos-residuos" class="section level2">
+<h2>Análise dos resíduos</h2>
+<p>Para verificar as suposições feitas para o modelo, procedemos com a análise dos resíduos do modelo final.</p>
+<p>A melhor forma de verificar a suposição de normalidade é através do gráfico de quantis normais:</p>
+<pre class="r"><code>## Obtém os resíduos do modelo final
+res &lt;- residuals(m1)
+## Gráfico de quantis normais
+qqnorm(res); qqline(res)</code></pre>
+<p><img src="figures/unnamed-chunk-30-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Para verificar a suposição de homegeneidade de variâncias podemos fazer um gráfico dos resíduos versus cada fator do modelo final:</p>
+<pre class="r"><code>par(mfrow = c(2, 2))
+with(dados, {
+    plot(res ~ T)
+    abline(h = 0, lty = 2, col = 2)
+    plot(res ~ C)
+    abline(h = 0, lty = 2, col = 2)
+    plot(res ~ K)
+    abline(h = 0, lty = 2, col = 2)
+    plot(res ~ interaction(T, K))
+    abline(h = 0, lty = 2, col = 2)
+})</code></pre>
+<p><img src="figures/unnamed-chunk-31-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>par(mfrow = c(1, 1))</code></pre>
+</div>
+<div id="predicao" class="section level2">
+<h2>Predição</h2>
+<p>A partir dessa avaliação, podemos fazer a predição usando os coeficientes estimados do modelo</p>
+<pre class="r"><code>summary(m1)
+# 
+# Call:
+# lm(formula = y ~ T + K + C + T:K, data = dados)
+# 
+# Residuals:
+#    Min     1Q Median     3Q    Max 
+# -4.625 -1.188  0.250  1.438  3.375 
+# 
+# Coefficients:
+#             Estimate Std. Error t value Pr(&gt;|t|)    
+# (Intercept)  64.3750     0.6604  97.484  &lt; 2e-16 ***
+# T            11.6250     0.6604  17.604 2.09e-09 ***
+# K             0.8750     0.6604   1.325   0.2120    
+# C            -2.3750     0.6604  -3.597   0.0042 ** 
+# T:K           5.1250     0.6604   7.761 8.71e-06 ***
+# ---
+# Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+# 
+# Residual standard error: 2.641 on 11 degrees of freedom
+# Multiple R-squared:  0.9722,  Adjusted R-squared:  0.9621 
+# F-statistic: 96.21 on 4 and 11 DF,  p-value: 1.754e-08</code></pre>
+<pre class="r"><code>## Predição para as combinações únicas dos fatores
+pred &lt;- expand.grid(T = seq(-1, 1, length = 20),
+                    C = seq(-1, 1, length = 20),
+                    K = seq(-1, 1, length = 20))
+## Faz o cálculo das predições para esse grid
+pred$y &lt;- predict(m1, newdata = pred)
+## E existem várias formas de visualizar as predições
+wireframe(y ~ T * K, data = pred, drape = TRUE)</code></pre>
+<p><img src="figures/unnamed-chunk-33-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>levelplot(y ~ T * K, data = pred, cuts = 90)</code></pre>
+<p><img src="figures/unnamed-chunk-33-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>levelplot(y ~ T * K, data = pred, cuts = 90,
+          col.regions = heat.colors)</code></pre>
+<p><img src="figures/unnamed-chunk-33-3.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+
+<center>
+  <hr width="100%" size="3px">
+  <p> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.pt_BR">
+      <img src="img/CC_by-nc-sa_80x15.png" alt="Licença Creative Commons 4.0"> </a>
+  </p>
+  <p> <font size="2"> Este conteúdo
+      está disponível por meio da Licença Creative Commons 4.0 </font>
+  </p>
+</center>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,2316 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Técnicas de confundimento para blocagem em fatoriais 2^k</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<script>
+ (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ ga('create', 'UA-102804671-3', 'auto');
+ ga('send', 'pageview');
+
+</script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = false;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">CE074</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="aulas.html">Aulas</a>
+</li>
+<li>
+  <a href="referencias.html">Referências</a>
+</li>
+<li>
+  <a href="recursos.html">Recursos</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Materiais
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Introdução e revisão</li>
+    <li>
+      <a href="catalizando-conhecimento.html">Catalizando a geração de conhecimento [HTML]</a>
+    </li>
+    <li>
+      <a href="modelos-lineares.html">Modelos lineares e reparametrizações [HTML]</a>
+    </li>
+    <li class="dropdown-header">Experimentos fatoriais</li>
+    <li>
+      <a href="anova-geral.html">ANOVA por meio de Diagramas de Hasse [HTML]</a>
+    </li>
+    <li>
+      <a href="fatorial_2-2.html">Experimentos fatorias 2^2 [HTML]</a>
+    </li>
+    <li>
+      <a href="fatorial_2-3.html">Experimentos fatorias 2^3 [HTML]</a>
+    </li>
+    <li>
+      <a href="fatorial_2-k.html">Experimentos fatorias 2^k, k &gt; 3 [HTML]</a>
+    </li>
+    <li>
+      <a href="fatorial_pontos-centrais.html">Adição de pontos centrais em planejamentos 2^k [HTML]</a>
+    </li>
+    <li>
+      <a href="confundimento-blocagem.html">Técnicas de confundimento para blocagem em fatorias 2^k [HTML]</a>
+    </li>
+    <li>
+      <a href="fatorial_fracionado.html">Experimentos fatorias fracionados 2^{k-p} [HTML]</a>
+    </li>
+    <li>
+      <a href="msr.html">Metodologia de Superfície de Resposta [HTML]</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Scripts</li>
+    <li>
+      <a href="scripts/script_racoes_pimentel.R">Tipos de contrastes em modelos lineares [R]</a>
+    </li>
+    <li>
+      <a href="scripts/script_catalisador.R">Interpretação de efeitos estimados em modelos lineares [R]</a>
+    </li>
+    <li>
+      <a href="scripts/script_fatorial_2-2.R">Análise completa de um fatorial 2^2 [R]</a>
+    </li>
+    <li>
+      <a href="scripts/script_fatorial_2-6.R">Análise completa de um fatorial 2^6 [R]</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Experimento</li>
+    <li>
+      <a href="instrucoes-planejamento.html">Instruções para o planejamento de experimentos [HTML]</a>
+    </li>
+    <li>
+      <a href="misc/guia-planejamento.html">Guia para o planejamento de experimentos [HTML]</a>
+    </li>
+    <li>
+      <a href="misc/guia-planejamento.Rmd">Guia para o planejamento de experimentos [Rmd]</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Exercícios</li>
+    <li>
+      <a href="exercicios/ex_revisao.pdf">Revisão de conhecimento [PDF]</a>
+    </li>
+    <li>
+      <a href="exercicios/ex_fatorial.pdf">Experimentos fatoriais [PDF]</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/fernandomayer/ce074">
+    <span class="fa fa-github fa-lg"></span>
+     
+    GitHub
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Técnicas de confundimento para blocagem em fatoriais <span class="math inline">\(2^k\)</span></h1>
+
+</div>
+
+
+<div id="introducao" class="section level1">
+<h1>Introdução</h1>
+<p>Existem certas situações em que é praticamente impossível fazer todas as corridas de um experimento em condições uniformes. Por exemplo, pode haver limitações da quantidade de matéria prima, ou matéria prima de diversas origens. As condições de contorno podem mudar ao longo do ensaio (temperatura, ventilação, luz). Pode existir um número elevado de tratamentos difícil de acomodar em um curto espaço de tempo/espaço ou reduzído número de instrumentos/operadores, além de ser desejável variar as condições de contorno para garantir eficiência/robustez aos resultados. A técnica experimental adotada nessas situações é a <strong>blocagem</strong>.</p>
+<p>A idéia central da blocagem é fazer com que as unidades experimentais (UEs) sejam homogêneas dentro dos blocos. Os blocos são <strong>completos</strong> quando em cada bloco existe pelo menos uma UE de cada tratamento, e <strong>incompleto</strong> caso contrário.</p>
+<p>Nos experimentos <span class="math inline">\(2^k\)</span> existe uma série de opções de blocagem. A primeira é repetir o experimento de forma que cada repetição completa (que inclui todos os tratamentos) seja um bloco. É o caso comum quando tem-se poucos tratamentos (geralmente <span class="math inline">\(2^2\)</span> ou <span class="math inline">\(2^3\)</span>), e nesses casos específicos temos um fatorial com <strong>blocos completos</strong>.</p>
+<p>Como nos experimentos fatorias <span class="math inline">\(2^k\)</span> (<span class="math inline">\(k \geq 3\)</span>) o número de tratamentos geralmente é grande, devido ao caráter exploratório do experimento, os blocos dificilmente cumprirão seu papel se forem completos, por isso geralmente adota-se <strong>blocos incompletos</strong>. Nesse caso os tratamentos devem ser particionados e atribuídos aos blocos. Nada impede que essa partição dos tratamentos seja aleatória, porém quando feita estrategicamente leva-se algumas vantagens.</p>
+<p>A estratégia adotada para se atribuir os tratamentos aos blocos é a de <strong>confundimento</strong>. A idéia central é tomar interações de alta ordem e propositalmente confundir o efeito dessa interação com o efeito dos blocos. Isso porque interações de ordem alta dificilmente são interpretáveis, e o efeito dos blocos não é do interesse do pesquisador. O bloco está presente para acomodar alterações das condições de contorno. Dessa forma, não é desconforto ter esses efeitos confundidos/misturados quando o foco do experimento são os efeitos principais e interações de ordem mais baixa.</p>
+<p>Vamos considerar a construção e análise de fatoriais <span class="math inline">\(2^k\)</span> em <span class="math inline">\(2^p\)</span> blocos incompletos, onde <span class="math inline">\(p &lt; k\)</span>. Consequentemente, estes experimentos podem ser divididos em 2, 4, 8, <span class="math inline">\(\ldots\)</span> blocos.</p>
+</div>
+<div id="blocagem-em-um-experimento-fatorial-2k-com-repeticao" class="section level1">
+<h1>Blocagem em um experimento fatorial <span class="math inline">\(2^k\)</span> com repetição</h1>
+<p>Se um experimento fatorial <span class="math inline">\(2^k\)</span> for replicado <span class="math inline">\(r\)</span> vezes sob condições não homogêneas, então cada conjunto destas condições com todos os tratamentos definem um bloco. Portanto, teríamos <span class="math inline">\(r\)</span> <strong>blocos completos</strong>. As corridas em cada bloco devem ser realizadas de forma <strong>aleatória</strong>.</p>
+<p>A análise do experimento nesse caso é idêntica àquela de um experimento fatorial <span class="math inline">\(2^k\)</span> sem blocos, com a exceção de que haverá também uma soma de quadrados para bloco, dada por</p>
+<p><span class="math display">\[
+SQ_{Bloco} = \frac{\sum_{i=1}^r B_i^2}{2^k} - \frac{(\sum_{i=1}^{n} y_i)^2}{n}
+\]</span></p>
+<p>onde <span class="math inline">\(B_i\)</span> é o total de cada bloco <span class="math inline">\(i\)</span>, <span class="math inline">\((\sum_{i=1}^{n} y_i)^2/n\)</span> é a chamada correção de somas de quadrados, e <span class="math inline">\(n\)</span> é o número total de corridas do experimento.</p>
+<div id="exemplos" class="section level2">
+<h2>Exemplos</h2>
+<div id="experimento-22-em-blocos-completos" class="section level5">
+<h5>Experimento <span class="math inline">\(2^2\)</span> em blocos completos</h5>
+<p>Um processo químico é investigado em relação à dois fatores e o experimento é conduzido em 3 blocos completos. Os resultados estão abaixo. Faça a análise estatística dos resultados.</p>
+<pre><code>bloco 1  b 2  b 3
+(1) = 28   25   27
+  a = 36   32   32
+  b = 16   19   23
+ ab = 31   30   29</code></pre>
+<pre class="r"><code>##----------------------------------------------------------------------
+## Cria os dados
+da &lt;- expand.grid(A = c(-1, 1),
+                  B = c(-1, 1),
+                  bloco = c(&quot;I&quot;, &quot;II&quot;, &quot;III&quot;))
+da$y &lt;- c(28,36,16,31,25,32,19,30,27,32,23,29)
+da
+#     A  B bloco  y
+# 1  -1 -1     I 28
+# 2   1 -1     I 36
+# 3  -1  1     I 16
+# 4   1  1     I 31
+# 5  -1 -1    II 25
+# 6   1 -1    II 32
+# 7  -1  1    II 19
+# 8   1  1    II 30
+# 9  -1 -1   III 27
+# 10  1 -1   III 32
+# 11 -1  1   III 23
+# 12  1  1   III 29
+## Note que bloco deve ser fator
+str(da, give.attr = FALSE)
+# &#39;data.frame&#39;: 12 obs. of  4 variables:
+#  $ A    : num  -1 1 -1 1 -1 1 -1 1 -1 1 ...
+#  $ B    : num  -1 -1 1 1 -1 -1 1 1 -1 -1 ...
+#  $ bloco: Factor w/ 3 levels &quot;I&quot;,&quot;II&quot;,&quot;III&quot;: 1 1 1 1 2 2 2 2 3 3 ...
+#  $ y    : num  28 36 16 31 25 32 19 30 27 32 ...
+
+##----------------------------------------------------------------------
+## Ajustando o modelo
+m0 &lt;- lm(y ~ bloco + A * B, data = da)
+anova(m0)
+# Analysis of Variance Table
+# 
+# Response: y
+#           Df  Sum Sq Mean Sq F value    Pr(&gt;F)    
+# bloco      2   4.167   2.083  0.3304 0.7309303    
+# A          1 225.333 225.333 35.7357 0.0009834 ***
+# B          1  85.333  85.333 13.5330 0.0103463 *  
+# A:B        1  12.000  12.000  1.9031 0.2169434    
+# Residuals  6  37.833   6.306                      
+# ---
+# Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+## Ajustando o modelo sem a interação, que não foi significativa
+m1 &lt;- update(m0, . ~ . - A:B)
+anova(m1)
+# Analysis of Variance Table
+# 
+# Response: y
+#           Df  Sum Sq Mean Sq F value    Pr(&gt;F)    
+# bloco      2   4.167   2.083  0.2926 0.7549907    
+# A          1 225.333 225.333 31.6522 0.0007941 ***
+# B          1  85.333  85.333 11.9866 0.0105166 *  
+# Residuals  7  49.833   7.119                      
+# ---
+# Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<div id="experimento-23-em-blocos-completos" class="section level5">
+<h5>Experimento <span class="math inline">\(2^3\)</span> em blocos completos</h5>
+<p>Uma planejamento fatorial <span class="math inline">\(2^3\)</span> foi corrido em um processo químico. Os fatores do planejamento são A = tempo, B = concentração, C = pressão. Duas repetições foram feitas em horas distintas do dia idetificadas pelo nível de bloco. A variável resposta é o rendimento. Os dados estão disponíveis com os comandos a seguir. Faça a análise estatística dos resultados.</p>
+<pre class="r"><code>##----------------------------------------------------------------------
+## Cria os dados
+da &lt;- expand.grid(A = c(-1, 1),
+                  B = c(-1, 1),
+                  C = c(-1, 1),
+                  bloco = c(&quot;I&quot;, &quot;II&quot;))
+da$y &lt;- c(12,18,13,16,17,15,20,25,10,25,13,24,19,21,17,23)
+da
+#     A  B  C bloco  y
+# 1  -1 -1 -1     I 12
+# 2   1 -1 -1     I 18
+# 3  -1  1 -1     I 13
+# 4   1  1 -1     I 16
+# 5  -1 -1  1     I 17
+# 6   1 -1  1     I 15
+# 7  -1  1  1     I 20
+# 8   1  1  1     I 25
+# 9  -1 -1 -1    II 10
+# 10  1 -1 -1    II 25
+# 11 -1  1 -1    II 13
+# 12  1  1 -1    II 24
+# 13 -1 -1  1    II 19
+# 14  1 -1  1    II 21
+# 15 -1  1  1    II 17
+# 16  1  1  1    II 23
+str(da, give.attr = FALSE)
+# &#39;data.frame&#39;: 16 obs. of  5 variables:
+#  $ A    : num  -1 1 -1 1 -1 1 -1 1 -1 1 ...
+#  $ B    : num  -1 -1 1 1 -1 -1 1 1 -1 -1 ...
+#  $ C    : num  -1 -1 -1 -1 1 1 1 1 -1 -1 ...
+#  $ bloco: Factor w/ 2 levels &quot;I&quot;,&quot;II&quot;: 1 1 1 1 1 1 1 1 2 2 ...
+#  $ y    : num  12 18 13 16 17 15 20 25 10 25 ...
+
+##----------------------------------------------------------------------
+## Ajuste do modelo
+m0 &lt;- lm(y ~ bloco + A * B * C, data = da)
+anova(m0)
+# Analysis of Variance Table
+# 
+# Response: y
+#           Df Sum Sq Mean Sq F value  Pr(&gt;F)   
+# bloco      1  16.00  16.000  1.6232 0.24331   
+# A          1 132.25 132.250 13.4167 0.00804 **
+# B          1  12.25  12.250  1.2428 0.30175   
+# C          1  42.25  42.250  4.2862 0.07718 . 
+# A:B        1   1.00   1.000  0.1014 0.75939   
+# A:C        1  36.00  36.000  3.6522 0.09760 . 
+# B:C        1   9.00   9.000  0.9130 0.37113   
+# A:B:C      1  20.25  20.250  2.0543 0.19489   
+# Residuals  7  69.00   9.857                   
+# ---
+# Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+## Ajustando o modelo apenas com efeitos significativos. Note que bloco
+## deve permanecer pois faz parte do delineamento
+m1 &lt;- update(m0, . ~ bloco + A * C)
+anova(m1)
+# Analysis of Variance Table
+# 
+# Response: y
+#           Df Sum Sq Mean Sq F value   Pr(&gt;F)   
+# bloco      1  16.00  16.000  1.5785 0.235007   
+# A          1 132.25 132.250 13.0471 0.004083 **
+# C          1  42.25  42.250  4.1682 0.065921 . 
+# A:C        1  36.00  36.000  3.5516 0.086171 . 
+# Residuals 11 111.50  10.136                    
+# ---
+# Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<div id="comparando-23-com-e-sem-blocos" class="section level5">
+<h5>Comparando <span class="math inline">\(2^3\)</span> com e sem blocos</h5>
+<p>Considere os dados de um experimento descrito em <a href="http://leg.ufpr.br/~fernandomayer/data/BHH2/exe0503.dat">Box, Hunter e Hunter (2005)</a>, capítulo 5. O experimento consiste de um fatorial <span class="math inline">\(2^3\)</span> com 3 repetições. Primeiro fazemos a análise considerando apenas as repetições e depois considerando que cada repetição fazia parte, na verdade, de um bloco. (Observação: isso já foi um exercício na <a href="fatorial_2-k.html#exercícios">página</a> de fatoriais <span class="math inline">\(2^k\)</span>).</p>
+<pre class="r"><code>##----------------------------------------------------------------------
+## Importa os dados
+url &lt;- &quot;http://leg.ufpr.br/~fernandomayer/data/BHH2/exe0503.dat&quot;
+db &lt;- read.table(url, header = TRUE)
+str(db)
+# &#39;data.frame&#39;: 8 obs. of  10 variables:
+#  $ test         : int  1 2 3 4 5 6 7 8
+#  $ depth        : int  -1 1 -1 1 -1 1 -1 1
+#  $ depthLevel   : num  0.5 1.5 0.5 1.5 0.5 1.5 0.5 1.5
+#  $ watering     : int  -1 -1 1 1 -1 -1 1 1
+#  $ wateringLevel: Factor w/ 2 levels &quot;once&quot;,&quot;twice&quot;: 1 1 2 2 1 1 2 2
+#  $ type         : int  -1 -1 -1 -1 1 1 1 1
+#  $ typeLevel    : Factor w/ 2 levels &quot;baby&quot;,&quot;large&quot;: 1 1 1 1 2 2 2 2
+#  $ rep1         : int  6 4 10 7 4 3 8 5
+#  $ rep2         : int  7 5 9 7 5 3 7 5
+#  $ rep3         : int  6 5 8 6 4 1 7 4
+db
+#   test depth depthLevel watering wateringLevel type typeLevel rep1 rep2
+# 1    1    -1        0.5       -1          once   -1      baby    6    7
+# 2    2     1        1.5       -1          once   -1      baby    4    5
+# 3    3    -1        0.5        1         twice   -1      baby   10    9
+# 4    4     1        1.5        1         twice   -1      baby    7    7
+# 5    5    -1        0.5       -1          once    1     large    4    5
+# 6    6     1        1.5       -1          once    1     large    3    3
+# 7    7    -1        0.5        1         twice    1     large    8    7
+# 8    8     1        1.5        1         twice    1     large    5    5
+#   rep3
+# 1    6
+# 2    5
+# 3    8
+# 4    6
+# 5    4
+# 6    1
+# 7    7
+# 8    4
+
+## Com os dados nesse formato, é necessário &quot;empilhar&quot; o data frame
+library(reshape)
+db2 &lt;- melt(db[, c(&quot;depth&quot;, &quot;watering&quot;, &quot;type&quot;, &quot;rep1&quot;, &quot;rep2&quot;, &quot;rep3&quot;)],
+            id = c(&quot;depth&quot;, &quot;watering&quot;, &quot;type&quot;))
+db2
+#    depth watering type variable value
+# 1     -1       -1   -1     rep1     6
+# 2      1       -1   -1     rep1     4
+# 3     -1        1   -1     rep1    10
+# 4      1        1   -1     rep1     7
+# 5     -1       -1    1     rep1     4
+# 6      1       -1    1     rep1     3
+# 7     -1        1    1     rep1     8
+# 8      1        1    1     rep1     5
+# 9     -1       -1   -1     rep2     7
+# 10     1       -1   -1     rep2     5
+# 11    -1        1   -1     rep2     9
+# 12     1        1   -1     rep2     7
+# 13    -1       -1    1     rep2     5
+# 14     1       -1    1     rep2     3
+# 15    -1        1    1     rep2     7
+# 16     1        1    1     rep2     5
+# 17    -1       -1   -1     rep3     6
+# 18     1       -1   -1     rep3     5
+# 19    -1        1   -1     rep3     8
+# 20     1        1   -1     rep3     6
+# 21    -1       -1    1     rep3     4
+# 22     1       -1    1     rep3     1
+# 23    -1        1    1     rep3     7
+# 24     1        1    1     rep3     4
+
+##----------------------------------------------------------------------
+## Modelo considerando as repetições
+m0 &lt;- lm(value ~ depth * watering * type, data = db2)
+anova(m0)
+# Analysis of Variance Table
+# 
+# Response: value
+#                     Df Sum Sq Mean Sq F value    Pr(&gt;F)    
+# depth                1 28.167  28.167 52.0000 2.075e-06 ***
+# watering             1 37.500  37.500 69.2308 3.319e-07 ***
+# type                 1 24.000  24.000 44.3077 5.517e-06 ***
+# depth:watering       1  0.667   0.667  1.2308    0.2837    
+# depth:type           1  0.167   0.167  0.3077    0.5868    
+# watering:type        1  0.167   0.167  0.3077    0.5868    
+# depth:watering:type  1  0.000   0.000  0.0000    1.0000    
+# Residuals           16  8.667   0.542                      
+# ---
+# Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## Mantém apenas efeitos principais
+m0 &lt;- update(m0, . ~ depth + watering + type)
+anova(m0)
+# Analysis of Variance Table
+# 
+# Response: value
+#           Df Sum Sq Mean Sq F value    Pr(&gt;F)    
+# depth      1 28.167  28.167  58.276 2.385e-07 ***
+# watering   1 37.500  37.500  77.586 2.554e-08 ***
+# type       1 24.000  24.000  49.655 7.809e-07 ***
+# Residuals 20  9.667   0.483                      
+# ---
+# Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+##----------------------------------------------------------------------
+## Modelo considerando as repetições como blocos
+## Bloco aqui é &quot;variable&quot;
+m1 &lt;- lm(value ~ variable + (depth * watering * type), data = db2)
+anova(m1)
+# Analysis of Variance Table
+# 
+# Response: value
+#                     Df Sum Sq Mean Sq  F value    Pr(&gt;F)    
+# variable             2  3.583   1.792   4.9344   0.02388 *  
+# depth                1 28.167  28.167  77.5738 4.394e-07 ***
+# watering             1 37.500  37.500 103.2787 7.647e-08 ***
+# type                 1 24.000  24.000  66.0984 1.134e-06 ***
+# depth:watering       1  0.667   0.667   1.8361   0.19687    
+# depth:type           1  0.167   0.167   0.4590   0.50913    
+# watering:type        1  0.167   0.167   0.4590   0.50913    
+# depth:watering:type  1  0.000   0.000   0.0000   1.00000    
+# Residuals           14  5.083   0.363                       
+# ---
+# Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## Mantém apenas efeitos principais
+m1 &lt;- update(m1, . ~ variable + depth + watering + type)
+anova(m1)
+# Analysis of Variance Table
+# 
+# Response: value
+#           Df Sum Sq Mean Sq  F value    Pr(&gt;F)    
+# variable   2  3.583   1.792   5.3014   0.01548 *  
+# depth      1 28.167  28.167  83.3425 3.560e-08 ***
+# watering   1 37.500  37.500 110.9589 3.989e-09 ***
+# type       1 24.000  24.000  71.0137 1.160e-07 ***
+# Residuals 18  6.083   0.338                       
+# ---
+# Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Comparando os resultados da ANOVA, vemos que:</p>
+<pre class="r"><code>print(anova(m0), signif.stars = FALSE)
+# Analysis of Variance Table
+# 
+# Response: value
+#           Df Sum Sq Mean Sq F value    Pr(&gt;F)
+# depth      1 28.167  28.167  58.276 2.385e-07
+# watering   1 37.500  37.500  77.586 2.554e-08
+# type       1 24.000  24.000  49.655 7.809e-07
+# Residuals 20  9.667   0.483
+print(anova(m1), signif.stars = FALSE)
+# Analysis of Variance Table
+# 
+# Response: value
+#           Df Sum Sq Mean Sq  F value    Pr(&gt;F)
+# variable   2  3.583   1.792   5.3014   0.01548
+# depth      1 28.167  28.167  83.3425 3.560e-08
+# watering   1 37.500  37.500 110.9589 3.989e-09
+# type       1 24.000  24.000  71.0137 1.160e-07
+# Residuals 18  6.083   0.338</code></pre>
+<p>O que muda na ANOVA é apenas a inclusão do bloco. As somas de quadrados dos efeitos continuam as mesmas. O que muda é a soma de quadrados e graus de liberdade dos resíduos, que por consequência vai mudar o quadrado médio do residuo, altera o teste F e a estimativa da variância (que naturalmente deve ser menor devido à inclusão de bloco).</p>
+<p>Agora podemos analisar a diferença nas estimativas dos efeitos:</p>
+<pre class="r"><code>coef(m0)
+# (Intercept)       depth    watering        type 
+#    5.666667   -1.083333    1.250000   -1.000000
+coef(m1)
+#  (Intercept) variablerep2 variablerep3        depth     watering 
+#     5.875000     0.125000    -0.750000    -1.083333     1.250000 
+#         type 
+#    -1.000000</code></pre>
+<p>Os efeitos dos fatores não mudam, mas são também calculados os efeitos de bloco. A média geral também foi alterada. Por que? Lembre-se que da forma como foi declarado o modelo na função <code>lm()</code>, o bloco (<code>variable</code>) é um fator e por padrão será codificado com o contraste de zerar o primeiro nível. Com isso, o intercepto nesse caso é a média geral acrescentada do efeito do primeiro nível de bloco.</p>
+<p>Para ficarmos com os efeitos compatíveis, devemos então declarar o modelo especificando que o contraste para o bloco deve ser o soma zero.</p>
+<pre class="r"><code>m2 &lt;- lm(value ~ variable + (depth + watering + type), data = db2,
+         contrasts = list(variable = &quot;contr.sum&quot;))
+coef(m2)
+# (Intercept)   variable1   variable2       depth    watering        type 
+#   5.6666667   0.2083333   0.3333333  -1.0833333   1.2500000  -1.0000000</code></pre>
+<p>Agora os coeficientes são:</p>
+<pre class="r"><code>coef(m0)
+# (Intercept)       depth    watering        type 
+#    5.666667   -1.083333    1.250000   -1.000000
+coef(m1)
+#  (Intercept) variablerep2 variablerep3        depth     watering 
+#     5.875000     0.125000    -0.750000    -1.083333     1.250000 
+#         type 
+#    -1.000000
+coef(m2)
+# (Intercept)   variable1   variable2       depth    watering        type 
+#   5.6666667   0.2083333   0.3333333  -1.0833333   1.2500000  -1.0000000</code></pre>
+<p>Dessa forma, o intercepto volta a ser a média geral do experimento. Note que, de qualquer maneira, não estamos interessados nas estimativas dos efeitos de blocos já que eles fazem parte do desenho do experimento.</p>
+<p>Podemos comparar também a estimativa do erro-padrão e os testes de hipótese:</p>
+<pre class="r"><code>summary(m0)$coefficients
+#              Estimate Std. Error   t value     Pr(&gt;|t|)
+# (Intercept)  5.666667  0.1419116 39.930975 1.508079e-20
+# depth       -1.083333  0.1419116 -7.633863 2.385275e-07
+# watering     1.250000  0.1419116  8.808303 2.554204e-08
+# type        -1.000000  0.1419116 -7.046643 7.809323e-07
+summary(m2)$coefficients
+#               Estimate Std. Error   t value     Pr(&gt;|t|)
+# (Intercept)  5.6666667  0.1186667 47.752788 2.063262e-20
+# variable1    0.2083333  0.1678201  1.241409 2.303894e-01
+# variable2    0.3333333  0.1678201  1.986254 6.244819e-02
+# depth       -1.0833333  0.1186667 -9.129209 3.560289e-08
+# watering     1.2500000  0.1186667 10.533703 3.988864e-09
+# type        -1.0000000  0.1186667 -8.426963 1.159624e-07</code></pre>
+<p>O erro-padrão dos efeitos se altera pois o QM do resíduo foi alterado com a inclusão do bloco. OS EPs ficam menores quando se consideraram blocos.</p>
+<!-- Por que os EPs dos blocos são diferentes? -->
+</div>
+</div>
+</div>
+<div id="confundimento-do-fatorial-2k-em-dois-blocos" class="section level1">
+<h1>Confundimento do fatorial <span class="math inline">\(2^k\)</span> em dois blocos</h1>
+<p>A idéia central é dividir as <span class="math inline">\(2^k\)</span> UEs igualmente em dois blocos de forma que uma interação de ordem que não tenha interesse seja confundida com o efeito dos blocos. É usual usar a interação de maior ordem para fazer a divisão, que é relativamente simples: aquelas UEs com sinal (-) serão de um bloco e as de sinal (+) serão do outro. Pode-se fazer essa separação obtendo a <strong>coluna de sinais</strong> da interação mais alta ou usando o <strong>contraste de definição</strong>.</p>
+<div id="blocagem-de-um-fatorial-22-em-dois-blocos" class="section level2">
+<h2>Blocagem de um fatorial <span class="math inline">\(2^2\)</span> em dois blocos</h2>
+<p>Considere um planejamento <span class="math inline">\(2^2\)</span> onde cada uma das 4 combinações de tratamentos requeira quatro horas de análise de laboratório. Dessa forma, dois dias são necessários para realizar o experimento. Se dias forem considerados como blocos, então temos que atribuir duas das quatro combinações em cada dia.</p>
+<p>Este experimento está representado na figura abaixo</p>
+<pre><code>                                                     Bloco I        Bloco II
+[+] b--------------ab                +
+    |               |                |              +-------+      +-------+
+    |               |                |              |       |      |       |
+    |               |                |              |  (1)  |      |   a   |
+ B  |               |                |              |       |      |       |
+    |               |                |              |       |      |       |
+    |               |                |              |  ab   |      |   b   |
+    |               |                |              |       |      |       |
+[-] (1)-------------a                +              +-------+      +-------+
+
+   [-]      A      [+]</code></pre>
+<p>Note que o bloco I contém as combinações de tratamento <code>(1)</code> e <code>ab</code>, e que o bloco II contém <code>a</code> e <code>b</code>. Lembrando que os contrastes para estimar os efeitos dos fatores A e B são</p>
+<p><span class="math display">\[
+\begin{align}
+contr_A = (ab + a) - (b + (1)) \\
+contr_B = (ab + b) - (a + (1))
+\end{align}
+\]</span></p>
+<p>Observe que estes contrastes não são afetados pela blocagem, uma vez que em cada contraste há uma combinação de tratamentos mais e outra menos, provenientes de cada bloco. Portanto, qualquer diferença entre o bloco I e o bloco II será cancelada.</p>
+<p>O contraste para a interação é</p>
+<p><span class="math display">\[
+contr_{AB} = (ab + (1)) - (a + b)
+\]</span></p>
+<p>Já que as duas combinações de tratamento com sinal mais (<code>ab</code> e <code>(1)</code>) estão no bloco I, e as duas com sinal menos estão no bloco II (<code>a</code> e <code>b</code>), o efeito do bloco e da interação AB é o mesmo. Ou seja, <strong>a interação AB está confundida com os blocos</strong>.</p>
+<p>A razão para isso está clara quando analisamos a tabela de sinais para o planejamento <span class="math inline">\(2^2\)</span>:</p>
+<pre><code>#      A  B AB
+# (1) -1 -1  1
+# a    1 -1 -1
+# b   -1  1 -1
+# ab   1  1  1</code></pre>
+<p>Dessa tabela, vemos que todas as combinações de tratamentos que possuem sinal mais em AB são atribuídas ao bloco I, enquanto que os tratamentos com sinal menos em AB são atribuídas ao bloco II.</p>
+<p>Essa abordagem <strong>pode ser usada para confundir qualquer efeito</strong> (A, B, ou AB) com blocos. Por exemplo, se <code>a</code> e <code>ab</code> estivessem no bloco I, e <code>(1)</code> e <code>b</code> no bloco II, então seria o efeito A que estaria confundido com blocos. <strong>A prática usual é confundir a interação de ordem mais alta com blocos</strong>, já que geralmente essa interação não tem interpretação prática e normalmente também não é significativa.</p>
+<p>Além disso, a definição de dois blocos em qualquer esquema fatorial <span class="math inline">\(2^k\)</span> pode ser feita por essa abordagem.</p>
+</div>
+<div id="blocagem-de-um-fatorial-23-em-dois-blocos" class="section level2">
+<h2>Blocagem de um fatorial <span class="math inline">\(2^3\)</span> em dois blocos</h2>
+<p>Considere um planejamento fatorial <span class="math inline">\(2^3\)</span>. Para definir os tratamentos que serão atribuídos a cada bloco, vamos considerar a interação de ordem mais alta, ABC. Pela tabela de sinais desse planejamento, vamos atribuir os tratamentos com sinal menos na coluna ABC ao bloco I, e os tratamentos com sinal mais na coluna ABC ao bloco II.</p>
+<pre><code>#      A  B  C ABC
+# (1) -1 -1 -1  -1
+# a    1 -1 -1   1
+# b   -1  1 -1   1
+# ab   1  1 -1  -1
+# c   -1 -1  1   1
+# ac   1 -1  1  -1
+# bc  -1  1  1  -1
+# abc  1  1  1   1</code></pre>
+<p>O planejamento resultante pode ser visto na representação geométrica abaixo.</p>
+<pre><code>           Bloco I           |             Bloco II
+                             |
+        bc --------          |            -------- abc
+        .|        .|         |          .|        .|
+       __|______ab |         |        b__|______   |
+      |  |      |  |         |        |  |      |  |
+    B |   ------|--ac        |      B |  c -----|--
+      | .       | . C        |        | .       | . C
+     (1)________|            |        |_________a
+           A                 |             A</code></pre>
+<p>Novamente, é importante lembrar que a combinação de tratamentos <strong>dentro</strong> de cada bloco deve ser atribuída de forma <strong>aleatória</strong>.</p>
+</div>
+<div id="blocagem-de-experimentos-fatoriais-2k-em-dois-blocos-usando-contraste-de-definicao" class="section level2">
+<h2>Blocagem de experimentos fatoriais <span class="math inline">\(2^k\)</span> em dois blocos usando contraste de definição</h2>
+<p>Outro método mais geral para construir os blocos é através dos <strong>contrastes de definição</strong>. Este método usa uma combinção linear</p>
+<p><span class="math display">\[
+L = \alpha_1  x_1 + \alpha_2  x_2 + \cdots + \alpha_k  x_k
+\]</span></p>
+<p>onde <span class="math inline">\(x_i\)</span> é o nível do <span class="math inline">\(i\)</span>-ésimo fator aparecendo em uma combinação de tratamentos (codificado como 0 e 1, para baixo e alto, respectivamente), e <span class="math inline">\(\alpha_i\)</span> é o expoente aparecendo no <span class="math inline">\(i\)</span>-ésimo fator no efeito que deve ser confundido. Por exemplo, se o efeito a ser confundido for ABCD, então os valores de <span class="math inline">\(\alpha_i\)</span> serão todos iguais a 1, pois <span class="math inline">\(ABCD = A^1B^1C^1D^1\)</span>. Se o efeito a ser confundido for ACD, então os valores serão <span class="math inline">\(\alpha_1 = \alpha_3 = \alpha_4 = 1\)</span>, e <span class="math inline">\(\alpha_2 = 0\)</span>, pois <span class="math inline">\(ACD = A^1B^0C^1D^1\)</span>.</p>
+<p>Dessa forma, para o sistema <span class="math inline">\(2^k\)</span>, temos tanto <span class="math inline">\(\alpha_i = 0\)</span> ou <span class="math inline">\(1\)</span>, e <span class="math inline">\(x_i = 0\)</span> (nível baixo) ou <span class="math inline">\(1\)</span> (nível alto). Combinações de tratamentos que produzam o mesmo valor de <span class="math inline">\(L \mod 2\)</span> serão colocados no mesmo bloco. Como os únicos valores possíveis de <span class="math inline">\(L \mod 2\)</span> são 0 e 1, isso atribuirá as <span class="math inline">\(2^k\)</span> combinações de tratamentos à exatamente dois blocos.</p>
+<blockquote>
+<p>NOTA: a função <span class="math inline">\(x \mod 2\)</span> retorna o resto da divisão de x pelo número 2. <span class="math inline">\(\text{mod}\)</span> é a função <em>módulo</em>, e no R é representada por <code>%%</code>.</p>
+</blockquote>
+<p>Como exemplo, considere um planejamento <span class="math inline">\(2^3\)</span>, com a interação ABC (a de ordem mais alta) confundida com bloco. Aqui, <span class="math inline">\(x_1\)</span> corresponde a A, <span class="math inline">\(x_2\)</span> a B, e <span class="math inline">\(x_3\)</span> a C. Portanto, temos que <span class="math inline">\(\alpha_1 = \alpha_2 = \alpha_3 = 1\)</span>, pois como o fator a ser confundido é ABC, então o expoente destes três fatores é 1. Portanto, o contraste de definição utilizado para confundir ABC com blocos é</p>
+<p><span class="math display">\[
+L = x_1 + x_2 + x_3
+\]</span></p>
+<p>Com a finalidade de atribuir as combinações de tratamentos aos dois blocos, substituímos as combinações de tratamentos ao contraste de definição, como segue:</p>
+<p><span class="math display">\[
+\begin{align}
+(1):&amp; \quad L = 1(0) + 1(0) + 1(0) = 0 \mod 2 = 0 \\
+a:&amp; \quad L = 1(1) + 1(0) + 1(0) = 1 \mod 2 = 1 \\
+b:&amp; \quad L = 1(0) + 1(1) + 1(0) = 1 \mod 2 = 1 \\
+ab:&amp; \quad L = 1(1) + 1(1) + 1(0) = 2 \mod 2 = 0 \\
+c:&amp; \quad L = 1(0) + 1(0) + 1(1) = 1 \mod 2 = 1 \\
+ac:&amp; \quad L = 1(1) + 1(0) + 1(1) = 2 \mod 2 = 0 \\
+bc:&amp; \quad L = 1(0) + 1(1) + 1(1) = 2 \mod 2 = 0 \\
+abc:&amp; \quad L = 1(1) + 1(1) + 1(1) = 3 \mod 2 = 1
+\end{align}
+\]</span></p>
+<blockquote>
+<p>NOTE que na notação <span class="math inline">\((0,1)\)</span>, a combinação <code>(1)</code> é representada por 000, <code>a</code> por 100, <code>b</code> por 010, e assim por diante.</p>
+</blockquote>
+<p>Dessa forma, as combinações <code>(1)</code>, <code>ab</code>, <code>ac</code>, e <code>bc</code> são corridas no bloco I, enquanto que <code>a</code>, <code>b</code>, <code>c</code>, e <code>abc</code> são corridas no bloco 2. Veja que esta atribuição é idêntica àquela realizada ao se utilizar a coluna ABC da tabela de sinais. <strong>O contraste de definição é apenas uma generalização</strong> daquele método.</p>
+</div>
+<div id="exemplos-1" class="section level2">
+<h2>Exemplos</h2>
+<p>Fatorial <span class="math inline">\(2^3\)</span> com a notação (0,1):</p>
+<pre class="r"><code>da &lt;- expand.grid(A = c(0, 1),
+                  B = c(0, 1),
+                  C = c(0, 1))
+row.names(da) &lt;- c(&quot;(1)&quot;, &quot;a&quot;, &quot;b&quot;, &quot;ab&quot;, &quot;c&quot;, &quot;ac&quot;, &quot;bc&quot;, &quot;abc&quot;)
+da
+#     A B C
+# (1) 0 0 0
+# a   1 0 0
+# b   0 1 0
+# ab  1 1 0
+# c   0 0 1
+# ac  1 0 1
+# bc  0 1 1
+# abc 1 1 1</code></pre>
+<p>Montando o contraste de definição, considerando a interação ABC confundida com bloco</p>
+<pre class="r"><code>## alpha = 1,1,1 pois A, B e C estão presentes nesse efeito
+alpha &lt;- c(1, 1, 1)
+## Cálculo dos contrastes para cada combinação de tratamento, já
+## considerando mod 2
+## (1)
+sum(alpha * da[1, ]) %% 2
+# [1] 0
+## a
+sum(alpha * da[2, ]) %% 2
+# [1] 1
+## E assim por diante... Para facilitar podemos usar apply
+apply(da, 1, function(x) sum(alpha * x) %% 2)
+# (1)   a   b  ab   c  ac  bc abc 
+#   0   1   1   0   1   0   0   1
+## E criar uma função para calcular L mod 2
+contr.def &lt;- function(alpha, x){
+    sum(alpha * x) %% 2
+}
+## Assim podemos atribuir os blocos diretamente usando essa função
+da$bloco &lt;- apply(da, 1, contr.def, alpha = alpha)
+da
+#     A B C bloco
+# (1) 0 0 0     0
+# a   1 0 0     1
+# b   0 1 0     1
+# ab  1 1 0     0
+# c   0 0 1     1
+# ac  1 0 1     0
+# bc  0 1 1     0
+# abc 1 1 1     1
+## Ordenando
+da[order(da$bloco), ]
+#     A B C bloco
+# (1) 0 0 0     0
+# ab  1 1 0     0
+# ac  1 0 1     0
+# bc  0 1 1     0
+# a   1 0 0     1
+# b   0 1 0     1
+# c   0 0 1     1
+# abc 1 1 1     1</code></pre>
+<p>Dividindo um fatorial <span class="math inline">\(2^4\)</span> em dois blocos, pela tabela de sinais:</p>
+<pre class="r"><code>da &lt;- do.call(expand.grid, replicate(4, list(c(-1, 1))))
+names(da) &lt;- LETTERS[1:ncol(da)]
+row.names(da) &lt;- apply(da, 1,
+                       function(i) paste(letters[1:4][i==1], collapse = &quot;&quot;))
+row.names(da)[1] &lt;- &quot;(1)&quot;
+da
+#       A  B  C  D
+# (1)  -1 -1 -1 -1
+# a     1 -1 -1 -1
+# b    -1  1 -1 -1
+# ab    1  1 -1 -1
+# c    -1 -1  1 -1
+# ac    1 -1  1 -1
+# bc   -1  1  1 -1
+# abc   1  1  1 -1
+# d    -1 -1 -1  1
+# ad    1 -1 -1  1
+# bd   -1  1 -1  1
+# abd   1  1 -1  1
+# cd   -1 -1  1  1
+# acd   1 -1  1  1
+# bcd  -1  1  1  1
+# abcd  1  1  1  1</code></pre>
+<p>Usando a interação de ordem mais alta, ABCD, para confundir com blocos:</p>
+<pre class="r"><code>da$ABCD &lt;- with(da, A * B * C * D)
+da
+#       A  B  C  D ABCD
+# (1)  -1 -1 -1 -1    1
+# a     1 -1 -1 -1   -1
+# b    -1  1 -1 -1   -1
+# ab    1  1 -1 -1    1
+# c    -1 -1  1 -1   -1
+# ac    1 -1  1 -1    1
+# bc   -1  1  1 -1    1
+# abc   1  1  1 -1   -1
+# d    -1 -1 -1  1   -1
+# ad    1 -1 -1  1    1
+# bd   -1  1 -1  1    1
+# abd   1  1 -1  1   -1
+# cd   -1 -1  1  1    1
+# acd   1 -1  1  1   -1
+# bcd  -1  1  1  1   -1
+# abcd  1  1  1  1    1
+da &lt;- da[order(da$ABCD), ]
+da
+#       A  B  C  D ABCD
+# a     1 -1 -1 -1   -1
+# b    -1  1 -1 -1   -1
+# c    -1 -1  1 -1   -1
+# abc   1  1  1 -1   -1
+# d    -1 -1 -1  1   -1
+# abd   1  1 -1  1   -1
+# acd   1 -1  1  1   -1
+# bcd  -1  1  1  1   -1
+# (1)  -1 -1 -1 -1    1
+# ab    1  1 -1 -1    1
+# ac    1 -1  1 -1    1
+# bc   -1  1  1 -1    1
+# ad    1 -1 -1  1    1
+# bd   -1  1 -1  1    1
+# cd   -1 -1  1  1    1
+# abcd  1  1  1  1    1
+## Croqui do experimento
+matrix(row.names(da), ncol = 2,
+       dimnames = list(1:8, paste(&quot;Bloco&quot;, 1:2)))
+#   Bloco 1 Bloco 2
+# 1 &quot;a&quot;     &quot;(1)&quot;  
+# 2 &quot;b&quot;     &quot;ab&quot;   
+# 3 &quot;c&quot;     &quot;ac&quot;   
+# 4 &quot;abc&quot;   &quot;bc&quot;   
+# 5 &quot;d&quot;     &quot;ad&quot;   
+# 6 &quot;abd&quot;   &quot;bd&quot;   
+# 7 &quot;acd&quot;   &quot;cd&quot;   
+# 8 &quot;bcd&quot;   &quot;abcd&quot;</code></pre>
+<p>Dividindo um fatorial <span class="math inline">\(2^4\)</span> em dois blocos, usando o contraste de definição</p>
+<pre class="r"><code>## Cria as colunas dos fatores com a notação (0,1)
+db &lt;- do.call(expand.grid, replicate(4, list(c(0, 1))))
+names(db) &lt;- LETTERS[1:ncol(db)]
+row.names(db) &lt;- apply(db, 1,
+                       function(i) paste(letters[1:4][i==1], collapse = &quot;&quot;))
+row.names(db)[1] &lt;- &quot;(1)&quot;
+db
+#      A B C D
+# (1)  0 0 0 0
+# a    1 0 0 0
+# b    0 1 0 0
+# ab   1 1 0 0
+# c    0 0 1 0
+# ac   1 0 1 0
+# bc   0 1 1 0
+# abc  1 1 1 0
+# d    0 0 0 1
+# ad   1 0 0 1
+# bd   0 1 0 1
+# abd  1 1 0 1
+# cd   0 0 1 1
+# acd  1 0 1 1
+# bcd  0 1 1 1
+# abcd 1 1 1 1</code></pre>
+<p>Usando a interação de ordem mais alta, ABCD, para confundir com blocos:</p>
+<pre class="r"><code>## Dessa forma temos:
+## L = x_1 + x_2 + x_3 + x_4
+## com alpha_i = 1
+alpha &lt;- c(1, 1, 1, 1)
+db$bloco &lt;- apply(db, 1, contr.def, alpha = alpha)
+db &lt;- db[order(db$bloco), ]
+db
+#      A B C D bloco
+# (1)  0 0 0 0     0
+# ab   1 1 0 0     0
+# ac   1 0 1 0     0
+# bc   0 1 1 0     0
+# ad   1 0 0 1     0
+# bd   0 1 0 1     0
+# cd   0 0 1 1     0
+# abcd 1 1 1 1     0
+# a    1 0 0 0     1
+# b    0 1 0 0     1
+# c    0 0 1 0     1
+# abc  1 1 1 0     1
+# d    0 0 0 1     1
+# abd  1 1 0 1     1
+# acd  1 0 1 1     1
+# bcd  0 1 1 1     1
+## Croqui do experimento
+matrix(row.names(db), ncol = 2,
+       dimnames = list(1:8, paste(&quot;Bloco&quot;, 1:2)))
+#   Bloco 1 Bloco 2
+# 1 &quot;(1)&quot;   &quot;a&quot;    
+# 2 &quot;ab&quot;    &quot;b&quot;    
+# 3 &quot;ac&quot;    &quot;c&quot;    
+# 4 &quot;bc&quot;    &quot;abc&quot;  
+# 5 &quot;ad&quot;    &quot;d&quot;    
+# 6 &quot;bd&quot;    &quot;abd&quot;  
+# 7 &quot;cd&quot;    &quot;acd&quot;  
+# 8 &quot;abcd&quot;  &quot;bcd&quot;</code></pre>
+<p>Para variar, vamos escolhar e interação tripla ACD para definir o contraste de forma a separar as corridas em 2 blocos. Nossa função de definição fica</p>
+<p><span class="math display">\[
+L = x_1 + x_3 + x_4
+\]</span></p>
+<p>Note que todos os coeficientes <span class="math inline">\(\alpha\)</span> são 1, com excessão de <span class="math inline">\(\alpha_2\)</span> que é igual a zero, pois é o expoente de B na interação <span class="math inline">\(ACD=A^1B^0C^1D^1\)</span>, porque o efeito usado, ACD, não contém B.</p>
+<pre class="r"><code>## Portanto, o vetor alpha fica
+alpha &lt;- c(1, 0, 1, 1)
+## E usando essa definição podemos definir os blocos
+db$bloco2 &lt;- apply(db[, 1:4], 1, contr.def, alpha = alpha)
+db &lt;- db[order(db$bloco2), ]
+## Croqui do experimento
+matrix(row.names(db), ncol = 2,
+       dimnames = list(1:8, paste(&quot;Bloco&quot;, 1:2)))
+#   Bloco 1 Bloco 2
+# 1 &quot;(1)&quot;   &quot;ab&quot;   
+# 2 &quot;ac&quot;    &quot;bc&quot;   
+# 3 &quot;ad&quot;    &quot;bd&quot;   
+# 4 &quot;cd&quot;    &quot;abcd&quot; 
+# 5 &quot;b&quot;     &quot;a&quot;    
+# 6 &quot;abc&quot;   &quot;c&quot;    
+# 7 &quot;abd&quot;   &quot;d&quot;    
+# 8 &quot;bcd&quot;   &quot;acd&quot;</code></pre>
+<p>Exemplo 14-7, Montgomery, EAPE. Um experimento é realizado para investigar o efeito de quatro fatores sobre o desvio, em relação ao alvo, no disparo de um míssil. Os quatro fatores são: A = tipo de alvo, B = tipo de rastreador, C = altitude do alvo, D = distância do alvo. Cada fator pode ser convenientemente testado em 2 níveis e o sistema ótimo de rastreamento permitirá medir o desvio no disparo com a precisão de um pé. Dois atiradores diferentes são usados no teste de vôo e, já que há diferença entre operadores, os engenheiros de teste decidiram conduzir o planejamento <span class="math inline">\(2^4\)</span> em 2 blocos com ABCD confundido. Faça a análise estatística dos dados obtidos.</p>
+<pre class="r"><code>##----------------------------------------------------------------------
+## Resultados do experimento
+da &lt;- do.call(expand.grid, replicate(4, list(c(-1, 1))))
+names(da) &lt;- LETTERS[1:ncol(da)]
+row.names(da) &lt;- apply(da, 1,
+                       function(i) paste(letters[1:4][i==1], collapse = &quot;&quot;))
+row.names(da)[1] &lt;- &quot;(1)&quot;
+da$y &lt;- c(3, 7, 5, 7, 6, 6, 8, 6, 4, 10, 4, 12, 8, 9, 7, 9)
+da
+#       A  B  C  D  y
+# (1)  -1 -1 -1 -1  3
+# a     1 -1 -1 -1  7
+# b    -1  1 -1 -1  5
+# ab    1  1 -1 -1  7
+# c    -1 -1  1 -1  6
+# ac    1 -1  1 -1  6
+# bc   -1  1  1 -1  8
+# abc   1  1  1 -1  6
+# d    -1 -1 -1  1  4
+# ad    1 -1 -1  1 10
+# bd   -1  1 -1  1  4
+# abd   1  1 -1  1 12
+# cd   -1 -1  1  1  8
+# acd   1 -1  1  1  9
+# bcd  -1  1  1  1  7
+# abcd  1  1  1  1  9
+
+##----------------------------------------------------------------------
+## Definindo os blocos
+
+## Pela tabela de sinais
+da$bloco &lt;- with(da, A * B * C * D)
+
+## Pelo contraste de definição
+## Antes é necessário transformar a codificação para (0,1)
+db &lt;- as.data.frame(ifelse(da[, 1:4] == -1, 0, 1))
+db$y &lt;- da$y
+db
+#      A B C D  y
+# (1)  0 0 0 0  3
+# a    1 0 0 0  7
+# b    0 1 0 0  5
+# ab   1 1 0 0  7
+# c    0 0 1 0  6
+# ac   1 0 1 0  6
+# bc   0 1 1 0  8
+# abc  1 1 1 0  6
+# d    0 0 0 1  4
+# ad   1 0 0 1 10
+# bd   0 1 0 1  4
+# abd  1 1 0 1 12
+# cd   0 0 1 1  8
+# acd  1 0 1 1  9
+# bcd  0 1 1 1  7
+# abcd 1 1 1 1  9
+alpha &lt;- c(1, 1, 1, 1)
+db$bloco &lt;- apply(db[, 1:4], 1, contr.def, alpha = alpha)
+
+## Apenas para ilustração e verificação:
+all.equal(row.names(da[order(da$bloco), ]),
+          row.names(db[order(db$bloco, decreasing = TRUE), ]))
+# [1] TRUE
+
+## Note que por qualquer um dos métodos a determinação de blocos fica a
+## mesma. Daqui pra frente tanto faz usar um ou outro. O importante é
+## identificar que a coluna de blocos deve ser um fator para poder
+## entrar como um termo no modelo
+da$bloco &lt;- as.factor(da$bloco)
+
+##----------------------------------------------------------------------
+## Análise do experimento
+
+## Aqui procedemos da mesma forma. A diferença é que como estamos
+## colocando bloco explicitamente no modelo, e bloco está confundido com
+## a interação ABCD, então esta última interação não é especificada, e
+## por isso, especificamos o modelo com todas as interações até terceira
+## ordem apenas
+tab &lt;- model.matrix(~ bloco + (A + B + C + D)^3, data = da)
+colnames(tab)
+#  [1] &quot;(Intercept)&quot; &quot;bloco1&quot;      &quot;A&quot;           &quot;B&quot;           &quot;C&quot;          
+#  [6] &quot;D&quot;           &quot;A:B&quot;         &quot;A:C&quot;         &quot;A:D&quot;         &quot;B:C&quot;        
+# [11] &quot;B:D&quot;         &quot;C:D&quot;         &quot;A:B:C&quot;       &quot;A:B:D&quot;       &quot;A:C:D&quot;      
+# [16] &quot;B:C:D&quot;
+
+## Calcula os contrastes, excluindo o intercepto e o bloco
+contr &lt;- t(tab[, -(1:2)]) %*% da$y
+
+## Efeitos = contraste/(r2^{k-1})
+r &lt;- 1 # sem repetições
+k &lt;- 4
+ef &lt;- contr/(n * 2^(k - 1))
+
+## Gráfico de probabilidade normal dos efeitos
+aux &lt;- qqnorm(ef, col = 2, pch = 19); qqline(ef)
+text(aux$x, aux$y, rownames(aux$y), cex = 0.8, pos = 3)</code></pre>
+<p><img src="figures/m14-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>
+## Ajuste do modelo com interações de até segunda ordem
+m0 &lt;- lm(y ~ bloco + (A + B + C + D)^2, data = da)
+anova(m0)
+# Analysis of Variance Table
+# 
+# Response: y
+#           Df  Sum Sq Mean Sq F value   Pr(&gt;F)   
+# bloco      1  0.0625  0.0625  0.0588 0.820294   
+# A          1 27.5625 27.5625 25.9412 0.007016 **
+# B          1  1.5625  1.5625  1.4706 0.291974   
+# C          1  3.0625  3.0625  2.8824 0.164789   
+# D          1 14.0625 14.0625 13.2353 0.022003 * 
+# A:B        1  0.0625  0.0625  0.0588 0.820294   
+# A:C        1 22.5625 22.5625 21.2353 0.009969 **
+# A:D        1 10.5625 10.5625  9.9412 0.034416 * 
+# B:C        1  0.5625  0.5625  0.5294 0.507158   
+# B:D        1  0.5625  0.5625  0.5294 0.507158   
+# C:D        1  0.0625  0.0625  0.0588 0.820294   
+# Residuals  4  4.2500  1.0625                    
+# ---
+# Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+## A partir da ANOVA, vamos manter apenas os efeitos importantes
+m1 &lt;- update(m0, . ~ bloco + A + C + D + A:C + A:D)
+anova(m1)
+# Analysis of Variance Table
+# 
+# Response: y
+#           Df  Sum Sq Mean Sq F value    Pr(&gt;F)    
+# bloco      1  0.0625  0.0625  0.0796 0.7841601    
+# A          1 27.5625 27.5625 35.1239 0.0002217 ***
+# C          1  3.0625  3.0625  3.9027 0.0796325 .  
+# D          1 14.0625 14.0625 17.9204 0.0021961 ** 
+# A:C        1 22.5625 22.5625 28.7522 0.0004551 ***
+# A:D        1 10.5625 10.5625 13.4602 0.0051644 ** 
+# Residuals  9  7.0625  0.7847                      
+# ---
+# Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+## Daqui em diante, a análise segue conforme visto anteriormente.</code></pre>
+</div>
+</div>
+<div id="confundimento-do-fatorial-2k-em-quatro-blocos" class="section level1">
+<h1>Confundimento do fatorial <span class="math inline">\(2^k\)</span> em quatro blocos</h1>
+<p>É possível construir um fatorial <span class="math inline">\(2^k\)</span> confundido em quatro blocos de <span class="math inline">\(2^{k-2}\)</span> observações em cada. Estes experimentos são particularmente úteis quando o número de fatores é moderadamente alto (<span class="math inline">\(k \geq 4\)</span>), e o tamanho dos blocos é relativamente pequeno.</p>
+<p>Como exemplo considere um experimento <span class="math inline">\(2^5\)</span> com 32 corridas. Se cada bloco deve conter <span class="math inline">\(2^{5-2} = 8\)</span> corridas, então são necessários 4 blocos (<span class="math inline">\(8 \times 4 = 32\)</span> corridas). Para selecionar as combinações de tratamento em cada bloco, devemos selecionar <strong>dois</strong> efeitos a serem confundidos com blocos, por exemplo, ADE e BCE. Estes efeitos possuem os contrastes de definição dados por:</p>
+<p><span class="math display">\[
+\begin{align}
+L_1 = x_1 + x_4 + x_5 \\
+L_2 = x_2 + x_3 + x_5
+\end{align}
+\]</span></p>
+<p>Com isso, cada combinação de tratamento irá gerar um particular par de valores de <span class="math inline">\(L_1 \mod 2\)</span> e <span class="math inline">\(L_2 \mod 2\)</span>, ou seja, <span class="math inline">\((L_1, L_2) = (0,0), (0,1), (1,0), (1,1)\)</span>. Combinações de tratamentos que resultem no mesmo par de valores <span class="math inline">\((L_1, L_2)\)</span> serão designadas para o mesmo bloco. No exemplo acima, portanto,</p>
+<p><span class="math display">\[
+\begin{align}
+L_1 = 0, L_2 = 0&amp; \quad \text{para} \quad \text{(1), ad, bc, abcd, abe,
+ace, cde, bde} \\
+L_1 = 1, L_2 = 0&amp; \quad \text{para} \quad \text{a, d, abc, bcd, be, abde,
+ce, acde} \\
+L_1 = 0, L_2 = 1&amp; \quad \text{para} \quad \text{b, abd, c, acd, ae, de,
+abce, bcde} \\
+L_1 = 1, L_2 = 1&amp; \quad \text{para} \quad \text{e, ade, bce, abcde, ab,
+bd, ac, cd}
+\end{align}
+\]</span></p>
+<p>Estas combinações de tratamentos serão atribuídas para cada um dos quatro blocos.</p>
+<p>Devemos notar também que outra interação, além de ADE e BCE, deve estar confundida com bloco. Como existem 4 blocos e 3 graus de liberdade entre eles, e como ADE e BCE possuem 1 grau de liberdade cada, deve haver um efeito adicional com 1 grau de liberdade, que também deve estar confundido. Este efeito é a <strong>interação generalizada</strong> de ADE e BCE, que é definida como o produto de ADE com BCE. Portanto, no exemplo acima, a interação generalizada <span class="math inline">\((ADE)(BCE) = ABCDE^2 = ABCD\)</span> (lembre-se das propriedades da tabela de sinais) também está confundida com blocos.</p>
+<p>O procedimento geral para construir um experimento fatorial <span class="math inline">\(2^k\)</span> em quatro blocos, é escolher dois efeitos para gerar os blocos, e automaticamente confundir um terceiro efeito que é a interação generalizada dos dois efeitos iniciais. Então o experimento é construído utilizando-se os dois contrastes de definição <span class="math inline">\((L_1, L_2)\)</span> para designar as combinações de tratamentos aos blocos.</p>
+<p>Ao selecionar os efeitos a serem confudidos, devemos tomar cuidado para não escolher efeitos que sejam de interesse. Por exemplo, em um fatorial <span class="math inline">\(2^5\)</span>, podemos escolher confundir <span class="math inline">\(ABCDE\)</span> e <span class="math inline">\(ABD\)</span>, que automaticamente também confunde <span class="math inline">\(CE\)</span> [<span class="math inline">\((ABCDE)(ABD) = A^2B^2CD^2E = CE\)</span>], um efeito que provavelmente possa ser de interesse. Uma escolha melhor é confundir ADE com BCE, que automaticamente confunde ABCD. É preferível sacrificar informação de duas interações de terceira ordem, do que uma interação de segunda ordem.</p>
+<p>A seguir, vemos um exemplo prático da definição dos blocos para um fatorial <span class="math inline">\(2^5\)</span>:</p>
+<pre class="r"><code>## Monta os fatores do experimento com a notação (0,1)
+da &lt;- do.call(expand.grid, replicate(5, list(c(0, 1))))
+names(da) &lt;- LETTERS[1:ncol(da)]
+row.names(da) &lt;- apply(da, 1,
+                       function(i) paste(letters[1:5][i==1], collapse = &quot;&quot;))
+row.names(da)[1] &lt;- &quot;(1)&quot;
+da
+#       A B C D E
+# (1)   0 0 0 0 0
+# a     1 0 0 0 0
+# b     0 1 0 0 0
+# ab    1 1 0 0 0
+# c     0 0 1 0 0
+# ac    1 0 1 0 0
+# bc    0 1 1 0 0
+# abc   1 1 1 0 0
+# d     0 0 0 1 0
+# ad    1 0 0 1 0
+# bd    0 1 0 1 0
+# abd   1 1 0 1 0
+# cd    0 0 1 1 0
+# acd   1 0 1 1 0
+# bcd   0 1 1 1 0
+# abcd  1 1 1 1 0
+# e     0 0 0 0 1
+# ae    1 0 0 0 1
+# be    0 1 0 0 1
+# abe   1 1 0 0 1
+# ce    0 0 1 0 1
+# ace   1 0 1 0 1
+# bce   0 1 1 0 1
+# abce  1 1 1 0 1
+# de    0 0 0 1 1
+# ade   1 0 0 1 1
+# bde   0 1 0 1 1
+# abde  1 1 0 1 1
+# cde   0 0 1 1 1
+# acde  1 0 1 1 1
+# bcde  0 1 1 1 1
+# abcde 1 1 1 1 1
+
+##----------------------------------------------------------------------
+## Usando o contraste de definição, com ADE e BCE confundidos
+
+## L_1 = x1 + x_4 + x5
+alpha1 &lt;- c(1, 0, 0, 1, 1)
+L1 &lt;- apply(da, 1, contr.def, alpha = alpha1)
+## L_2 = x2 + x_3 + x5
+alpha2 &lt;- c(0, 1, 1, 0, 1)
+L2 &lt;- apply(da, 1, contr.def, alpha = alpha2)
+
+## Cria os blocos
+da$bloco &lt;- interaction(L1, L2, sep = &quot;&quot;)
+da &lt;- da[order(da$bloco), ]
+da
+#       A B C D E bloco
+# (1)   0 0 0 0 0    00
+# bc    0 1 1 0 0    00
+# ad    1 0 0 1 0    00
+# abcd  1 1 1 1 0    00
+# abe   1 1 0 0 1    00
+# ace   1 0 1 0 1    00
+# bde   0 1 0 1 1    00
+# cde   0 0 1 1 1    00
+# a     1 0 0 0 0    10
+# abc   1 1 1 0 0    10
+# d     0 0 0 1 0    10
+# bcd   0 1 1 1 0    10
+# be    0 1 0 0 1    10
+# ce    0 0 1 0 1    10
+# abde  1 1 0 1 1    10
+# acde  1 0 1 1 1    10
+# b     0 1 0 0 0    01
+# c     0 0 1 0 0    01
+# abd   1 1 0 1 0    01
+# acd   1 0 1 1 0    01
+# ae    1 0 0 0 1    01
+# abce  1 1 1 0 1    01
+# de    0 0 0 1 1    01
+# bcde  0 1 1 1 1    01
+# ab    1 1 0 0 0    11
+# ac    1 0 1 0 0    11
+# bd    0 1 0 1 0    11
+# cd    0 0 1 1 0    11
+# e     0 0 0 0 1    11
+# bce   0 1 1 0 1    11
+# ade   1 0 0 1 1    11
+# abcde 1 1 1 1 1    11
+
+## Croqui do experimento
+matrix(row.names(da), ncol = 4,
+       dimnames = list(1:8, paste(&quot;Bloco&quot;, 1:4)))
+#   Bloco 1 Bloco 2 Bloco 3 Bloco 4
+# 1 &quot;(1)&quot;   &quot;a&quot;     &quot;b&quot;     &quot;ab&quot;   
+# 2 &quot;bc&quot;    &quot;abc&quot;   &quot;c&quot;     &quot;ac&quot;   
+# 3 &quot;ad&quot;    &quot;d&quot;     &quot;abd&quot;   &quot;bd&quot;   
+# 4 &quot;abcd&quot;  &quot;bcd&quot;   &quot;acd&quot;   &quot;cd&quot;   
+# 5 &quot;abe&quot;   &quot;be&quot;    &quot;ae&quot;    &quot;e&quot;    
+# 6 &quot;ace&quot;   &quot;ce&quot;    &quot;abce&quot;  &quot;bce&quot;  
+# 7 &quot;bde&quot;   &quot;abde&quot;  &quot;de&quot;    &quot;ade&quot;  
+# 8 &quot;cde&quot;   &quot;acde&quot;  &quot;bcde&quot;  &quot;abcde&quot;</code></pre>
+<p>Também é possível fazer pela tabela de sinais (usando ADE e BCE confundidos):</p>
+<pre class="r"><code>## Monta os fatores do experimento com a notação (-1, 1)
+db &lt;- do.call(expand.grid, replicate(5, list(c(-1, 1))))
+names(db) &lt;- LETTERS[1:ncol(db)]
+row.names(db) &lt;- apply(db, 1,
+                       function(i) paste(letters[1:5][i==1], collapse = &quot;&quot;))
+row.names(db)[1] &lt;- &quot;(1)&quot;
+db
+#        A  B  C  D  E
+# (1)   -1 -1 -1 -1 -1
+# a      1 -1 -1 -1 -1
+# b     -1  1 -1 -1 -1
+# ab     1  1 -1 -1 -1
+# c     -1 -1  1 -1 -1
+# ac     1 -1  1 -1 -1
+# bc    -1  1  1 -1 -1
+# abc    1  1  1 -1 -1
+# d     -1 -1 -1  1 -1
+# ad     1 -1 -1  1 -1
+# bd    -1  1 -1  1 -1
+# abd    1  1 -1  1 -1
+# cd    -1 -1  1  1 -1
+# acd    1 -1  1  1 -1
+# bcd   -1  1  1  1 -1
+# abcd   1  1  1  1 -1
+# e     -1 -1 -1 -1  1
+# ae     1 -1 -1 -1  1
+# be    -1  1 -1 -1  1
+# abe    1  1 -1 -1  1
+# ce    -1 -1  1 -1  1
+# ace    1 -1  1 -1  1
+# bce   -1  1  1 -1  1
+# abce   1  1  1 -1  1
+# de    -1 -1 -1  1  1
+# ade    1 -1 -1  1  1
+# bde   -1  1 -1  1  1
+# abde   1  1 -1  1  1
+# cde   -1 -1  1  1  1
+# acde   1 -1  1  1  1
+# bcde  -1  1  1  1  1
+# abcde  1  1  1  1  1
+
+## Obtém as interações de confundimento
+db$ADE &lt;- with(db, A*D*E)
+db$BCE &lt;- with(db, B*C*E)
+
+## Cria os blocos
+db$bloco &lt;- with(db, interaction(ADE, BCE, sep = &quot;&quot;))
+db &lt;- db[order(db$bloco), ]
+db
+#        A  B  C  D  E ADE BCE bloco
+# (1)   -1 -1 -1 -1 -1  -1  -1  -1-1
+# bc    -1  1  1 -1 -1  -1  -1  -1-1
+# ad     1 -1 -1  1 -1  -1  -1  -1-1
+# abcd   1  1  1  1 -1  -1  -1  -1-1
+# abe    1  1 -1 -1  1  -1  -1  -1-1
+# ace    1 -1  1 -1  1  -1  -1  -1-1
+# bde   -1  1 -1  1  1  -1  -1  -1-1
+# cde   -1 -1  1  1  1  -1  -1  -1-1
+# a      1 -1 -1 -1 -1   1  -1   1-1
+# abc    1  1  1 -1 -1   1  -1   1-1
+# d     -1 -1 -1  1 -1   1  -1   1-1
+# bcd   -1  1  1  1 -1   1  -1   1-1
+# be    -1  1 -1 -1  1   1  -1   1-1
+# ce    -1 -1  1 -1  1   1  -1   1-1
+# abde   1  1 -1  1  1   1  -1   1-1
+# acde   1 -1  1  1  1   1  -1   1-1
+# b     -1  1 -1 -1 -1  -1   1   -11
+# c     -1 -1  1 -1 -1  -1   1   -11
+# abd    1  1 -1  1 -1  -1   1   -11
+# acd    1 -1  1  1 -1  -1   1   -11
+# ae     1 -1 -1 -1  1  -1   1   -11
+# abce   1  1  1 -1  1  -1   1   -11
+# de    -1 -1 -1  1  1  -1   1   -11
+# bcde  -1  1  1  1  1  -1   1   -11
+# ab     1  1 -1 -1 -1   1   1    11
+# ac     1 -1  1 -1 -1   1   1    11
+# bd    -1  1 -1  1 -1   1   1    11
+# cd    -1 -1  1  1 -1   1   1    11
+# e     -1 -1 -1 -1  1   1   1    11
+# bce   -1  1  1 -1  1   1   1    11
+# ade    1 -1 -1  1  1   1   1    11
+# abcde  1  1  1  1  1   1   1    11
+
+## Veja que o resultado é o mesmo se forem utilizados os contrastes de
+## definição
+cbind(row.names(da), row.names(db))
+#       [,1]    [,2]   
+#  [1,] &quot;(1)&quot;   &quot;(1)&quot;  
+#  [2,] &quot;bc&quot;    &quot;bc&quot;   
+#  [3,] &quot;ad&quot;    &quot;ad&quot;   
+#  [4,] &quot;abcd&quot;  &quot;abcd&quot; 
+#  [5,] &quot;abe&quot;   &quot;abe&quot;  
+#  [6,] &quot;ace&quot;   &quot;ace&quot;  
+#  [7,] &quot;bde&quot;   &quot;bde&quot;  
+#  [8,] &quot;cde&quot;   &quot;cde&quot;  
+#  [9,] &quot;a&quot;     &quot;a&quot;    
+# [10,] &quot;abc&quot;   &quot;abc&quot;  
+# [11,] &quot;d&quot;     &quot;d&quot;    
+# [12,] &quot;bcd&quot;   &quot;bcd&quot;  
+# [13,] &quot;be&quot;    &quot;be&quot;   
+# [14,] &quot;ce&quot;    &quot;ce&quot;   
+# [15,] &quot;abde&quot;  &quot;abde&quot; 
+# [16,] &quot;acde&quot;  &quot;acde&quot; 
+# [17,] &quot;b&quot;     &quot;b&quot;    
+# [18,] &quot;c&quot;     &quot;c&quot;    
+# [19,] &quot;abd&quot;   &quot;abd&quot;  
+# [20,] &quot;acd&quot;   &quot;acd&quot;  
+# [21,] &quot;ae&quot;    &quot;ae&quot;   
+# [22,] &quot;abce&quot;  &quot;abce&quot; 
+# [23,] &quot;de&quot;    &quot;de&quot;   
+# [24,] &quot;bcde&quot;  &quot;bcde&quot; 
+# [25,] &quot;ab&quot;    &quot;ab&quot;   
+# [26,] &quot;ac&quot;    &quot;ac&quot;   
+# [27,] &quot;bd&quot;    &quot;bd&quot;   
+# [28,] &quot;cd&quot;    &quot;cd&quot;   
+# [29,] &quot;e&quot;     &quot;e&quot;    
+# [30,] &quot;bce&quot;   &quot;bce&quot;  
+# [31,] &quot;ade&quot;   &quot;ade&quot;  
+# [32,] &quot;abcde&quot; &quot;abcde&quot;</code></pre>
+<p>A seguir, vemos um exemplo prático da definição dos blocos para um fatorial <span class="math inline">\(2^4\)</span>:</p>
+<pre class="r"><code>## MOnta as colunas dos fatores na notação (0,1)
+da &lt;- do.call(expand.grid, replicate(4, list(c(0,1))))
+names(da) &lt;- LETTERS[1:ncol(da)]
+row.names(da) &lt;- apply(da, 1,
+                       function(i) paste(letters[1:4][i==1], collapse = &quot;&quot;))
+row.names(da)[1] &lt;- &quot;(1)&quot;
+da
+#      A B C D
+# (1)  0 0 0 0
+# a    1 0 0 0
+# b    0 1 0 0
+# ab   1 1 0 0
+# c    0 0 1 0
+# ac   1 0 1 0
+# bc   0 1 1 0
+# abc  1 1 1 0
+# d    0 0 0 1
+# ad   1 0 0 1
+# bd   0 1 0 1
+# abd  1 1 0 1
+# cd   0 0 1 1
+# acd  1 0 1 1
+# bcd  0 1 1 1
+# abcd 1 1 1 1</code></pre>
+<p>Usando o contraste de definição, com <span class="math inline">\(ABC\)</span> e <span class="math inline">\(ACD\)</span> confundidos. Por consequência, a interação generalizada é <span class="math inline">\((ABC)(ACD) = A^2BC^2D = BD\)</span>.</p>
+<pre class="r"><code>## L_1 = x1 + x_2 + x3
+alpha1 &lt;- c(1, 1, 1, 0)
+L1 &lt;- apply(da, 1, contr.def, alpha = alpha1)
+## L_2 = x1 + x_3 + x4
+alpha2 &lt;- c(1, 0, 1, 1)
+L2 &lt;- apply(da, 1, contr.def, alpha = alpha2)
+
+## Cria os blocos
+da$bloco &lt;- interaction(L1, L2, sep = &quot;&quot;)
+da &lt;- da[order(da$bloco), ]
+da
+#      A B C D bloco
+# (1)  0 0 0 0    00
+# ac   1 0 1 0    00
+# abd  1 1 0 1    00
+# bcd  0 1 1 1    00
+# b    0 1 0 0    10
+# abc  1 1 1 0    10
+# ad   1 0 0 1    10
+# cd   0 0 1 1    10
+# ab   1 1 0 0    01
+# bc   0 1 1 0    01
+# d    0 0 0 1    01
+# acd  1 0 1 1    01
+# a    1 0 0 0    11
+# c    0 0 1 0    11
+# bd   0 1 0 1    11
+# abcd 1 1 1 1    11
+
+## Croqui do experimento
+matrix(row.names(da), ncol = 4,
+       dimnames = list(1:4, paste(&quot;Bloco&quot;, 1:4)))
+#   Bloco 1 Bloco 2 Bloco 3 Bloco 4
+# 1 &quot;(1)&quot;   &quot;b&quot;     &quot;ab&quot;    &quot;a&quot;    
+# 2 &quot;ac&quot;    &quot;abc&quot;   &quot;bc&quot;    &quot;c&quot;    
+# 3 &quot;abd&quot;   &quot;ad&quot;    &quot;d&quot;     &quot;bd&quot;   
+# 4 &quot;bcd&quot;   &quot;cd&quot;    &quot;acd&quot;   &quot;abcd&quot;</code></pre>
+<div id="exemplos-2" class="section level2">
+<h2>Exemplos</h2>
+<p>Exercício 6.7, Montgomery, DAE. Um experimento foi conduzido para aumentar o rendimento de um processo químico. Quatro fatores foram selecionados e um experimento completamente casualizado foi rodado com duas rpetições. Os dados estão disponíveis <a href="http://www.leg.ufpr.br/~fernandomayer/data/montgomery_6-7.txt">aqui</a>. Com isso:</p>
+<ol style="list-style-type: lower-alpha">
+<li>Estime os efeitos dos fatores.</li>
+<li>Faça a ANOVA para selecionar os fatores importantes.</li>
+<li>Verifique os resíduos do modelo.</li>
+<li>Usando o modelo adequado, faça a predição para cada combinação única dos níveis dos fatores.</li>
+</ol>
+<pre class="r"><code>##----------------------------------------------------------------------
+## Dados
+url &lt;- &quot;http://www.leg.ufpr.br/~fernandomayer/data/montgomery_6-7.txt&quot;
+dados &lt;- read.table(url, header = TRUE)
+str(dados)
+# &#39;data.frame&#39;: 32 obs. of  5 variables:
+#  $ A: int  -1 -1 1 1 -1 -1 1 1 -1 -1 ...
+#  $ B: int  -1 -1 -1 -1 1 1 1 1 -1 -1 ...
+#  $ C: int  -1 -1 -1 -1 -1 -1 -1 -1 1 1 ...
+#  $ D: int  -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 ...
+#  $ y: int  90 93 74 78 81 85 83 80 77 78 ...
+
+##----------------------------------------------------------------------
+## a. Estime os efeitos dos fatores.
+tab &lt;- model.matrix(~ A * B * C * D, data = dados)
+contr &lt;- t(tab[, -1]) %*% dados$y
+r &lt;- 2 # duas repetições
+k &lt;- 4
+ef &lt;- contr/(r * 2^(k-1))
+aux &lt;- qqnorm(ef, col = 2, pch = 19); qqline(ef)
+text(aux$x, aux$y, rownames(aux$y), cex = 0.8, pos = 3)</code></pre>
+<p><img src="figures/unnamed-chunk-25-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>
+##----------------------------------------------------------------------
+## b. Faça a ANOVA para selecionar os fatores importantes.
+m0a &lt;- lm(y ~ A * B * C * D, data = dados)
+anova(m0a)
+# Analysis of Variance Table
+# 
+# Response: y
+#           Df Sum Sq Mean Sq F value    Pr(&gt;F)    
+# A          1 657.03  657.03 85.8163 7.875e-08 ***
+# B          1  13.78   13.78  1.8000 0.1984451    
+# C          1  57.78   57.78  7.5469 0.0143171 *  
+# D          1 124.03  124.03 16.2000 0.0009794 ***
+# A:B        1 132.03  132.03 17.2449 0.0007491 ***
+# A:C        1   3.78    3.78  0.4939 0.4923019    
+# B:C        1   2.53    2.53  0.3306 0.5732962    
+# A:D        1  38.28   38.28  5.0000 0.0399447 *  
+# B:D        1   0.28    0.28  0.0367 0.8504174    
+# C:D        1  22.78   22.78  2.9755 0.1037933    
+# A:B:C      1 215.28  215.28 28.1184 7.146e-05 ***
+# A:B:D      1 175.78  175.78 22.9592 0.0001997 ***
+# A:C:D      1   7.03    7.03  0.9184 0.3521621    
+# B:C:D      1   7.03    7.03  0.9184 0.3521621    
+# A:B:C:D    1  47.53   47.53  6.2082 0.0240766 *  
+# Residuals 16 122.50    7.66                      
+# ---
+# Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## Mantém fatores importantes
+m1a &lt;- update(m0a, . ~ A + B + C + D + A:B + A:D + A:B:C + A:B:D + A:B:C:D)
+anova(m1a)
+# Analysis of Variance Table
+# 
+# Response: y
+#           Df Sum Sq Mean Sq F value    Pr(&gt;F)    
+# A          1 657.03  657.03 87.1092 4.173e-09 ***
+# B          1  13.78   13.78  1.8271 0.1902037    
+# C          1  57.78   57.78  7.6606 0.0112260 *  
+# D          1 124.03  124.03 16.4441 0.0005273 ***
+# A:B        1 132.03  132.03 17.5047 0.0003851 ***
+# A:D        1  38.28   38.28  5.0753 0.0345763 *  
+# A:B:C      1 215.28  215.28 28.5420 2.308e-05 ***
+# A:B:D      1 175.78  175.78 23.3051 8.006e-05 ***
+# A:B:C:D    1  47.53   47.53  6.3017 0.0199130 *  
+# Residuals 22 165.94    7.54                      
+# ---
+# Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## TRV
+anova(m0a, m1a)
+# Analysis of Variance Table
+# 
+# Model 1: y ~ A * B * C * D
+# Model 2: y ~ A + B + C + D + A:B + A:D + A:B:C + A:B:D + A:B:C:D
+#   Res.Df    RSS Df Sum of Sq      F Pr(&gt;F)
+# 1     16 122.50                           
+# 2     22 165.94 -6   -43.437 0.9456 0.4906
+
+##----------------------------------------------------------------------
+## c. Verifique os resíduos do modelo.
+qqnorm(residuals(m1a)); qqline(residuals(m1a))</code></pre>
+<p><img src="figures/unnamed-chunk-25-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>
+##----------------------------------------------------------------------
+## d. Usando o modelo adequado, faça a predição para cada combinação única
+## dos níveis dos fatores.
+pred.a &lt;- unique(dados[, 1:4])
+pred.a$y &lt;- predict(m1a, newdata = pred.a)
+pred.a
+#     A  B  C  D       y
+# 1  -1 -1 -1 -1 89.7500
+# 3   1 -1 -1 -1 75.8750
+# 5  -1  1 -1 -1 81.4375
+# 7   1  1 -1 -1 81.5625
+# 9  -1 -1  1 -1 79.4375
+# 11  1 -1  1 -1 80.8125
+# 13 -1  1  1 -1 86.3750
+# 15  1  1  1 -1 71.2500
+# 17 -1 -1 -1  1 98.1250
+# 19  1 -1 -1  1 75.3750
+# 21 -1  1 -1  1 85.3125
+# 23  1  1 -1  1 85.5625
+# 25 -1 -1  1  1 92.6875
+# 27  1 -1  1  1 75.4375
+# 29 -1  1  1  1 85.3750
+# 31  1  1  1  1 80.1250
+## Como são muitos fatores e interações de ordem alta são importantes,
+## uma forma simplificada de visualização seria
+xyplot(y ~ interaction(A, B, C, D, sep = &quot;&quot;), data = pred.a,
+       scales = list(x = list(rot = 90)),
+       xlab = &quot;Tratamentos&quot;, ylab = &quot;Rendimento&quot;,
+       panel = function(x, y, ...){
+    panel.xyplot(x, y, ...)
+    panel.abline(h = mean(y), lty = 2, col = 2)
+})</code></pre>
+<p><img src="figures/unnamed-chunk-25-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Exercício 7.5, Montgomery, DAE. Considerando apenas as observações da primeira réplica dos dados acima, analise o mesmo experimento, mas considerando dois blocos com 8 observações cada, com <span class="math inline">\(ABCD\)</span> confundido.</p>
+<pre class="r"><code>##----------------------------------------------------------------------
+## Considerando os dados da primeira réplica
+dados2 &lt;- dados[!duplicated(dados[, 1:4]), ]
+row.names(dados2) &lt;- apply(dados2, 1,
+                       function(i) paste(letters[1:4][i==1], collapse = &quot;&quot;))
+row.names(dados2)[1] &lt;- &quot;(1)&quot;
+
+##----------------------------------------------------------------------
+## Criando os blocos
+
+## Usando a tabela de sinais
+dados2$bloco &lt;- with(dados2, A*B*C*D)
+dados2 &lt;- dados2[order(dados2$bloco), ]
+dados2
+#       A  B  C  D  y bloco
+# a     1 -1 -1 -1 74    -1
+# b    -1  1 -1 -1 81    -1
+# c    -1 -1  1 -1 77    -1
+# abc   1  1  1 -1 73    -1
+# d    -1 -1 -1  1 98    -1
+# abd   1  1 -1  1 85    -1
+# acd   1 -1  1  1 79    -1
+# bcd  -1  1  1  1 87    -1
+# (1)  -1 -1 -1 -1 90     1
+# ab    1  1 -1 -1 83     1
+# ac    1 -1  1 -1 81     1
+# bc   -1  1  1 -1 88     1
+# ad    1 -1 -1  1 72     1
+# bd   -1  1 -1  1 87     1
+# cd   -1 -1  1  1 99     1
+# abcd  1  1  1  1 80     1
+
+## Usando contrastes de definição
+dados3 &lt;- dados2
+## Muda codificação para (0,1)
+dados3[, 1:4] &lt;- ifelse(dados3[, 1:4] == -1, 0, 1)
+## L = ABCD = x_1 + x_2 + x_3 + x_4
+alpha &lt;- c(1, 1, 1, 1)
+dados3$bloco2 &lt;- apply(dados3[, 1:4], 1, contr.def, alpha = alpha)
+dados3
+#      A B C D  y bloco bloco2
+# a    1 0 0 0 74    -1      1
+# b    0 1 0 0 81    -1      1
+# c    0 0 1 0 77    -1      1
+# abc  1 1 1 0 73    -1      1
+# d    0 0 0 1 98    -1      1
+# abd  1 1 0 1 85    -1      1
+# acd  1 0 1 1 79    -1      1
+# bcd  0 1 1 1 87    -1      1
+# (1)  0 0 0 0 90     1      0
+# ab   1 1 0 0 83     1      0
+# ac   1 0 1 0 81     1      0
+# bc   0 1 1 0 88     1      0
+# ad   1 0 0 1 72     1      0
+# bd   0 1 0 1 87     1      0
+# cd   0 0 1 1 99     1      0
+# abcd 1 1 1 1 80     1      0
+## O resultado é o mesmo. Mas para analisar é melhor usar dados2, com a
+## codificação (-1, 1).
+
+##----------------------------------------------------------------------
+## Analisando os dados
+
+##----------------------------------------------------------------------
+## a. Estime os efeitos dos fatores.
+## Como ABCD está confundido com bloco, não podemos colocar os dois na
+## tabela de sinais, portanto declaramos o bloco e as interações de até
+## terceira ordem
+tab &lt;- model.matrix(~ bloco + (A + B + C + D)^3, data = dados2)
+## Calcula os contrastes excluindo o intercepto e bloco
+contr &lt;- t(tab[, -(1:2)]) %*% dados2$y
+r &lt;- 1
+k &lt;- 4
+ef &lt;- contr/(r * 2^(k-1))
+aux &lt;- qqnorm(ef, col = 2, pch = 19); qqline(ef)
+text(aux$x, aux$y, rownames(aux$y), cex = 0.8, pos = 3)</code></pre>
+<p><img src="figures/unnamed-chunk-26-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>
+##----------------------------------------------------------------------
+## b. Faça a ANOVA para selecionar os fatores importantes.
+## Existem termos de terceira ordem que são importantes e outros não. Se
+## declaramos o modelo com todas as interações de terceira ordem, o
+## modelo será saturado e não teremos estimativa de erro. Portanto,
+## vamos declarar o modelo com todas as interações de segunda ordem e as
+## de terceira ordem que se destacaram no gráfico de quantis normais.
+m0b &lt;- lm(y ~ bloco + (A + B + C + D)^2 + A:B:C + A:B:D, data = dados2)
+anova(m0b)
+# Analysis of Variance Table
+# 
+# Response: y
+#           Df Sum Sq Mean Sq F value  Pr(&gt;F)  
+# bloco      1  42.25   42.25  5.2000 0.15016  
+# A          1 400.00  400.00 49.2308 0.01971 *
+# B          1   2.25    2.25  0.2769 0.65126  
+# C          1   2.25    2.25  0.2769 0.65126  
+# D          1 100.00  100.00 12.3077 0.07252 .
+# A:B        1  81.00   81.00  9.9692 0.08736 .
+# A:C        1   1.00    1.00  0.1231 0.75923  
+# A:D        1  56.25   56.25  6.9231 0.11917  
+# B:C        1   6.25    6.25  0.7692 0.47295  
+# B:D        1   9.00    9.00  1.1077 0.40298  
+# C:D        1   9.00    9.00  1.1077 0.40298  
+# A:B:C      1 144.00  144.00 17.7231 0.05206 .
+# A:B:D      1  90.25   90.25 11.1077 0.07945 .
+# Residuals  2  16.25    8.12                  
+# ---
+# Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## Mantém apenas termos importantes
+m1b &lt;- update(m0b, . ~ bloco + A + B + C + D + A:B + A:D + A:B:C + A:B:D)
+anova(m1b)
+# Analysis of Variance Table
+# 
+# Response: y
+#           Df Sum Sq Mean Sq F value    Pr(&gt;F)    
+# bloco      1  42.25   42.25  6.1084 0.0483576 *  
+# A          1 400.00  400.00 57.8313 0.0002692 ***
+# B          1   2.25    2.25  0.3253 0.5891437    
+# C          1   2.25    2.25  0.3253 0.5891437    
+# D          1 100.00  100.00 14.4578 0.0089432 ** 
+# A:B        1  81.00   81.00 11.7108 0.0141071 *  
+# A:D        1  56.25   56.25  8.1325 0.0291144 *  
+# A:B:C      1 144.00  144.00 20.8193 0.0038395 ** 
+# A:B:D      1  90.25   90.25 13.0482 0.0112010 *  
+# Residuals  6  41.50    6.92                      
+# ---
+# Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## TRV
+anova(m0b, m1b)
+# Analysis of Variance Table
+# 
+# Model 1: y ~ bloco + (A + B + C + D)^2 + A:B:C + A:B:D
+# Model 2: y ~ bloco + A + B + C + D + A:B + A:D + A:B:C + A:B:D
+#   Res.Df   RSS Df Sum of Sq      F Pr(&gt;F)
+# 1      2 16.25                           
+# 2      6 41.50 -4    -25.25 0.7769 0.6298
+## Note que ficamos com essencialmente o mesmo modelo de antes, quando
+## mantivemos a interação ABCD. Aqui, como bloco está confundido com
+## essa interação, então basicamente temos o mesmo modelo.
+
+##----------------------------------------------------------------------
+## c. Verifique os resíduos do modelo.
+qqnorm(residuals(m1b)); qqline(residuals(m1b))</code></pre>
+<p><img src="figures/unnamed-chunk-26-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>
+##----------------------------------------------------------------------
+## d. Usando o modelo adequado, faça a predição para cada combinação única
+## dos níveis dos fatores.
+pred.b &lt;- dados2[, -5]
+pred.b$y &lt;- predict(m1b, newdata = pred.b)
+pred.b
+#       A  B  C  D bloco     y
+# a     1 -1 -1 -1    -1 74.00
+# b    -1  1 -1 -1    -1 79.50
+# c    -1 -1  1 -1    -1 79.25
+# abc   1  1  1 -1    -1 72.25
+# d    -1 -1 -1  1    -1 99.50
+# abd   1  1 -1  1    -1 85.00
+# acd   1 -1  1  1    -1 75.75
+# bcd  -1  1  1  1    -1 88.75
+# (1)  -1 -1 -1 -1     1 89.25
+# ab    1  1 -1 -1     1 82.25
+# ac    1 -1  1 -1     1 82.50
+# bc   -1  1  1 -1     1 88.00
+# ad    1 -1 -1  1     1 73.75
+# bd   -1  1 -1  1     1 86.75
+# cd   -1 -1  1  1     1 96.00
+# abcd  1  1  1  1     1 81.50
+## Como são muitos fatores e interações de ordem alta são importantes,
+## uma forma simplificada de visualização seria
+xyplot(y ~ interaction(A, B, C, D, sep = &quot;&quot;), data = pred.b,
+       scales = list(x = list(rot = 90)),
+       xlab = &quot;Tratamentos&quot;, ylab = &quot;Rendimento&quot;,
+       panel = function(x, y, ...){
+    panel.xyplot(x, y, ...)
+    panel.abline(h = mean(y), lty = 2, col = 2)
+})</code></pre>
+<p><img src="figures/unnamed-chunk-26-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Exercício 7.6, Montgomery, DAE. Repita o mesmo exercícioo assumindo que quatro blocos são neessários. Use <span class="math inline">\(ABD\)</span> e <span class="math inline">\(ABC\)</span> para confundir os blocos. Qual é a interação generalizada?</p>
+<pre class="r"><code>## Considerando os dados da primeira réplica
+dados3 &lt;- dados[!duplicated(dados[, 1:4]), ]
+row.names(dados3) &lt;- apply(dados3, 1,
+                       function(i) paste(letters[1:4][i==1], collapse = &quot;&quot;))
+row.names(dados3)[1] &lt;- &quot;(1)&quot;
+
+##----------------------------------------------------------------------
+## Criando os blocos
+
+## Usando ABD e ABC para confundir a interação generalizada é:
+## (ABD)(ABC) = DC
+## Portanto, ABD, ABC e DC serão os efeitos confundidos com blocos
+
+## Usando a tabela de sinais
+dados3$ABC &lt;- with(dados3, A*B*C)
+dados3$ABD &lt;- with(dados3, A*B*D)
+dados3$bloco &lt;- with(dados3, interaction(ABC, ABD, sep = &quot;&quot;))
+dados3 &lt;- dados3[order(dados3$bloco), ]
+dados3
+#       A  B  C  D  y ABC ABD bloco
+# (1)  -1 -1 -1 -1 90  -1  -1  -1-1
+# ab    1  1 -1 -1 83  -1  -1  -1-1
+# acd   1 -1  1  1 79  -1  -1  -1-1
+# bcd  -1  1  1  1 87  -1  -1  -1-1
+# c    -1 -1  1 -1 77   1  -1   1-1
+# abc   1  1  1 -1 73   1  -1   1-1
+# ad    1 -1 -1  1 72   1  -1   1-1
+# bd   -1  1 -1  1 87   1  -1   1-1
+# ac    1 -1  1 -1 81  -1   1   -11
+# bc   -1  1  1 -1 88  -1   1   -11
+# d    -1 -1 -1  1 98  -1   1   -11
+# abd   1  1 -1  1 85  -1   1   -11
+# a     1 -1 -1 -1 74   1   1    11
+# b    -1  1 -1 -1 81   1   1    11
+# cd   -1 -1  1  1 99   1   1    11
+# abcd  1  1  1  1 80   1   1    11
+## Croqui do experimento com 4 blocos
+matrix(row.names(dados3), ncol = 4,
+       dimnames = list(1:4, paste(&quot;Bloco&quot;, 1:4)))
+#   Bloco 1 Bloco 2 Bloco 3 Bloco 4
+# 1 &quot;(1)&quot;   &quot;c&quot;     &quot;ac&quot;    &quot;a&quot;    
+# 2 &quot;ab&quot;    &quot;abc&quot;   &quot;bc&quot;    &quot;b&quot;    
+# 3 &quot;acd&quot;   &quot;ad&quot;    &quot;d&quot;     &quot;cd&quot;   
+# 4 &quot;bcd&quot;   &quot;bd&quot;    &quot;abd&quot;   &quot;abcd&quot;
+
+## Usando contrastes de definição
+dados4 &lt;- dados3
+## Muda codificação para (0,1)
+dados4[, 1:4] &lt;- ifelse(dados4[, 1:4] == -1, 0, 1)
+## L_1 = ABC = x_1 + x_2 + x_3
+alpha1 &lt;- c(1, 1, 1, 0)
+L1 &lt;- apply(dados4[, 1:4], 1, contr.def, alpha = alpha1)
+## L_2 = ABD = x_1 + x_2 + x_4
+alpha2 &lt;- c(1, 1, 0, 1)
+L2 &lt;- apply(dados4[, 1:4], 1, contr.def, alpha = alpha2)
+## Cria os blocos
+dados4$bloco2 &lt;- interaction(L1, L2, sep = &quot;&quot;)
+dados4
+#      A B C D  y ABC ABD bloco bloco2
+# (1)  0 0 0 0 90  -1  -1  -1-1     00
+# ab   1 1 0 0 83  -1  -1  -1-1     00
+# acd  1 0 1 1 79  -1  -1  -1-1     00
+# bcd  0 1 1 1 87  -1  -1  -1-1     00
+# c    0 0 1 0 77   1  -1   1-1     10
+# abc  1 1 1 0 73   1  -1   1-1     10
+# ad   1 0 0 1 72   1  -1   1-1     10
+# bd   0 1 0 1 87   1  -1   1-1     10
+# ac   1 0 1 0 81  -1   1   -11     01
+# bc   0 1 1 0 88  -1   1   -11     01
+# d    0 0 0 1 98  -1   1   -11     01
+# abd  1 1 0 1 85  -1   1   -11     01
+# a    1 0 0 0 74   1   1    11     11
+# b    0 1 0 0 81   1   1    11     11
+# cd   0 0 1 1 99   1   1    11     11
+# abcd 1 1 1 1 80   1   1    11     11
+## O resultado é o mesmo. Mas para analisar é melhor usar dados3, com a
+## codificação (-1, 1).
+
+##----------------------------------------------------------------------
+## Analisando os dados
+
+##----------------------------------------------------------------------
+## a. Estime os efeitos dos fatores.
+## Como ABC, ABD, e CD estão confundidos com bloco, vamos declarar o
+## bloco e excluir estes três termos da tabela de sinais
+tab &lt;- model.matrix(~ bloco + (A * B * C * D) - A:B:C - A:B:D - C:D,
+                    data = dados3)
+## Calcula os contrastes excluindo o intercepto e os blocos
+contr &lt;- t(tab[, -(1:4)]) %*% dados3$y
+r &lt;- 1
+k &lt;- 4
+ef &lt;- contr/(r * 2^(k-1))
+aux &lt;- qqnorm(ef, col = 2, pch = 19); qqline(ef)
+text(aux$x, aux$y, rownames(aux$y), cex = 0.8, pos = 3)</code></pre>
+<p><img src="figures/unnamed-chunk-27-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>
+##----------------------------------------------------------------------
+## b. Faça a ANOVA para selecionar os fatores importantes.
+
+## Os termos importantes são A, D, AB, AD, e ABCD. Mas podem existir
+## dúvidas quanto aos termos de terceira ordem. Se declararmos o modelo
+## completo não teremos estimativa de erro. Por isso, vamos declarar um
+## modelo mais completo possível, deixando de fora os termos que
+## realmente não parecem importantes.
+m0c &lt;- lm(y ~ bloco + A + B + C + D + A:B + A:C + A:D + A:C:D + A:B:C:D,
+          data = dados3)
+anova(m0c)
+# Analysis of Variance Table
+# 
+# Response: y
+#           Df Sum Sq Mean Sq F value   Pr(&gt;F)   
+# bloco      3 243.25   81.08   7.784 0.062935 . 
+# A          1 400.00  400.00  38.400 0.008466 **
+# B          1   2.25    2.25   0.216 0.673758   
+# C          1   2.25    2.25   0.216 0.673758   
+# D          1 100.00  100.00   9.600 0.053363 . 
+# A:B        1  81.00   81.00   7.776 0.068502 . 
+# A:C        1   1.00    1.00   0.096 0.776959   
+# A:D        1  56.25   56.25   5.400 0.102728   
+# A:C:D      1   0.25    0.25   0.024 0.886721   
+# A:B:C:D    1  42.25   42.25   4.056 0.137457   
+# Residuals  3  31.25   10.42                    
+# ---
+# Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## Mantém apenas termos importantes, considerando ainda o gráfico acima
+m1c &lt;- update(m0c, . ~ bloco + A + B + C + D + A:B + A:D + A:B:C:D)
+anova(m1c)
+# Analysis of Variance Table
+# 
+# Response: y
+#           Df Sum Sq Mean Sq F value    Pr(&gt;F)    
+# bloco      3 243.25   81.08 12.4744 0.0092964 ** 
+# A          1 400.00  400.00 61.5385 0.0005403 ***
+# B          1   2.25    2.25  0.3462 0.5818690    
+# C          1   2.25    2.25  0.3462 0.5818690    
+# D          1 100.00  100.00 15.3846 0.0111559 *  
+# A:B        1  81.00   81.00 12.4615 0.0167382 *  
+# A:D        1  56.25   56.25  8.6538 0.0321916 *  
+# A:B:C:D    1  42.25   42.25  6.5000 0.0512966 .  
+# Residuals  5  32.50    6.50                      
+# ---
+# Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## TRV
+anova(m0c, m1c)
+# Analysis of Variance Table
+# 
+# Model 1: y ~ bloco + A + B + C + D + A:B + A:C + A:D + A:C:D + A:B:C:D
+# Model 2: y ~ bloco + A + B + C + D + A:B + A:D + A:B:C:D
+#   Res.Df   RSS Df Sum of Sq    F Pr(&gt;F)
+# 1      3 31.25                         
+# 2      5 32.50 -2     -1.25 0.06 0.9429
+## Note que esse modelo é essencialmente o mesmo modelo que o anterior.
+## A diferença é que no anterior as interações importantes ABC e ABD
+## apareciam explicitamente. Agora, por estarem confundidas com blocos,
+## elas não parecem, mas sabe-se que seus efeitos estão cnfundidos com o
+## de bloco. Dessa forma, a SQ de blocos aqui seria a SQ de ABC, ABD e
+## por consequência, também de CD.
+print(anova(m1b), signif.stars = FALSE)
+# Analysis of Variance Table
+# 
+# Response: y
+#           Df Sum Sq Mean Sq F value    Pr(&gt;F)
+# bloco      1  42.25   42.25  6.1084 0.0483576
+# A          1 400.00  400.00 57.8313 0.0002692
+# B          1   2.25    2.25  0.3253 0.5891437
+# C          1   2.25    2.25  0.3253 0.5891437
+# D          1 100.00  100.00 14.4578 0.0089432
+# A:B        1  81.00   81.00 11.7108 0.0141071
+# A:D        1  56.25   56.25  8.1325 0.0291144
+# A:B:C      1 144.00  144.00 20.8193 0.0038395
+# A:B:D      1  90.25   90.25 13.0482 0.0112010
+# Residuals  6  41.50    6.92
+print(anova(m1c), signif.stars = FALSE)
+# Analysis of Variance Table
+# 
+# Response: y
+#           Df Sum Sq Mean Sq F value    Pr(&gt;F)
+# bloco      3 243.25   81.08 12.4744 0.0092964
+# A          1 400.00  400.00 61.5385 0.0005403
+# B          1   2.25    2.25  0.3462 0.5818690
+# C          1   2.25    2.25  0.3462 0.5818690
+# D          1 100.00  100.00 15.3846 0.0111559
+# A:B        1  81.00   81.00 12.4615 0.0167382
+# A:D        1  56.25   56.25  8.6538 0.0321916
+# A:B:C:D    1  42.25   42.25  6.5000 0.0512966
+# Residuals  5  32.50    6.50
+
+##----------------------------------------------------------------------
+## c. Verifique os resíduos do modelo.
+qqnorm(residuals(m1c)); qqline(residuals(m1c))</code></pre>
+<p><img src="figures/unnamed-chunk-27-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>
+##----------------------------------------------------------------------
+## d. Usando o modelo adequado, faça a predição para cada combinação única
+## dos níveis dos fatores.
+pred.c &lt;- dados3[, -(5:7)]
+pred.c$y &lt;- predict(m1c, newdata = pred.c)
+pred.c
+#       A  B  C  D bloco     y
+# (1)  -1 -1 -1 -1  -1-1 90.00
+# ab    1  1 -1 -1  -1-1 83.00
+# acd   1 -1  1  1  -1-1 76.50
+# bcd  -1  1  1  1  -1-1 89.50
+# c    -1 -1  1 -1   1-1 78.50
+# abc   1  1  1 -1   1-1 71.50
+# ad    1 -1 -1  1   1-1 73.00
+# bd   -1  1 -1  1   1-1 86.00
+# ac    1 -1  1 -1   -11 81.75
+# bc   -1  1  1 -1   -11 87.25
+# d    -1 -1 -1  1   -11 98.75
+# abd   1  1 -1  1   -11 84.25
+# a     1 -1 -1 -1    11 74.75
+# b    -1  1 -1 -1    11 80.25
+# cd   -1 -1  1  1    11 96.75
+# abcd  1  1  1  1    11 82.25
+## Como são muitos fatores e interações de ordem alta são importantes,
+## uma forma simplificada de visualização seria
+xyplot(y ~ interaction(A, B, C, D, sep = &quot;&quot;), data = pred.c,
+       scales = list(x = list(rot = 90)),
+       xlab = &quot;Tratamentos&quot;, ylab = &quot;Rendimento&quot;,
+       panel = function(x, y, ...){
+    panel.xyplot(x, y, ...)
+    panel.abline(h = mean(y), lty = 2, col = 2)
+})</code></pre>
+<p><img src="figures/unnamed-chunk-27-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Comparando as três predições (sem blocos, com 2 blocos, e com 4 blocos), notamos que ocorrem pequenas diferenças devido aos fatores presentes nos modelos e ao confundimento entre blocos e interações.</p>
+<pre class="r"><code>## Cria um data frame único com todas as predições
+preds &lt;- rbind(pred.a, pred.b[, -5], pred.c[, -5])
+preds$id &lt;- c(rep(&quot;Sem bloco&quot;, nrow(pred.a)),
+              rep(&quot;Com 2 blocos&quot;, nrow(pred.b)),
+              rep(&quot;Com 4 blocos&quot;, nrow(pred.c)))
+## Gráfico com as três predições
+xyplot(y ~ interaction(A, B, C, D, sep = &quot;&quot;), groups = id,
+       data = preds,
+       scales = list(x = list(rot = 90)),
+       xlab = &quot;Tratamentos&quot;, ylab = &quot;Rendimento&quot;,
+       auto.key = list(columns = 3),
+       panel = function(x, y, ...){
+    panel.xyplot(x, y, ...)
+    panel.abline(h = mean(y), lty = 2, col = 2)
+})</code></pre>
+<p><img src="figures/unnamed-chunk-28-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="confundindo-um-fatorial-2k-em-2p-blocos" class="section level1">
+<h1>Confundindo um fatorial <span class="math inline">\(2^k\)</span> em <span class="math inline">\(2^p\)</span> blocos</h1>
+<p>Os métodos descritos acima podem ser extendidos para a construção de fatoriais <span class="math inline">\(2^k\)</span> confundidos em <span class="math inline">\(2^p\)</span> blocos (<span class="math inline">\(p&lt;k\)</span>), onde cada bloco contém exatamente <span class="math inline">\(2^{k-p}\)</span> corridas.</p>
+<p>Começe selecionando <span class="math inline">\(p\)</span> efeitos a serem confundidos, com o cuidado de que nenhum afeito escolhida seja uma interação generalizada dos outros. Dessa forma, os blocos podem ser construídos a partir de <span class="math inline">\(p\)</span> contrastes de definição <span class="math inline">\(L_1, L_2, \ldots, L_p\)</span> que estejam associados com estes efeitos. Em adição aos <span class="math inline">\(p\)</span> efeitos escolhidos para serem confundidos, exatamente <span class="math inline">\(2^p - p - 1\)</span> efeitos adicionais serão também confundidos com blocos. Estas são as interações generalizadas dos <span class="math inline">\(p\)</span> efeitos originais escolhidos. eve-se tomar cuidado para não confundir efeitos que tenham interesse potencial.</p>
+</div>
+<div id="exercicios" class="section level1">
+<h1>Exercícios</h1>
+<ol style="list-style-type: decimal">
+<li>Considere os dados abaixo:</li>
+</ol>
+<pre><code>#      A  B  C   y
+# (1) -1 -1 -1 221
+# a    1 -1 -1 325
+# b   -1  1 -1 354
+# ab   1  1 -1 552
+# c   -1 -1  1 440
+# ac   1 -1  1 406
+# bc  -1  1  1 605
+# abc  1  1  1 392</code></pre>
+<ol style="list-style-type: lower-alpha">
+<li>Estabeleça um planejamento para correr essas observações em dois blocos de quatro observações cada, com ABC confundido.</li>
+<li>Analise os dados.</li>
+</ol>
+<ol start="2" style="list-style-type: decimal">
+<li>Considere os dados abaixo:</li>
+</ol>
+<pre><code>#       A  B  C  D   y
+# (1)  -1 -1 -1 -1 159
+# a     1 -1 -1 -1 168
+# b    -1  1 -1 -1 158
+# ab    1  1 -1 -1 166
+# c    -1 -1  1 -1 175
+# ac    1 -1  1 -1 179
+# bc   -1  1  1 -1 173
+# abc   1  1  1 -1 179
+# d    -1 -1 -1  1 164
+# ad    1 -1 -1  1 187
+# bd   -1  1 -1  1 163
+# abd   1  1 -1  1 185
+# cd   -1 -1  1  1 168
+# acd   1 -1  1  1 197
+# bcd  -1  1  1  1 170
+# abcd  1  1  1  1 194</code></pre>
+<ol style="list-style-type: lower-alpha">
+<li>Construa um planejamento com dois blocos de oito observações cada, com ABCD confundido.</li>
+<li>Analise os dados.</li>
+</ol>
+<ol start="3" style="list-style-type: decimal">
+<li>Considere os dados abaixo:</li>
+</ol>
+<pre><code>#       A  B  C  D  y
+# (1)  -1 -1 -1 -1 42
+# a     1 -1 -1 -1 31
+# b    -1  1 -1 -1 45
+# ab    1  1 -1 -1 29
+# c    -1 -1  1 -1 39
+# ac    1 -1  1 -1 28
+# bc   -1  1  1 -1 46
+# abc   1  1  1 -1 32
+# d    -1 -1 -1  1 40
+# ad    1 -1 -1  1 30
+# bd   -1  1 -1  1 50
+# abd   1  1 -1  1 25
+# cd   -1 -1  1  1 40
+# acd   1 -1  1  1 25
+# bcd  -1  1  1  1 50
+# abcd  1  1  1  1 23</code></pre>
+<ol style="list-style-type: lower-alpha">
+<li>Construa o planejamento que teria sido usado para correr esse experimento em dois blocos de oito corridas cada.</li>
+<li>Analise os dados.</li>
+</ol>
+<ol start="4" style="list-style-type: decimal">
+<li>Construa um planejamento <span class="math inline">\(2^5\)</span> em dois blocos. Selecione a interação ABCDE para ser confundida com os blocos.</li>
+<li>Considere os mesmos dados do exercício 2 acima, e suponha que quatro blocos sejam necessários. Crie os blocos com ABD e ABC confundidos.</li>
+</ol>
+<ol style="list-style-type: lower-alpha">
+<li>Qual a interação generalizada, que também está confundida neste experimento?</li>
+<li>Construa os blocos com as combinações de tratamento adequadas, e analise os dados.</li>
+</ol>
+<ol start="6" style="list-style-type: decimal">
+<li>Um estudo reportou um experimento para minimizar variações nos níveis de glicose no sangue. Os fatores foram: volume de suco ingerido antes de um exercício (<code>Suco</code>), tempo de exercíco em uma estação de esqui (<code>Exercicio</code>), intervalo de tempo entre tomar o suco e começar o exercício (<code>Intervalo</code>). O período do dia (<code>Periodo</code>) foi considerado como bloco. Os dados estão abaixo (disponíveis <a href="http://www.leg.ufpr.br/~fernandomayer/data/montgomery_14-37.txt">aqui</a>):</li>
+</ol>
+<pre><code>#  Suco Exercicio Intervalo Periodo Glicose
+#     4        10         0      pm    71.5
+#     8        10         0      am   103.0
+#     4        20         0      am    83.5
+#     8        20         0      pm   126.0
+#     4        10        20      am   125.5
+#     8        10        20      pm   129.5
+#     4        20        20      pm    95.0
+#     8        20        20      am    93.0</code></pre>
+<ol style="list-style-type: lower-alpha">
+<li>Quais efeitos estão confundidos com os blocos?</li>
+<li>Analise os dados e tire conclusões.</li>
+</ol>
+<ol start="7" style="list-style-type: decimal">
+<li>(Montgomery, DAE, ex. 6.26) Um experimento foi conduzido em uma fábrica de semicondutores com o objetivo de se aumentar o rendimento. Os fatores e níveis foram: A = abertura (pequena, grande), B = tempode exposição (20% abaixo do nominal, 20% acima do nominal), C = tempode desenvolvimento (30 s., 45 s.), D = dimensão da máscara (pequena, grande), E = tempo de gravação (14.5 min., 15.5 min.). Os resultados deste fatorial <span class="math inline">\(2^5\)</span> sem réplicas está disponível <a href="http://leg.ufpr.br/~fernandomayer/data/montgomery_DAE_6-26.txt">aqui</a>. Com isso:
+<ol style="list-style-type: lower-alpha">
+<li>Estime os efeitos e faça o gráfico normal de probabilidade.</li>
+<li>Faça a ANOVA para confirmar os resultados da letra (a).</li>
+<li>Avalie os resíduos.</li>
+<li>Interprete os resultados e faça a projeção do experimento se necessário.</li>
+</ol></li>
+<li><p>Usando os mesmos dados do exercício 7, construa e analise o experimento com 2 blocos, com ABCDE confundido com blocos.</p></li>
+<li><p>Repita o exercício 8, supondo que 4 blocos fossem necessários. Sugira um esquema de confundimento.</p></li>
+<li><p>Repita novamente o exercício 8, considerando 4 blocos com ACDE e BCD (consequentemente ABE) confundidos com bloco.</p></li>
+</ol>
+<p>As respostas para os exercícios finais estão nesse <a href="scripts/script_confundimento-blocagem-respostas.R">script</a>.</p>
+</div>
+
+<center>
+  <hr width="100%" size="3px">
+  <p> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.pt_BR">
+      <img src="img/CC_by-nc-sa_80x15.png" alt="Licença Creative Commons 4.0"> </a>
+  </p>
+  <p> <font size="2"> Este conteúdo
+      está disponível por meio da Licença Creative Commons 4.0 </font>
+  </p>
+</center>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
