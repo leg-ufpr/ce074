@@ -1,6 +1,6 @@
 # CE074
 
-[![Build Status](https://travis-ci.org/fernandomayer/ce074.svg?branch=master)](https://travis-ci.org/fernandomayer/ce074)
+[![Build Status](https://travis-ci.org/leg-ufpr/ce074.svg?branch=master)](https://travis-ci.org/leg-ufpr/ce074)
 
 ## CE074 - Controle de Processos Industriais
 
