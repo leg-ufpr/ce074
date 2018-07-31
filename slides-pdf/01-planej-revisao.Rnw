@@ -1,0 +1,558 @@
+%-----------------------------------------------------------------------
+
+\documentclass[serif, professionalfont, usenames, dvipsnames]{beamer}
+\usepackage[T1]{fontenc}
+
+% ATTENTION: preamble.tex contains all style definitions.
+\input{config/preamble.tex}
+
+<<include = FALSE>>=
+source("config/setup.R")
+@
+
+%-----------------------------------------------------------------------
+
+\title{Planejamento e análise de experimentos}
+\subtitle{Revisão das ideias principais}
+\date{\small{ \Sexpr{sprintf('Atualizado em %s', Sys.Date())}}}
+
+%-----------------------------------------------------------------------
+
+\begin{document}
+
+{\setbeamertemplate{footline}{}
+  \frame{\titlepage} %--------------------------------------------------
+}
+
+%-----------------------------------------------------------------------
+\begin{frame}{Plano de aula}
+
+  \begin{block}{Objetivos}
+    \begin{itemize}
+    \item Apresentar as ideias principais de planejamento de
+      experimentos.
+    \item Compreender a importância de planejar um experimento.
+    \item Conhecer os principais fundamentos e delineamentos.
+    \end{itemize}
+  \end{block}
+
+\end{frame}
+
+%-----------------------------------------------------------------------
+\section{Por que planejar um experimento?}
+\label{sec:por-que-planejar}
+
+{\usebackgroundtemplate{}
+  \begin{frame}{\secname}
+
+    \begin{columns}
+      \begin{column}{0.5\textwidth}
+
+        \begin{itemize}
+        \item Observar e descrever fenômenos.
+        \item Otimizar o custo-benefício.
+        \item Isolar efeito e determinar relações e causas.
+        \item Produzir resultados confiáveis.
+        \item A validade de um experimento é afetado pela sua construção
+          e execução, então atenção ao delineamento experimental é
+          importante.
+        \end{itemize}
+
+      \end{column}
+      \begin{column}{0.5\textwidth}
+
+      \begin{center}
+        \includegraphics[width = 5cm]{img/pensador.jpg}
+      \end{center}
+
+    \end{column}
+  \end{columns}
+
+\end{frame}
+}
+
+%-----------------------------------------------------------------------
+\section{Estudos observacionais vs experimentais}
+\label{sec:estud-observ-vs}
+
+\begin{frame}{\secname}
+
+  % \def\NAO{\textcolor{OrangeRed}{não}}
+  \def\NAO{\colorbox{OrangeRed}{não}}
+  % \def\SIM{\textcolor{OliveGreen}{sim}}
+  \def\SIM{\colorbox{ForestGreen}{sim}}
+
+  \begin{table}[]
+    \begin{tabular}{lcc}
+      \hline
+      Característica                                & Observacionais & Experimentais \\ \hline
+      Controle sob as\\ condições de contorno       & \NAO            & \SIM           \\
+      Controle sob efeito de\\ fatores indesejáveis & \NAO            & \SIM           \\
+      Controle dos fatores\\ sob investigação       & \NAO            & \SIM           \\
+      Determinar relações causais                   & \NAO            & \SIM           \\
+      É o mais comum                                & \SIM            & \NAO           \\
+      É o mais barato                               & \SIM            & \NAO           \\ \hline
+    \end{tabular}
+  \end{table}
+
+\end{frame}
+
+%-----------------------------------------------------------------------
+\section{História - as primeiras contribuições}
+\label{sec:historia}
+
+\begin{frame}[t]{\secname}
+
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+
+      \begin{itemize}
+      \item Sir Ronald A.~Fisher em 1920s.
+      \item Responsável pela análise dos experimentos na
+        \emph{Rothamsted Agricultural Experimental Station}, Inglaterra.
+      \item Suas obras tiveram profundo influência para a Estatística.
+        \begin{itemize}
+        \item R. A. Fisher (1958). \emph{Statistical Methods for
+            Research Workers}. 13th ed. Oliver \& Boid, Edinburgh.
+        \item R. A. Fisher (1966). \emph{The Design of Experiments}. 8th
+          ed. Hafner Publishing Company, New York.
+        \end{itemize}
+      \end{itemize}
+
+    \end{column}
+    \begin{column}{0.5\textwidth}
+
+      \begin{center}
+        \includegraphics[width = 0.75\textwidth]{img/ra-fisher.png}
+      \end{center}
+
+      \begin{itemize}
+      \item Princípios da experimentação: \textbf{repetição},
+        \textbf{aleatorização} e \textbf{controle local}.
+      \item Conceitos de delineamentos experimentais, experimentos
+        fatoriais, análise de variância, etc.
+      \end{itemize}
+
+    \end{column}
+  \end{columns}
+
+\end{frame}
+
+%-----------------------------------------------------------------------
+\section{Uma senhora toma chá}
+\label{sec:uma-senhora-toma}
+
+\begin{frame}[t]{\secname}
+
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+
+      \begin{itemize}
+      \item Aconteceu com Fisher e Muriel Bristol.
+      \item A senhora declarou saber discriminar a bebida quanto a ordem
+        em que chá e leite eram misturados.
+      \item Experimento proposto: 8 xícaras, 4 de cada tipo servidas,
+        aleatoriamente.
+      \item Reposta: número de xícaras corretamente classificadas.
+      \end{itemize}
+
+    \end{column}
+    \begin{column}{0.5\textwidth}
+
+      \begin{center}
+        \includegraphics[width = 0.75\textwidth]{img/lady-tasting-tea.png}
+      \end{center}
+
+    \end{column}
+  \end{columns}
+
+\end{frame}
+
+%-----------------------------------------------------------------------
+\section{Definições}
+\label{sec:definicoes}
+
+\begin{frame}[allowframebreaks]{\secname}
+
+  \begin{description}
+
+  \item[Fator] representa a variável independente controlada cujos
+    níveis são definidos pelo pesquisador (domínio/conjunto).
+  \item[Níveis] são as categorias ou valores no domínio de um
+    fator (pontos no domínio/elementos no conjunto).
+  \item[Tratamento] é algo que o pesquisador administra às unidades
+    experimentais.
+  \item[Unidade experimental (UE)] é o que recebe ou contém o
+    tratamento.
+  \item[Variável resposta] é a variável observada nas UE que estão
+    sujeitas ao efeito dos tratamentos.
+  \item[Fator ou tratamento?] Gera confusão, então tratamento :=
+    condição/ponto experimental.
+  \end{description}
+
+  \framebreak
+
+  \begin{center}
+  \begin{tabularx}{0.9\textwidth}{XX}
+    \hline
+    Fator & Níveis \\ \hline
+    Quant. de adubo & 0, 50, \ldots, 150 kg \\
+    Tempo de cozimento & 20, 25, \ldots, 40 min \\
+    Forma de aplic. & cova, sulco, superfície \\
+    Tipo de medicação & pírula, xarope, injeção \\
+    Mét. de ensino & aula, aula+tarefa, vídeo+aula, vídeo+tarefa \\
+    Comp. do concreto\newline (areia:pedra) & 3:1, 2:1, 1:1, 1:2, 1:3 \\ \hline
+  \end{tabularx}
+  \end{center}
+
+\end{frame}
+
+%-----------------------------------------------------------------------
+\section{Tipos de fatores}
+\label{sec:tipos-de-fatores}
+
+\begin{frame}{\secname}
+
+  \begin{itemize}
+  \item Fontes de variação controladas no experimento.
+  \item Métricos ou categóricos.
+  \item Métricos ou quantitativos: suporte contínuo ou discreto.
+  \item Categóricos ou qualitativos: níveis nominais ou ordinais.
+  \end{itemize}
+
+\end{frame}
+
+%-----------------------------------------------------------------------
+\section{Combinação de fatores}
+\label{sec:comb-de-fator}
+
+\begin{frame}{\secname}
+
+  \begin{center}
+    \includegraphics[width = 0.75\textwidth]{img/factorials.pdf}
+  \end{center}
+
+\end{frame}
+
+%-----------------------------------------------------------------------
+\section{Unidade experimental}
+\label{sec:unidade-experimental}
+
+\begin{frame}{\secname}
+  \begin{center}
+    \includegraphics[width = 0.75\textwidth]{img/ue.png}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Qual é a unidade experimental?}
+  \begin{itemize}
+
+  \item Há situações em que não é trivial definir a UE.
+  \item Objetivo: avaliar o efeito do nível de poluição da água sobre
+    lesões em peixes.
+  \item Cenário: aquários com 50 peixes cada.
+  \item Medidas: 30 dias depois, 10 peixes ao acaso tiveram lesões
+    contadas.
+  \item Qual é a unidade experimental: peixe ou aquário?
+  \end{itemize}
+
+  \vfill
+  \myurl{https://onlinecourses.science.psu.edu/stat502/node/174/}
+\end{frame}
+
+%-----------------------------------------------------------------------
+\section{Princípio: Repetição}
+\label{sec:repeticao}
+
+\begin{frame}{\secname}
+
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+
+      \begin{itemize}
+      \item Repetição é ter mais de uma UE de cada ponto experimental.
+      \item Permite estimar o erro experimental (variação aleatória).
+      \item A incerteza sobre efeitos diminui com mais repetições.
+      \item Cuidado: \textbf{pseudo-repetição} vs \textbf{repetição
+          genuína}.
+      \item Repetição genuína: as repetições de ponto experimental
+        capturam toda a variação que afeta a variável resposta
+        (aquários).
+      \end{itemize}
+
+    \end{column}
+    \begin{column}{0.5\textwidth}
+
+      \begin{center}
+        \includegraphics[width = 0.75\textwidth]{img/ue-aquario.png}
+      \end{center}
+
+      \begin{itemize}
+      \item Pseudo-repetição: capturam menos variação do que as genuínas
+        (peixes).
+      \end{itemize}
+
+    \end{column}
+  \end{columns}
+
+\end{frame}
+
+%-----------------------------------------------------------------------
+\section{Princípio: Aleatorização}
+\label{sec:aleatorizacao}
+
+\begin{frame}{\secname}
+
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+
+      \begin{itemize}
+      \item Estimativas não tendenciosas dos efeitos e erro experimental.
+      \item Não tendenciosas: livre da influência sistemática de fatores
+        não controlados.
+      \item Ajuda a eliminar erros de origem serial: descalibração de
+        processo/instrumento, mudança de operador/avaliador ou condições
+        de contorno.
+      \item Tem situações em que a aleatorização é complicada: sistemas
+        de cultivo/uso da terra.
+      \end{itemize}
+
+    \end{column}
+    \begin{column}{0.5\textwidth}
+
+      \begin{center}
+        \includegraphics[width = 0.5\textwidth]{img/princ-aleat.png}
+      \end{center}
+
+    \end{column}
+  \end{columns}
+
+\end{frame}
+
+%-----------------------------------------------------------------------
+\begin{frame}{Condições das UE}
+  \begin{itemize}
+  \item As UE podem ser ou estar em condições:
+    \begin{itemize}
+    \item Homogeneas: quaisquer diferenças são devido ao acaso.
+    \item Heterogêneas: diferenças são explicadas por uma causa
+      indentificável.
+    \end{itemize}
+  \item Os níveis da causa de variação podem ser:
+    \begin{itemize}
+    \item Contínuos: peso/idade inicial dos animais, plantas por m$^2$.
+    \item Categóricos: sexo, raça, classe de tamanho, altura na
+      topografia.
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+%-----------------------------------------------------------------------
+\section{Princípio: Controle local}
+\label{sec:controle-local}
+
+\begin{frame}{\secname}
+
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+
+      \begin{itemize}
+      \item Medidas que visam reduzir a interferência de fatores externos.
+      \item Reduzem o erro experimental (aleatório) e variações
+        sistemáticas.
+      \item Blocagem: agrupamento de UE uniformes para casualização.
+      \item Bordadura: isolar efeitos de borda.
+      \item Ensaios cegos (simples, duplo): sem conhecimento do tratamento.
+      \end{itemize}
+
+    \end{column}
+    \begin{column}{0.5\textwidth}
+
+      \begin{center}
+        \includegraphics[width = 0.5\textwidth]{img/princ-bloc.png}
+      \end{center}
+
+    \end{column}
+  \end{columns}
+
+\end{frame}
+
+\begin{frame}{\secname}
+  \begin{center}
+    \includegraphics[width = 0.8\textwidth]{img/horta.jpg}
+  \end{center}
+\end{frame}
+
+%-----------------------------------------------------------------------
+\section{Delineamentos}
+\label{sec:delineamentos}
+
+\begin{frame}{\secname}
+
+  \begin{block}{Quanto a blocagem}
+    \begin{itemize}
+    \item Delineamento inteiramente casualizado.
+    \item Delineamento de blocos completos casualizados.
+    \item Delineamento de quadrado latino.
+    \item Delineamento de blocos incompletos balanceados.
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{Quanto aos níveis de aleatorização ou tamanho de parcela}
+    \begin{itemize}
+    \item Um estrato $\rightarrow$ um erro experimental.
+    \item Mais de um estrato $\rightarrow$ mais de um erro experimental.
+      \begin{itemize}
+      \item Parcela subdividida.
+      \item Parcela: casualização dos níveis do fator A.
+      \item Subparcela: casualização dos níveis do fator B.
+      \end{itemize}
+    \item Séries longitudinais $\rightarrow$ dependência.
+      \begin{itemize}
+      \item Efeito do tempo/épocas, efeito da profundidade.
+      \end{itemize}
+    \end{itemize}
+  \end{block}
+
+\end{frame}
+
+%-----------------------------------------------------------------------
+\begin{frame}{\secname}
+
+  \begin{columns}
+    \begin{column}{0.6\textwidth}
+
+      \begin{center}
+        \includegraphics[width = 0.75\textwidth]{img/dql-vacas.png}
+      \end{center}
+
+    \end{column}
+    \begin{column}{0.4\textwidth}
+
+      \begin{itemize}
+      \item 7 blocos de tramanho 3.
+      \item Fator de 7 níveis com 3 repetições.
+      \end{itemize}
+
+      \begin{center}
+        \begin{tabular}{r|rrr|}
+          \hline
+          % & \multicolumn{3}{c}{Tratamentos} \\ \hline
+          bloco 1 & 1         & 5        & 6        \\
+          bloco 2 & 1         & 4        & 3        \\
+          bloco 3 & 7         & 2        & 1        \\
+          bloco 4 & 5         & 7        & 4        \\
+          bloco 5 & 7         & 3        & 6        \\
+          bloco 6 & 4         & 6        & 2        \\
+          bloco 7 & 3         & 5        & 2        \\ \hline
+        \end{tabular}
+      \end{center}
+
+    \end{column}
+  \end{columns}
+
+\end{frame}
+
+%-----------------------------------------------------------------------
+\section{Análise exploratória}
+\label{sec:analise-exploratoria}
+
+\begin{frame}{\secname}
+
+  \begin{itemize}
+  \item Inspeção dos dados antes da análise.
+  \item Definição do modelo.
+  \item Conformidade com as suposições do modelo.
+  \item Representação dos efeitos dos fatores.
+  \end{itemize}
+
+\end{frame}
+
+%-----------------------------------------------------------------------
+\section{Especificação do modelo}
+\label{sec:espec-do-modelo}
+
+\begin{frame}{\secname}
+
+  \begin{center}
+    \includegraphics[width = 0.95\textwidth]{img/modelos_regressao.pdf}
+  \end{center}
+
+\end{frame}
+
+\begin{frame}[t]{\secname}
+
+  Distribuição da variável resposta
+
+  \begin{center}
+    \includegraphics[height = 3.5cm]{img/regressao_linear_simples.pdf}
+    \hspace{2em}
+    \includegraphics[height = 3.5cm]{img/regressao_poisson.pdf}\\
+    \includegraphics[height = 3.5cm]{img/regressao_binomial.pdf}
+    \includegraphics[height = 3.5cm]{img/regressao_beta.pdf}
+  \end{center}
+
+\end{frame}
+
+%-----------------------------------------------------------------------
+\section{Representação do efeito}
+\label{sec:repr-do-efeito}
+
+\begin{frame}[t]{\secname}
+  Fator categórico vs métrico
+
+  \begin{center}
+    \includegraphics[height = 4.5cm]{img/regressao_fator_categ.pdf}
+    \includegraphics[height = 4.75cm]{img/regressao_linear_simples.pdf}
+  \end{center}
+
+\end{frame}
+
+\begin{frame}[t]{\secname}
+
+  Modelos não lineares
+
+  \begin{center}
+    \includegraphics[height = 4.5cm]{img/linear_plato.pdf}
+    \includegraphics[height = 4.5cm]{img/modelo_decaimento.pdf}
+  \end{center}
+
+\end{frame}
+
+%-----------------------------------------------------------------------
+\section{Para refletir}
+\begin{frame}{\secname}
+
+  \myquote{./img/Sir_Ronald_Fisher.jpg}{
+    ``To consult the statistician after an experiment is
+    finished is often merely to ask him to conduct a post mortem
+    examination. He can perhaps say what the experiment died of.''
+  }{Ronald Fisher}
+
+\end{frame}
+
+%-----------------------------------------------------------------------
+{
+  \usebackgroundtemplate{\includegraphics[height=\paperheight, width=\paperwidth]{./img/looking-ahead.jpg}}
+  % \setbeamersize{text margin left=30mm}
+
+  \begin{frame}[b]{}
+
+    \hspace*{0.5\linewidth}
+    \begin{minipage}[t]{0.5\linewidth}
+
+      \hi{Próximo assunto}
+      \begin{itemize}
+      \item Revisão de análise de experimentos com um fator.
+      \item Especificação do modelo.
+      \item Interpretação da ANOVA e efeitos.
+      \item Comparações múltiplas.
+      \item Representação matricial.
+      \end{itemize}
+
+    \end{minipage}
+
+\end{frame}
+}
+
+\end{document}

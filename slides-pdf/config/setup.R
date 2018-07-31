@@ -1,0 +1,5 @@
+library(knitr)
+opts_chunk$set(dev.args = list(family = "Palatino"))
+# thm <- knit_theme$get("dusk")
+thm <- knit_theme$get("solarized-light")
+knit_theme$set(thm)
