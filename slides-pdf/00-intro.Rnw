@@ -1,0 +1,201 @@
+%-----------------------------------------------------------------------
+
+\documentclass[serif, professionalfont, usenames, dvipsnames]{beamer}
+\usepackage[T1]{fontenc}
+
+% ATTENTION: preamble.tex contains all style definitions.
+\input{config/preamble.tex}
+
+<<include = FALSE>>=
+source("config/setup.R")
+@
+
+%-----------------------------------------------------------------------
+
+\title{Controle de Processos Industriais}
+\subtitle{Visão geral e funcionamento}
+\date{\small{ \Sexpr{sprintf('Atualizado em %s', Sys.Date())}}}
+
+%-----------------------------------------------------------------------
+
+\begin{document}
+
+{\setbeamertemplate{footline}{}
+  \frame{\titlepage} %--------------------------------------------------
+}
+
+%-----------------------------------------------------------------------
+\begin{frame}{Informações gerais}
+
+  \begin{itemize}
+  \item \hi{Homepage}: \url{http://cursos.leg.ufpr.br/ce074/}.
+  \item \hi{Moodle}: \url{http://moodle.c3sl.ufpr.br/course/view.php?id=141}.
+  \item \hi{Carga horária}: 60 horas
+  \item \hi{Pré-requisitos}:
+    \begin{itemize}
+    \item CE 213 - Planejamento de Experimentos I.
+    \item CE 219 - Controle Estatístico de Qualidade*.
+    \end{itemize}
+  \item \hi{Local e horário}:
+    \begin{itemize}
+    \item Multimídia DEST - Ter 20h45 às 22h15.
+    \item Multimídia DEST - Qui 19h00 às 20h30.
+    \end{itemize}
+  \item \hi{Avaliações}:
+    \begin{itemize}
+    \item Sabatinas: $\approx$ 10 · peso 70\% · individual · Moodle.
+    \item Projetos: 1 · peso 30\% · equipes.
+    \end{itemize}
+  \item \hi{Atendimento}: Seg 17h30 às 19h00.
+  \end{itemize}
+
+\end{frame}
+
+%-----------------------------------------------------------------------
+\begin{frame}{Referências principais}
+
+  \begin{itemize}
+  \item BOX, GEP; HUNTER, JS; HUNTER, WG. \textbf{Statistics for
+      experimenters: Design Innovation and Discovery}.  John Wiley \&
+    Sons, 2005.
+  \item BRIEN, CJ. \textbf{Design and randomization-based analysis of
+      experiments in R}. URL: \url{http://chris.brien.name/ee2}. 2010.
+  \item Montgomery, DC.  \textbf{Design and analysis of
+      experiments}. Wiley, 2013.
+  \item MONTGOMERY, DC.  \textbf{Introdução ao controle estatístico de
+      qualidade}.  7 ed. Rio de Janeiro: LTC, 2016.
+  \item PIMENTEL-GOMES, F. \textbf{Curso de estatística
+      experimental}. 15 ed.  Piracicaba: FEALQ, 2009.
+  \item WU, CFJ; HAMADA, MS. \textbf{Experiments: Planning, Analysis,
+      and Optimization}.  Wiley, 2009.
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}{Referências complementares}
+
+  \begin{itemize}
+  \item BARROS NETO, B; SCARMINIO, IS; BRUNS, RE. \textbf{Como fazer
+      experimentos}. 4 ed. Porto Alegre: Bookman, 2010.
+  \item BERTHOUX, PM; BROWN, LC. \textbf{Statistics for environmental
+      engineers}. 2 ed. Boca Raton: CRC Press, 2002.
+  \item BOX, GEP; DRAPER, NR. \textbf{Response surfaces, mixtures, and
+      ridge analysis}. New Jersey: Wiley \& Sons, 2007.
+  \item DEAN, A; VOSS, D. \textbf{Design and analysis of
+      experiments}. New York: Springer-Verlag, 1999.
+  \item MASON, RL; RICHARD FG; HESS, JL. \textbf{Statistical design and
+      analysis of experiments: with applications to engineering and
+      science}. John Wiley \& Sons, 2003.
+  \item NETER, J; KUTNER, MH; NACHTSHEIM, CJ; WASSERMAN,
+    W. \textbf{Applied linear statistical models}. 4 ed. Chicago: IRWIN,
+    1996.
+  \end{itemize}
+
+\end{frame}
+
+%-----------------------------------------------------------------------
+\begin{frame}{De onde viemos?}
+
+  \mytwocolumns{0.49}{0.49}{
+
+    \begin{center}
+      CE213 – Planejamento de Experimentos I
+    \end{center}
+
+    \begin{itemize}
+    \item Princípios Gerais de Experimentação.
+    \item Pressupostos fundamentais da ANOVA.
+    \item Comparações múltiplas.
+    \item Experimentos inteiramente casualizados.
+    \item Modelo fixo e aleatório.
+    \item Blocos casualizados.
+    \item Quadrados latinos e derivados.
+    \end{itemize}
+
+  }{
+
+    \begin{center}
+      CE219 – Controle Estatístico de Qualidade
+    \end{center}
+
+    \begin{itemize}
+    \item Aspectos da qualidade.
+    \item Controle estatístico de qualidade.
+    \item Cartas de controle para variáveis.
+    \item Cartas de controle para atributos.
+    \item Análise de capacidade de processos.
+    \item Monitoramento e controle multivariado.
+    \end{itemize}
+
+  }
+
+\end{frame}
+
+%-----------------------------------------------------------------------
+\begin{frame}{Para onde vamos?}
+
+  \begin{center}
+    \begin{tabularx}{0.8\textwidth}{XXX}
+      \hline
+      Antes & Agora & Assunto \\ \hline
+      Um fator & Combinações de\newline fatores & Experimentos\newline fatoriais \\
+      Controlar\newline processos & Otimizar\newline processos & Metodologia de\newline superfície de\newline resposta \\ \hline
+    \end{tabularx}
+  \end{center}
+
+  {\large \hi{Controle de Processos Industriais}}
+  \begin{itemize}
+    \item Planejamento de análise de experimentos fatoriais.
+    \item Experimentos fatoriais $2^k$ e $3^k$.
+    \item Experimentos com confundimento de efeitos.
+    \item Experimentos fatoriais fracionados.
+    \item Metodologia de superfície de resposta.
+  \end{itemize}
+
+\end{frame}
+
+%-----------------------------------------------------------------------
+\begin{frame}{Para refletir}
+
+  \myquote{./img/Ernest_Rutherford.jpg}{
+    If your experiment needs a statistician, you need a better experiment.
+  }{Ernest Rutherford}
+
+  \myquote{./img/Gertrude_Mary_Cox.jpg}{
+    ``The statistician who supposes that his main contribution to
+  the planning of an experiment will involve statistical theory, finds
+  repeatedly that he makes his most valuable contribution simply by
+  persuading the investigator to explain why he wishes to do the
+  experiment.''
+  }{Gertrude M. Cox}
+
+\end{frame}
+
+%-----------------------------------------------------------------------
+{
+  \usebackgroundtemplate{\includegraphics[height=\paperheight, width=\paperwidth]{./img/looking-ahead.jpg}}
+  \begin{frame}[b]{}
+
+    \hspace*{0.5\linewidth}
+    \begin{minipage}[t]{0.5\linewidth}
+
+      \hi{Próximo assunto}
+      \begin{itemize}
+      \item Revisão de princípios de planejamento de experimentos.
+      \end{itemize}
+
+      \hi{Dever de casa}
+      \begin{itemize}
+      \item Criar conta no Moodle do C3SL.
+      \item Fazer matrícula na disciplina.
+      \item Estar em dia com a conta no C3SL.
+      \item Atualizar o R no computador pessoal.
+      \end{itemize}
+
+    \end{minipage}
+
+\end{frame}
+}
+
+
+\end{document}
