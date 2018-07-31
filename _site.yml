@@ -29,6 +29,10 @@ navbar:
     - text: "Materiais"
       menu:
       - text: "Introdução e revisão"
+      - text: "Visão geral"
+        href: slides-pdf/00-intro.pdf
+      - text: "Princípios e definições"
+        href: slides-pdf/01-planej-revisao.pdf
       - text: "Catalizando a geração de conhecimento [HTML]"
         href: catalizando-conhecimento.html
       - text: "Modelos lineares e reparametrizações [HTML]"
