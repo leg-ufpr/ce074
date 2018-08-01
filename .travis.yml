@@ -12,6 +12,8 @@ before_script:
   - chmod +x ./slides-pdf/_build_all.sh
 
 script:
-  - cd slides-pdf && ./_build_all.sh
+  - cd slides-pdf
+  - ./_build_all.sh
+  - cd ..
   - ./_build.sh
   - ./_deploy.sh
