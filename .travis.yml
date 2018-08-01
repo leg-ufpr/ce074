@@ -10,4 +10,4 @@ before_script:
 script:
   - ./_build.sh
   - ./_deploy.sh
-  - cd slides-pdf && _build_all.sh
+  - cd slides-pdf && ./_build_all.sh
