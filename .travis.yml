@@ -1,9 +1,10 @@
 language: r
 cache: packages
 pandoc_version: 1.19.2.1
+latex: true
 
 before_install:
-  - tlmgr install iwona
+  - tlmgr install iwona babel
 
 before_script:
   - chmod +x ./_build.sh
