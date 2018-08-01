@@ -18,25 +18,25 @@ output:
 navbar:
   title: "CE074"
   left:
-    - text: "Home"
+    - icon: fa-home
       href: index.html
-    - text: "Aulas"
+    - text: "Calendário"
+      icon: fa-calendar
       href: aulas.html
-    - text: "Referências"
-      href: referencias.html
-    - text: "Recursos"
-      href: recursos.html
     - text: "Materiais"
+      icon: fa-file
       menu:
+      - text: "----------"
       - text: "Introdução e revisão"
-      - text: "Visão geral"
+      - text: "Visão geral [PDF]"
         href: slides-pdf/00-intro.pdf
-      - text: "Princípios e definições"
+      - text: "Princípios e definições [PDF]"
         href: slides-pdf/01-planej-revisao.pdf
       - text: "Catalizando a geração de conhecimento [HTML]"
         href: catalizando-conhecimento.html
       - text: "Modelos lineares e reparametrizações [HTML]"
         href: modelos-lineares.html
+      - text: "----------"
       - text: "Experimentos fatoriais"
       - text: "ANOVA por meio de Diagramas de Hasse [HTML]"
         href: anova-geral.html
@@ -78,7 +78,13 @@ navbar:
         href: exercicios/ex_revisao.pdf
       - text: "Experimentos fatoriais [PDF]"
         href: exercicios/ex_fatorial.pdf
+    - text: "Referências"
+      icon: fa-book
+      href: referencias.html
+    - text: "Recursos"
+      icon: fa-wrench
+      href: recursos.html
   right:
     - text: GitHub
       icon: fa-github fa-lg
-      href: https://github.com/fernandomayer/ce074
+      href: https://github.com/leg-ufpr/ce074
