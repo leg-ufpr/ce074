@@ -60,7 +60,7 @@ source("config/setup.R")
     Sons, 2005.
   \item BRIEN, CJ. \textbf{Design and randomization-based analysis of
       experiments in R}. URL: \url{http://chris.brien.name/ee2}. 2010.
-  \item Montgomery, DC.  \textbf{Design and analysis of
+  \item MONTGOMERY, DC.  \textbf{Design and analysis of
       experiments}. Wiley, 2013.
   \item MONTGOMERY, DC.  \textbf{Introdução ao controle estatístico de
       qualidade}.  7 ed. Rio de Janeiro: LTC, 2016.
@@ -196,6 +196,6 @@ source("config/setup.R")
 
 \end{frame}
 }
-
+%-----------------------------------------------------------------------
 
 \end{document}

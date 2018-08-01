@@ -262,30 +262,34 @@ $(document).ready(function () {
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="index.html">Home</a>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+  </a>
 </li>
 <li>
-  <a href="aulas.html">Aulas</a>
-</li>
-<li>
-  <a href="referencias.html">Referências</a>
-</li>
-<li>
-  <a href="recursos.html">Recursos</a>
+  <a href="aulas.html">
+    <span class="fa fa-calendar"></span>
+     
+    Calendário
+  </a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-file"></span>
+     
     Materiais
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li class="divider"></li>
     <li class="dropdown-header">Introdução e revisão</li>
     <li>
-      <a href="slides-pdf/00-intro.pdf">Visão geral</a>
+      <a href="slides-pdf/00-intro.pdf">Visão geral [PDF]</a>
     </li>
     <li>
-      <a href="slides-pdf/01-planej-revisao.pdf">Princípios e definições</a>
+      <a href="slides-pdf/01-planej-revisao.pdf">Princípios e definições [PDF]</a>
     </li>
     <li>
       <a href="catalizando-conhecimento.html">Catalizando a geração de conhecimento [HTML]</a>
@@ -293,6 +297,7 @@ $(document).ready(function () {
     <li>
       <a href="modelos-lineares.html">Modelos lineares e reparametrizações [HTML]</a>
     </li>
+    <li class="divider"></li>
     <li class="dropdown-header">Experimentos fatoriais</li>
     <li>
       <a href="anova-geral.html">ANOVA por meio de Diagramas de Hasse [HTML]</a>
@@ -353,10 +358,24 @@ $(document).ready(function () {
     </li>
   </ul>
 </li>
+<li>
+  <a href="referencias.html">
+    <span class="fa fa-book"></span>
+     
+    Referências
+  </a>
+</li>
+<li>
+  <a href="recursos.html">
+    <span class="fa fa-wrench"></span>
+     
+    Recursos
+  </a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/fernandomayer/ce074">
+  <a href="https://github.com/leg-ufpr/ce074">
     <span class="fa fa-github fa-lg"></span>
      
     GitHub
@@ -386,56 +405,50 @@ $(document).ready(function () {
 
 <p>Abaixo o histórico de atividades realizadas em classe e atividades extra classe aplicadas.</p>
 <ul>
-<li><strong>31/07</strong>: Apresentação da disciplina. Ler o artigo <a href="PDF/Lohr_1995_TAS.pdf">Hasse Diagrams in Statistical Consulting and Teaching</a>.</li>
-<li><strong>03/08</strong>: Catalizando a geração de conhecimento. Ver <a href="catalizando-conhecimento.html">material</a>. Fazer <a href="exercicios/ex_revisao.pdf">exercícios de revisão</a>.</li>
-<li><strong>07/08</strong>: Exercícios de revisão. Ver <a href="exercicios/ex_revisao_GABARITO.pdf">Gabarito</a>.</li>
-<li><strong>10/08</strong>: Aula cancelada em virtude da palestra <a href="https://www.facebook.com/PET.Estatistica.UFPR/photos/a.1642649022622718.1073741828.1641067472780873/2013970412157242/?type=3&amp;theater">Data Science Experience</a>.</li>
-<li><strong>14/08</strong>: Modelos lineares na forma matricial e reparametrizações para modelos de posto incompleto. Ver <a href="modelos-lineares.html">material</a>.</li>
-<li><strong>17/08</strong>: Tipos de contrastes no R (<a href="scripts/script_racoes_pimentel.R">script</a>). Diagrama de Hasse para DIC. Ver <a href="anova-geral.html">material</a>.</li>
-<li><strong>21/08</strong>: Esperanças de quadrado médio e testes de hipótese para DIC. Exemplo numérico no R. Ver <a href="anova-geral.html">material</a>.</li>
-<li><strong>24/08</strong>: <strong>Não haverá aula</strong>. Ler o <a href="anova-geral.html">material</a> sobre diagramas de Hasse até experimentos fatoriais.</li>
-<li><strong>28/08</strong>: Diagramas de Hasse para experimentos em blocos completos (DBC) e quadrado latino (DQL). Ver <a href="anova-geral.html">material</a>.</li>
-<li><strong>31/08</strong>: Diagramas de Hasse para experimentos fatoriais em delineamentos inteiramente casualizados (DIC). Ver <a href="anova-geral.html">material</a>. <strong>Trazer para a próxima aula</strong> o diagrama de Hasse com a tabela de ANOVA completa para um experimento fatorial em um delineamento em blocos completos (DBC).</li>
-<li><strong>04/09</strong>: Experimentos fatoriais <span class="math inline">\(2^k\)</span>. Tipos de restrições para modelos com dois fatores. Esquema de sinais. Ver <a href="fatorial_2-2.html">material</a>. <!-- Aula no quadro. Ver material
-  escrito --></li>
-<li><strong>07/09</strong>: Feriado.</li>
-<li><strong>11/09</strong>: Experimentos fatoriais <span class="math inline">\(2^k\)</span>. Estimativas de efeitos usando restrição soma zero e esquema de sinais. Ver <a href="fatorial_2-2.html">material</a> e <a href="scripts/script_catalisador.R">script</a>.</li>
-<li><strong>14/09</strong>: Experimento realizado em sala. Dados do grupo da <a href="dados/avioes_direita.csv">direita</a> e da <a href="dados/avioes_esquerda.csv">esquerda</a>.</li>
-<li><strong>18/09</strong>: Estimativa e interpretação dos efeitos para fatorias <span class="math inline">\(2^k\)</span>. Ver <a href="fatorial_2-2.html">material</a> e <a href="scripts/script_catalisador.R">script</a>. Análise exploratória do experimento realizado em sala. Scripts para o grupo da <a href="scripts/script_avioes_direita.R">direita</a> e da <a href="scripts/script_avioes_esquerda.R">esquerda</a>.</li>
-<li><strong>21/09</strong>: Deduções das fórmulas para somas de quadrados, variância e erro-padrão de efeitos e coeficientes dos efeitos. <!-- Aula no
-  quadro. Ver material escrito --></li>
-<li><strong>25/09</strong>: Análise completa de um fatorial <span class="math inline">\(2^2\)</span> com as fómulas deduzidas na aula anterior. Análise dos resíduos, predição e teste de Tukey. Ver <a href="scripts/script_fatorial_2-2.R">script</a>.</li>
-<li><strong>28/09</strong>: Experimentos fatorias <span class="math inline">\(2^3\)</span>. Representação geométrica e tabela de contrastes. Avaliação do modelo, análise dos resíduos e predição. Ver <a href="fatorial_2-3.html">material</a>.</li>
-<li><strong>02/10</strong>: Experimentos fatorias <span class="math inline">\(2^k\)</span>, <span class="math inline">\(k &gt; 3\)</span>. Ver <a href="fatorial_2-k.html">material</a>.</li>
-<li><strong>05/10</strong>: Adição de pontos centrais em fatoriais <span class="math inline">\(2^k\)</span>. Ver <a href="fatorial_pontos-centrais.html">material</a>.</li>
-<li><strong>09/10</strong>: <strong>Prova 1</strong>. <a href="misc/P1_ce074.pdf">Prova</a>.</li>
-<li><strong>12/10</strong>: Feriado.</li>
-<li><strong>16/10</strong>: Entrega e correção da primeira prova.</li>
-<li><strong>19/10</strong>: Orientações para o experimento a ser realizado em grupo. Ver <a href="instrucoes-planejamento.html">instruções para o planejamento de experimentos</a>. Experimentos fatorias <span class="math inline">\(2^k\)</span> em blocos completos. Ver <a href="confundimento-blocagem.html">material</a>.</li>
-<li><strong>23/10</strong>: Técnicas de confundimento para dois blocos incompletos em fatoriais <span class="math inline">\(2^k\)</span>. Ver <a href="confundimento-blocagem.html">material</a>.</li>
-<li><strong>26/10</strong>: Técnicas de confundimento para quatro blocos incompletos em fatoriais <span class="math inline">\(2^k\)</span>. Ver <a href="confundimento-blocagem.html">material</a> e exercícios ao final daquela página.</li>
-<li><strong>30/10</strong>: Não haverá aula.</li>
-<li><strong>02/11</strong>: Feriado.</li>
-<li><strong>06/11</strong>: Apresentação do planejamento do experimento e primeiros resultados (se houver). Todos os grupos devem apresentar o <a href="misc/guia-planejamento.html">guia</a> para o planejamento de experimentos preenchido. O código fonte do guia está <a href="misc/guia-planejamento.Rmd">aqui</a>.</li>
-<li><strong>09/11</strong>: Fatorial fracionado <span class="math inline">\(2^{k-1}\)</span>. Ver <a href="fatorial_fracionado.html">material</a>.</li>
-<li><strong>13/11</strong>: Fatorial fracionado <span class="math inline">\(2^{k-p}\)</span> e resolução de um experimento fatorial fracionado. Ver <a href="fatorial_fracionado.html">material</a>.</li>
-<li><strong>16/11</strong>: Conceitos básicos sobre Metodologia de Superfície de Resposta (MSR). Ver <a href="msr.html">material</a>.</li>
-<li><strong>20/11</strong>: Apresentações dos resultados dos experimentos realizados em grupo.</li>
-<li><strong>23/11</strong>: Apresentações dos resultados dos experimentos realizados em grupo.</li>
-<li><strong>27/11</strong>: Dia não letivo, de acordo com a <a href="http://www.est.ufpr.br/calendario/cepe6216.pdf">Resolução 62/16 - CEPE</a>.</li>
-<li><strong>30/11</strong>: <strong>Prova 2</strong>. <a href="misc/P2_ce074.pdf">Prova</a>.</li>
-<li><strong>14/12</strong>: <strong>Exame final</strong>.</li>
-</ul>
-<div id="exercicios" class="section level2">
-<h2>Exercícios</h2>
+<li>Ter 31/Jul:
 <ul>
-<li>Revisão de conhecimento. <a href="exercicios/ex_revisao.pdf">PDF</a> | <a href="exercicios/ex_revisao_GABARITO.pdf">Gabarito</a> | <a href="exercicios/ex_revisao_GABARITO.R">Script</a></li>
-<li>Experimentos fatoriais. <a href="exercicios/ex_fatorial.pdf">PDF</a></li>
+<li>Aula inaugural, visão geral e funcionamento do curso.</li>
+<li>Revisão dos princícios da experimentação.</li>
+</ul></li>
+<li>Qui 02/Ago:</li>
+<li>Ter 07/Ago:</li>
+<li>Qui 09/Ago:</li>
+<li>Ter 14/Ago:</li>
+<li>Qui 16/Ago:</li>
+<li>Ter 21/Ago:</li>
+<li>Qui 23/Ago:</li>
+<li>Ter 28/Ago:</li>
+<li>Qui 30/Ago:</li>
+<li>Ter 04/Set:</li>
+<li>Qui 06/Set:</li>
+<li>Ter 11/Set:</li>
+<li>Qui 13/Set:</li>
+<li>Ter 18/Set:</li>
+<li>Qui 20/Set:</li>
+<li>Ter 25/Set:</li>
+<li>Qui 27/Set:</li>
+<li>Ter 02/Out:</li>
+<li>Qui 04/Out:</li>
+<li>Ter 09/Out:</li>
+<li>Qui 11/Out:</li>
+<li>Ter 16/Out:</li>
+<li>Qui 18/Out:</li>
+<li>Ter 23/Out:</li>
+<li>Qui 25/Out:</li>
+<li>Ter 30/Out:</li>
+<li>Qui 01/Nov:</li>
+<li>Ter 06/Nov:</li>
+<li>Qui 08/Nov:</li>
+<li>Ter 13/Nov:</li>
+<li>Qui 15/Nov:</li>
+<li>Ter 20/Nov:</li>
+<li>Qui 22/Nov:</li>
+<li>Ter 27/Nov:</li>
+<li>Qui 29/Nov:</li>
 </ul>
-</div>
 <div id="notas" class="section level2">
 <h2>Notas</h2>
-<p>As notas estão disponíveis <a href="notas.html">nesta página</a>.</p>
+<p>Notas parciais disponíveis pelo Moodle. <!-- As notas estão disponíveis [nesta página](notas.html). --></p>
 </div>
 
 <center>
