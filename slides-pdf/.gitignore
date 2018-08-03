@@ -5,4 +5,9 @@
 *.snm
 *.tex
 *.toc
+*.bbl
+*.bcf
+*.blg
+*.run.xml
+*.vrb
 figures/
