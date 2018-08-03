@@ -31,13 +31,24 @@
 \usepackage{xspace}
 \usepackage{tabularx}
 
-
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{6pt plus 2pt minus 1pt}
 \setlength{\emergencystretch}{3em}  % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \setcounter{secnumdepth}{0}
+
+%-----------------------------------------------------------------------
+% Bibliography.
+
+\usepackage[style=authoryear]{biblatex}
+% Use:
+%   \cite{<ref>}
+%   \parencite{<ref>}
+%   \fullcite{<ref>}
+%   \footfullcite{<ref>}
+% ATTENTION: Compilation = pdflatex > biber > pdflatex > pdflatex.
+% Call refs.bib at preamble with: \addbibresource{refs.bib}
 
 %-----------------------------------------------------------------------
 
@@ -194,6 +205,10 @@
 
 \newcommand{\myurl}[1]{%
   \tiny{\url{#1}}\xspace
+}
+
+\newcommand{\btn}[1]{%
+  \beamergotobutton{#1}
 }
 
 %-----------------------------------------------------------------------

@@ -5,6 +5,7 @@
 
 % ATTENTION: preamble.tex contains all style definitions.
 \input{config/preamble.tex}
+\addbibresource{./config/refs.bib}
 
 <<include = FALSE>>=
 source("config/setup.R")
@@ -261,6 +262,37 @@ source("config/setup.R")
 \end{frame}
 
 %-----------------------------------------------------------------------
+
+\section{Planejamento de experimentos}
+\label{sec:plan-de-exper}
+
+\begin{frame}{\secname}
+
+  \begin{block} {Planejamento de experimentos}
+    (\emph{Statatistical design of experiments}) refere-se ao processo
+    de \textbf{planejar o experimento} de tal forma que dados
+    apropriados serão coletados para serem analisados com métodos
+    estatísticos produzindo \textbf{conclusões válidas e objetivas}
+    \parencite{montgomery2017design}.
+  \end{block}
+
+  \begin{itemize}
+  \item Extrair conclusões relevantes dos dados.
+  \item Os dados estão sujeitos à erros experimentais.
+  \item Toda situação experimental tem dois aspectos intimamente
+    relacionados:
+    \begin{itemize}
+    \item O planejamento do experimento.
+    \item A análise dos dados.
+    \end{itemize}
+  \item A metodologia estatística fornece uma abordagem objetiva.
+  \end{itemize}
+
+
+
+\end{frame}
+
+%-----------------------------------------------------------------------
 \section{Princípio: Repetição}
 \label{sec:repeticao}
 
@@ -466,6 +498,12 @@ source("config/setup.R")
   \item Representação dos efeitos dos fatores.
   \end{itemize}
 
+  \begin{itemize}
+  \item \href{http://leg.ufpr.br/~walmes/pacotes/labestData-vignettes/anaExpDIC.html}{Análise de experimento em DIC}.
+  \item \href{http://leg.ufpr.br/~walmes/pacotes/labestData-vignettes/anaExpDBC.html}{Análise de experimento em DBC}.
+  \item \href{http://leg.ufpr.br/~walmes/cursoR/geneticaEsalq/script08.html}{Análise de experimento em DQL}.
+  \end{itemize}
+
 \end{frame}
 
 %-----------------------------------------------------------------------
@@ -541,18 +579,23 @@ source("config/setup.R")
     \hspace*{0.5\linewidth}
     \begin{minipage}[t]{0.5\linewidth}
 
-      \hi{Próximo assunto}
+      \hi{Próximos assuntos}
       \begin{itemize}
-      \item Revisão de análise de experimentos com um fator.
-      \item Especificação do modelo.
-      \item Interpretação da ANOVA e efeitos.
-      \item Comparações múltiplas.
-      \item Representação matricial.
+      \item A lógica da ciência e a experimentação.
+      \item Revisão de modelos lineares.
       \end{itemize}
 
     \end{minipage}
+    \vspace{2em}
 
 \end{frame}
 }
+
+%-----------------------------------------------------------------------
+\begin{frame}[t, fragile, allowframebreaks]
+  \frametitle{Referências bibliográficas}
+
+  \printbibliography[heading=none]
+\end{frame}
 
 \end{document}
