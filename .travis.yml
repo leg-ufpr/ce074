@@ -5,6 +5,7 @@ latex: true
 
 before_install:
   - tlmgr install iwona babel-portuges
+  - apt-get install -y biber
 
 before_script:
   - chmod +x ./_build.sh
