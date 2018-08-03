@@ -10,6 +10,10 @@ for RNW in $RNWFILES; do
     echo $FILE
     Rscript -e "require(knitr); knit(\"$RNW\")"
     pdflatex $FILE
+    if grep -q '\addbibresource{.*}' "$RNW"; then
+        biber $FILE
+        pdflatex $FILE
+    fi
     pdflatex $FILE
     pdflatex $FILE
 done
