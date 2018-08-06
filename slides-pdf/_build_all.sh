@@ -4,6 +4,8 @@
 RNWFILES=$(ls *.Rnw)
 echo $RNWFILES
 
+rm *.aux *.log *.nav *.out *.snm *.tex *.toc *.bbl *.bcf *.blg *.run.xml *.vrb
+
 # Runs rmarkdown::render() in each Rmd file down in the tree.
 for RNW in $RNWFILES; do
     FILE="${RNW%.*}"
@@ -17,5 +19,8 @@ for RNW in $RNWFILES; do
     pdflatex $FILE
     pdflatex $FILE
 done
+
+rm *.aux *.log *.nav *.out *.snm *.tex *.toc *.bbl *.bcf *.blg *.run.xml *.vrb
+
 
 #-----------------------------------------------------------------------
