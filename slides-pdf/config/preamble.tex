@@ -11,6 +11,9 @@
 % \usepackage[default]{lato}
 % \AtBeginDocument{\fontseries{l}\selectfont} % Lato Light.
 
+\usepackage[T1]{fontenc}
+\usepackage{csquotes}
+
 % Font for code. ----------------------------
 % \usepackage[scaled=.75]{beramono}
 \usepackage{inconsolata}
@@ -57,6 +60,10 @@
   labelfont=footnotesize,
   labelsep=period}
 \usepackage{subfig}
+
+\makeatletter
+\let\@@magyar@captionfix\relax
+\makeatother
 
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
