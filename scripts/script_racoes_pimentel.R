@@ -137,6 +137,10 @@ mean(da2$ganhopeso[da2$racoes == "A"]) - mean(da2$ganhopeso)
 ## OU a média geral menos a média do segundo, porque:
 ## \mu_2 = \mu - \alpha_1  =>  \alpha_1 = \mu - \mu_2
 mean(da2$ganhopeso) - mean(da2$ganhopeso[da2$racoes == "B"])
+## OU somando as duas equaçõe acima, temos
+## \alpha_1 = (\mu_1 - \mu_2)/2
+(mean(da2$ganhopeso[da2$racoes == "A"]) -
+    mean(da2$ganhopeso[da2$racoes == "B"]))/2
 ## Usando lm
 (m.soma <- lm(ganhopeso ~ racoes, data = da2,
               contrasts = list(racoes = contr.sum)))
@@ -215,7 +219,7 @@ with(da2, tapply(ganhopeso, racoes, mean))
 ## mu_1 = mu_2 + alpha_1  =>  alpha_1 = mu_1 - mu_2
 mean(da2$ganhopeso[da2$racoes == "A"]) -
     mean(da2$ganhopeso[da2$racoes == "B"])
-## Usando lm (já é o padrão do R - não precisa especificar o contraste)
+## Usando lm
 (m.nivel2 <- lm(ganhopeso ~ racoes, data = da2,
                 contrasts = list(racoes = contr.SAS)))
 summary(m.nivel2)
