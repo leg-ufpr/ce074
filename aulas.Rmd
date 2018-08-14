@@ -31,8 +31,12 @@ cat(sprintf("  - %s:", dts), sep = "\n")
     * Aula inaugural, visão geral e funcionamento do curso.
     * Revisão dos princícios da experimentação.
   - Qui 02/Ago:
+    * Continuação da revisão de princípios de experimentação.
   - Ter 07/Ago:
+    * Geração com conhecimento pelo método científico.
   - Qui 09/Ago:
+    * Revisão de modelos lineares e parametrizações para codificação de
+      efeitos.
   - Ter 14/Ago:
   - Qui 16/Ago:
   - Ter 21/Ago:
