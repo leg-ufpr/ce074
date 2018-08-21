@@ -9,11 +9,11 @@ else
     echo "\nConverting tex to PDF.\n"
     pdflatex $FILENAME
     if grep -q '\addbibresource{.*}' "$FILENAME.Rnw"; then
-        biber $FILENAME
+        #biber $FILENAME
         pdflatex $FILENAME
     fi
-    pdflatex $FILENAME
-    pdflatex $FILENAME
+    #pdflatex $FILENAME
+    #pdflatex $FILENAME
 fi
 
 if [ "$#" -eq 2 ]; then

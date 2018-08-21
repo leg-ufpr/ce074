@@ -123,7 +123,6 @@ body {
   padding-top: 65px;
   margin-top: -65px;
 }
-
 .section h2 {
   padding-top: 65px;
   margin-top: -65px;
@@ -144,6 +143,43 @@ body {
   padding-top: 65px;
   margin-top: -65px;
 }
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
 </style>
 
 <script>
@@ -163,7 +199,6 @@ $(document).ready(function () {
   menuAnchor.closest('li.dropdown').addClass('active');
 });
 </script>
-
 
 <div class="container-fluid main-container">
 
@@ -391,6 +426,9 @@ div.tocify {
     </li>
     <li>
       <a href="slides-pdf/01-planej-revisao.pdf">Princípios e definições [PDF]</a>
+    </li>
+    <li>
+      <a href="slides-pdf/03-intro-fatoriais.pdf">Intro. experimentos fatoriais [PDF]</a>
     </li>
     <li>
       <a href="catalizando-conhecimento.html">Catalizando a geração de conhecimento [HTML]</a>
