@@ -32,6 +32,8 @@ navbar:
         href: slides-pdf/00-intro.pdf
       - text: "Princípios e definições [PDF]"
         href: slides-pdf/01-planej-revisao.pdf
+      - text: "Intro. experimentos fatoriais [PDF]"
+        href: slides-pdf/03-intro-fatoriais.pdf
       - text: "Catalizando a geração de conhecimento [HTML]"
         href: catalizando-conhecimento.html
       - text: "Modelos lineares e reparametrizações [HTML]"

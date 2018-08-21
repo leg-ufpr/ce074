@@ -1,0 +1,162 @@
+%-----------------------------------------------------------------------
+
+\documentclass[serif, professionalfont, usenames, dvipsnames]{beamer}
+\usepackage[T1]{fontenc}
+
+% ATTENTION: preamble.tex contains all style definitions.
+\input{config/preamble.tex}
+\addbibresource{./config/refs.bib}
+
+<<include = FALSE>>=
+source("config/setup.R")
+@
+
+%-----------------------------------------------------------------------
+
+\title{Representação e análise matricial de experimentos}
+\subtitle{Revisão dos delineamentos de um fator}
+\date{\small{ \Sexpr{sprintf('Atualizado em %s', Sys.Date())}}}
+
+%-----------------------------------------------------------------------
+
+\begin{document}
+
+{\setbeamertemplate{footline}{}
+  \frame{\titlepage} %--------------------------------------------------
+}
+
+%-----------------------------------------------------------------------
+\begin{frame}{Plano de aula}
+
+  {\large Justificativa}
+
+  \begin{itemize}
+  \item A representação e cálculos de forma matricial é melhor para
+    memorização, compreensão e extensão de modelos lineares.
+  \item Cálculos com somas de quadrados são simplificadas por operações
+    matriciais.
+  \item O preenchimento do quadro de ANOVA é feito usando matrizes de
+    projeção.
+  \end{itemize}
+
+  {\large Objetivos}
+
+  \begin{itemize}
+  \item Revisar os componentes do modelo matemático para os experimentos de um fator.
+  \item Escrever as matrizes do modelo.
+  \item Fazer estimação e preencher o quadro de ANOVA.
+  \item Iniciar os estudos com experimentos fatoriais.
+  \end{itemize}
+
+\end{frame}
+
+%-----------------------------------------------------------------------
+\begin{frame}{Delineamento inteiramente casualizado}
+
+  O modelo matemático associado ao experimento é
+  \begin{equation}
+    y_{ij} = \mu + \alpha_{i} + \epsilon_{ij}, \quad \epsilon_{ij} \stackrel{iid}{\sim} \text{N}(0, \sigma^2).
+  \end{equation}
+
+  Em que
+
+  \begin{itemize}
+  \item $y_{ij}$ é o valor observado no nível $i$ do tratamento e na UE $j$.
+  \item $\mu$ é uma constante que incide em todas as observações e
+    representa a média da resposta sob a ausência de efeito dos
+    tratamentos.
+  \item $\alpha_{i}$ é o efeito do $i$-ésimo tratamento na média.
+  \item $\epsilon_{ij}$ é o erro experimental, assumido ser independente
+    e ter distribuição normal de média 0 e variância comum.
+  \end{itemize}
+
+\end{frame}
+
+<<include = FALSE>>=
+library(xtable)
+
+da <- expand.grid(rpt = 1:2, trt = 1:3)
+da <- da[, ncol(da):1]
+X <- cbind(1, model.matrix(~0 + factor(trt), data = da))
+y <- cbind(sprintf("y_{%d%d}", da$trt, da$rpt))
+e <- cbind(sprintf("\\epsilon_{%d%d}", da$trt, da$rpt))
+beta <- cbind(c("\\mu", sprintf("\\alpha_%d", 1:3)))
+
+cat(print_matrix(y), " = \n",
+    print_matrix(X, digits = 0),
+    print_matrix(beta), " + \n",
+    print_matrix(e, digits = 0))
+
+@
+
+\begin{frame}[fragile]{Representação matricial}
+
+  Considerando, para salvar espaço, que $i=1, 2, 3$ e que $j = 1, 2$, a
+  representação matricial é
+  \begin{equation}
+    \begin{bmatrix}
+      y_{11} \\
+      y_{12} \\
+      y_{21} \\
+      y_{22} \\
+      y_{31} \\
+      y_{32} \\
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      1 & 1 & 0 & 0 \\
+      1 & 1 & 0 & 0 \\
+      1 & 0 & 1 & 0 \\
+      1 & 0 & 1 & 0 \\
+      1 & 0 & 0 & 1 \\
+      1 & 0 & 0 & 1 \\
+    \end{bmatrix}
+    \begin{bmatrix}
+      \mu \\
+      \alpha_1 \\
+      \alpha_2 \\
+      \alpha_3 \\
+    \end{bmatrix}
+    +
+    \begin{bmatrix}
+      \epsilon_{11} \\
+      \epsilon_{12} \\
+      \epsilon_{21} \\
+      \epsilon_{22} \\
+      \epsilon_{31} \\
+      \epsilon_{32} \\
+    \end{bmatrix}
+  \end{equation}
+
+\end{frame}
+
+%-----------------------------------------------------------------------
+{
+  \usebackgroundtemplate{\includegraphics[height=\paperheight, width=\paperwidth]{./img/looking-ahead.jpg}}
+  % \setbeamersize{text margin left=30mm}
+
+  \begin{frame}[b]{}
+
+    \hspace*{0.5\linewidth}
+    \begin{minipage}[t]{0.5\linewidth}
+
+      \hi{Próximos assuntos}
+      \begin{itemize}
+      \item TODO
+      \item TODO
+      \end{itemize}
+
+    \end{minipage}
+    \vspace{2em}
+
+\end{frame}
+}
+
+%-----------------------------------------------------------------------
+\begin{frame}[t, fragile, allowframebreaks]
+  \frametitle{Referências bibliográficas}
+
+  \printbibliography[heading=none]
+\end{frame}
+
+\end{document}

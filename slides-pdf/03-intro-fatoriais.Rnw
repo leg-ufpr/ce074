@@ -1,0 +1,271 @@
+%-----------------------------------------------------------------------
+
+\documentclass[serif, professionalfont, usenames, dvipsnames]{beamer}
+\usepackage[T1]{fontenc}
+
+% ATTENTION: preamble.tex contains all style definitions.
+\input{config/preamble.tex}
+\addbibresource{config/refs.bib}
+
+<<include = FALSE>>=
+source("config/setup.R")
+@
+
+%-----------------------------------------------------------------------
+
+\title{Introdução aos experimentos fatoriais}
+\subtitle{Importância e especificação}
+\date{\small{ \Sexpr{sprintf('Atualizado em %s', Sys.Date())}}}
+
+%-----------------------------------------------------------------------
+
+\begin{document}
+
+{\setbeamertemplate{footline}{}
+  \frame{\titlepage} %--------------------------------------------------
+}
+
+%-----------------------------------------------------------------------
+\begin{frame}{Plano de aula}
+
+  {\large Justificativa}
+
+  \begin{itemize}
+  \item A maioria dos fenômenos geralmente depende de vários fatores.
+  \item Estudar os fatores isoladamente pode dificultar compreender e
+    otimizar processos.
+  \item Experimentos fatoriais são importantes pois permitem estudar
+    simultâneamente mais de um fator.
+  \end{itemize}
+
+  {\large Objetivos}
+
+  \begin{itemize}
+  \item Introduzir principais os conceitos sobre experimentos fatoriais.
+  \item Fazer a expecificação do modelo e quadro de análise de variância.
+  \end{itemize}
+
+\end{frame}
+
+%-----------------------------------------------------------------------
+\begin{frame}{Experimentos fatoriais}
+  \begin{itemize}
+  \item Experimentos fatorais: estudo de \textbf{mais de um fator ao mesmo tempo}.
+  \item Níveis dos fatores combinados formam as \textbf{celas ou pontos experimentais}.
+  \item As formas de combinar os fatores se chama arranjo.
+  \item Cada arranjo recebe uma classficação.
+  \item OS efeitos dos fatores podem apresentar \textbf{interação}.
+  \end{itemize}
+\end{frame}
+
+%-----------------------------------------------------------------------
+\begin{frame}{Tipos de arranjo fatorial}
+  \begin{figure}[h]
+    \centering
+    \includegraphics[width=8.5cm]{./img/factorials.pdf}
+    \caption{Tipos de arranjos fatoriais comuns em experimentos planejados.}
+  \end{figure}
+\end{frame}
+
+%-----------------------------------------------------------------------
+\begin{frame}{Especificação do modelo}
+
+  Considere um experimento fatorial duplo completamente cruzado com $r$
+  repetições de cada ponto experimental, denotado por
+  $\text{A}\times\text{B}$, ou seja, o fator A com $A$ níveis e um fator
+  B com $B$ níveis com a presença de todas as combinações.  Os pontos experimentais são os seguintes:
+
+<<include = FALSE, eval = FALSE>>=
+A <- sprintf("a_{%s}", c("1", "2", "3", "A"))
+B <- sprintf("b_{%s}", c("1", "2", "3", "B"))
+tb <- outer(A, B, paste)
+tb[3, ] <- "\\vdots"
+tb[, 3] <- "\\cdots"
+tb[3, 3] <- "\\ddots"
+cat(print_matrix(tb), sep = "\n")
+@
+
+  \begin{equation}
+    \begin{bmatrix}
+      a_{1} b_{1} & a_{1} b_{2} & \cdots & a_{1} b_{B} \\
+      a_{2} b_{1} & a_{2} b_{2} & \cdots & a_{2} b_{B} \\
+      \vdots & \vdots & \ddots & \vdots \\
+      a_{A} b_{1} & a_{A} b_{2} & \cdots & a_{A} b_{B} \\
+    \end{bmatrix}.
+  \end{equation}
+
+\end{frame}
+
+\begin{frame}{O modelo estatístico}
+
+  O modelo matemático associado ao experimento é
+  \begin{equation}
+    y_{abr} = \mu + \alpha_{a} + \beta_{b} + \gamma_{ab} + \epsilon_{abr}, \quad \epsilon_{abr} \stackrel{iid}{\sim} \text{N}(0, \sigma^2).
+  \end{equation}
+
+  \begin{itemize}
+  \item $y_{abr}$ é o valor observado na combinação $r$-ésima combinação $ab$ dos fatores A e B.
+  \item $\mu$ é uma constante que incide em todas as observações e
+    representa a média da resposta sob a ausência de efeito dos pontos experimentais.
+  \item $\alpha_{a}$ é o efeito do $a$-ésimo nível do fator A.
+  \item $\beta_{b}$ é o efeito do $b$-ésimo nível do fator B.
+  \item $\gamma_{ab}$ é o efeito da interação entre nível $a$ e $b$ dos fatores.
+  \item $\epsilon_{ijr}$ é o erro experimental, assumido ser independente
+    e ter distribuição normal de média 0 e variância comum.
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}{A matriz do modelo}
+
+<<include = FALSE, eval = FALSE>>=
+da <- expand.grid(A = gl(3, 1), B = gl(2, 1), KEEP.OUT.ATTRS = FALSE)
+X <- cbind(1,
+           model.matrix(~0 + A, data = da),
+           model.matrix(~0 + B, data = da),
+           model.matrix(~0 + A:B, data = da))
+i <- grepl(x = colnames(X), "1")
+X <- apply(X, 2, FUN = as.character)
+X[, i] <- apply(X[, i], 2, FUN = sprintf, fmt = "\\textcolor{red}{%s}")
+ncol(X)
+cat(print_matrix(X), sep = "\n")
+
+X <- model.matrix(~A * B, data = da)
+ncol(X)
+cat(print_matrix(X, digits = 0), sep = "\n")
+
+@
+
+  \begin{itemize}
+  \item A matriz do modelo contém colunas associadas a cada um dos fatores (cor de fundo).
+  \item Com o contraste de zerar o primeiro nível, a primeira coluna é removida (colunas em vermelho).
+  \end{itemize}
+
+  \begin{center}
+    \includegraphics{./img/fatorial-duplo.pdf}
+  \end{center}
+
+\end{frame}
+
+%-----------------------------------------------------------------------
+\begin{frame}[fragile, allowframebreaks]{Um exemplo de experimento fatorial}
+
+<<fig.dim = c(8, 4), out.width = "12cm">>=
+# data(warpbreaks)
+# str(warpbreaks)
+library(ggplot2)
+
+gg1 <- ggplot(data = warpbreaks,
+              mapping = aes(x = tension, y = breaks, color = wool)) +
+    geom_jitter(width = 0.05) +
+    stat_summary(mapping = aes(group = wool), geom = "line", fun.y = mean) +
+    theme(legend.position = c(0.95, 0.95),
+          legend.justification = c(1, 1))
+
+gg2 <- ggplot(data = warpbreaks,
+              mapping = aes(x = wool, y = breaks, color = tension)) +
+    geom_jitter(width = 0.05) +
+    stat_summary(mapping = aes(group = tension), geom = "line", fun.y = mean) +
+    theme(legend.position = c(0.95, 0.95),
+          legend.justification = c(1, 1))
+
+gridExtra::grid.arrange(gg1, gg2, nrow = 1)
+@
+
+\end{frame}
+
+%-----------------------------------------------------------------------
+\begin{frame}{Questões importantes}
+
+  \begin{itemize}
+  \item Quantos níveis cada fator tem?
+  \item Quantos pontos experimentais existem?
+  \item Quantas repetições para cada ponto experimental?
+  \item Existe efeito de \texttt{wool}?
+  \item Existe efeito de \texttt{tension}?
+  \item Existe interação entre \texttt{wool} e \texttt{tension}?
+  \end{itemize}
+
+\end{frame}
+
+%-----------------------------------------------------------------------
+\begin{frame}[fragile, allowframebreaks]{Análise de variância}
+
+<<>>=
+m0 <- lm(breaks ~ tension * wool, data = warpbreaks)
+anova(m0)
+# summary(m0)
+@
+
+  \framebreak
+
+<<results = "hide">>=
+# Matrizes.
+y <- cbind(m0$model[, "breaks"])
+X <- model.matrix(m0)
+a <- m0$assign
+
+# Partições crescentes da matriz X.
+X_0 <- cbind(X[, a <= 0])
+X_01 <- cbind(X[, a <= 1])
+X_02 <- cbind(X[, a <= 2])
+X_03 <- cbind(X[, a <= 3])
+
+# Funções.
+proj <- function(X) X %*% solve(t(X) %*% X) %*% t(X)
+tr <- function(X) sum(diag(X))
+
+# Matrizes de projeção.
+H_0 <- proj(X_0)
+H_01 <- proj(X_01)
+H_02 <- proj(X_02)
+H_03 <- proj(X_03)
+I <- diag(nrow(X))
+@
+
+  \framebreak
+
+<<>>=
+P <- list("resíduo" = I - H_03,
+          "A:B"     = H_03 - H_02,
+          "B"       = H_02 - H_01,
+          "A"       = H_01 - H_0)
+
+# anova(m0)
+t(sapply(P,
+         FUN = function(p) {
+             c(DF = tr(p), SQ = t(y) %*% p %*% y)
+         }))
+
+@
+
+\end{frame}
+
+%-----------------------------------------------------------------------
+{
+  \usebackgroundtemplate{\includegraphics[height=\paperheight, width=\paperwidth]{./img/looking-ahead.jpg}}
+  % \setbeamersize{text margin left=30mm}
+
+  \begin{frame}[b]{}
+
+    \hspace*{0.5\linewidth}
+    \begin{minipage}[t]{0.5\linewidth}
+
+      \hi{Próxima aula}
+      \begin{itemize}
+      \item Mais sobre experimentos fatoriais.
+      \item Introdução aos fatoriais $2^k$.
+      \end{itemize}
+
+      \hi{Avisos}
+      \begin{itemize}
+      \item Sabatina 03 disponível no Moodle!
+      \end{itemize}
+
+    \end{minipage}
+    \vspace{2em}
+
+\end{frame}
+}
+
+\end{document}
