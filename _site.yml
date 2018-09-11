@@ -80,6 +80,17 @@ navbar:
         href: exercicios/ex_revisao.pdf
       - text: "Experimentos fatoriais [PDF]"
         href: exercicios/ex_fatorial.pdf
+    - text: "Scripts R"
+      icon: fa-terminal
+      menu:
+      - text: "Anova matricial para fatorial"
+        href: ./scripts/anova-fat-matrizes.R
+      - text: "Análise de fatorial duplo geral"
+        href: ./scripts/fatorial-duplo-geral.R
+      - text: "Análise de fatorial 2^k^"
+        href: ./scripts/fatorial-2k.R
+      - text: "Datasets do Montgomery 8th edição"
+        href: http://bcs.wiley.com/he-bcs/Books?action=resource&bcsId=7009&itemId=1118146921&resourceId=26715
     - text: "Referências"
       icon: fa-book
       href: referencias.html
