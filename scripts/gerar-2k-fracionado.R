@@ -79,12 +79,12 @@ codify_2k <- function(x, coding = c("-1:1", "0:1")) {
 #-----------------------------------------------------------------------
 # Gerar 2^k com confundimento em 2^1 blocos.
 
-# Gerar o confundimento em 2^3 usando a interação tripla A:B:C.
+# Gerar as frações 1/2 de 2^3 usando a interação tripla A:B:C.
 da <- generate_2k_design(k = 3)
 da$nms <- cell_names(da)
 da
 
-# Efeito usado para confundir com blocos: ABC.
+# Efeito usado para fracionar: ABC.
 ef <- with(da, A * B * C)
 
 da$fracao <- factor(ef, labels = c("principal", "complementar"))
@@ -121,7 +121,7 @@ split(da$nms, da$fracao)
 
 da <- generate_2k_design(k = 4)
 
-# Usando a interação ABC para confundir com blocos.
+# Usando a interação ABC para fracionar.
 da$fracao <- with(da, A * B * C * D)
 da
 
@@ -130,6 +130,7 @@ db <- subset(da, fracao > 0)
 db
 
 X <- model.matrix(~A * B * C * D, data = db)
+colnames(X)[1] <- "I"
 X
 
 # Atenção para as entradas não nulas fora da diagonal.
@@ -147,16 +148,14 @@ ef_conf <- unique(t(ef_conf))
 ef_conf
 
 #-----------------------------------------------------------------------
-# Gerar 2^k com confundimento em 2^2 blocos.
+# Gerar 2^k com 4 frações.
 
 da <- generate_2k_design(k = 5)
 
-# Usando as interações ABCD e ABE para gerar o confundimento.
+# Usando as interações ABCD e ABE para obter frações 1/4.
 b <- with(da, {
-    data.frame(ef1 = factor(A * B * C * D,
-                            labels = as.roman(1:2)),
-               ef2 = factor(A * B * E,
-                            labels = as.roman(1:2)))
+    data.frame(ef1 = factor(A * B * C * D),
+               ef2 = factor(A * B * E))
 })
 
 # Combinando os 2 * 2 níveis para ter os 4 blocos.
@@ -168,27 +167,38 @@ da
 split(da, da$fracao)
 
 #--------------------------------------------
+# Para obter apenas uma das frações.
+
+# I_1 = ABCD e I_2 = ABE, então pode-se fazer D * I_1 -> D = ABC e E *
+# I_2 -> E = AB.
+
+da <- generate_2k_design(k = 3)
+da$D <- with(da, A * B * C)
+da$E <- with(da, A * B)
+da
+
+#--------------------------------------------
 # Usando contrastes de definição.
 
 da <- generate_2k_design(k = 5, coding = "0:1")
 X <- as.matrix(da)
 
 # Usando ABCD e ABE.
-b <- data.frame(ef1 = (X %*% rbind(1, 1, 1, 1, 0)) %% 2,
-                ef2 = (X %*% rbind(1, 1, 0, 0, 1)) %% 2)
-da$blc <- with(b,
-               factor(interaction(ef1, ef2),
-                      labels = as.roman(1:4)))
+b <- X %*% cbind(L1 = c(1, 1, 1, 1, 0),
+                 L2 = c(1, 1, 0, 0, 1)) %% 2
+
+da$frac <- apply(b, MARGIN = 1, FUN = paste0, collapse = "")
 da
 
 # Corridas e seus blocos.
 da$nom <- cell_names(da)
-split(da$nom, da$blc)
+split(da$nom, da$frac)
 
 #=======================================================================
 #-----------------------------------------------------------------------
 # Análise de experimentos fatoriais fracionados.
 
+#--------------------------------------------
 # Problem 9.
 # da <- read.table("clipboard", header = TRUE, sep = "\t", dec = ",")
 # dput(da)
@@ -205,6 +215,61 @@ structure(list(Solvent = c(-1L, 1L, -1L, 1L, -1L, 1L, -1L, 1L,
 "Temperature", "Purity", "Reactant.pH", "Color"), class = "data.frame", row.names = c(NA,
 -16L))
 
+str(da)
+names(da)[1:5] <- LETTERS[1:5]
+
+X <- model.matrix(~A * B * C * D * E, data = da)
+colnames(X)[1] <- "I"
+dim(X)
+
+# Atenção para as entradas não nulas fora da diagonal.
+xx <- t(X) %*% X
+dim(xx)
+
+# Efeitos que estão confundidos entre si.
+ef_conf <- apply(xx,
+                 MARGIN = 2,
+                 FUN = function(column) {
+                     r <- rownames(xx)[which(column != 0)]
+                     r[order(nchar(r))]
+                 })
+ef_conf <- unique(t(ef_conf))
+ef_conf
+
+X[, c("A", "B:C:D:E")]
+
+# Análise.
+m0 <- lm(Color ~ A * B * C * D * E, data = da)
+anova(m0)
+
+# Estimativas.
+coef(m0)
+
+# Para fazer o qq-plot.
+b <- na.omit(coef(m0)[-1])
+b
+
+# QQ-plot (inverte os eixos para anotar melhor).
+qq <- qqnorm(b, plot.it = FALSE)
+plot(qq$y,
+     qq$x,
+     # col = 2,
+     col = as.integer(factor(nchar(names(b)))),
+     pch = 19)
+abline(v = 0, h = 0, lty = 3)
+text(qq$y,
+     qq$x,
+     labels = names(b),
+     cex = 0.6,
+     pos = ifelse(qq$y < 0, 4, 2))
+
+# FrF2::DanielPlot(m0)
+b[order(-abs(b))]
+
+m0 <- lm(Color ~ A + B + C + D + E + A:D + A:B + A:C, data = da)
+anova(m0)
+
+#--------------------------------------------
 # Problem 32.
 # da <- read.table("clipboard", header = TRUE, sep = "\t", dec = ",")
 # dput(da)
@@ -220,6 +285,7 @@ structure(list(A = c(-1L, 1L, -1L, 1L, -1L, 1L, -1L, 1L, -1L,
 6.25, 26.05)), .Names = c("A", "B", "C", "D", "E", "y"), class = "data.frame", row.names = c(NA,
 -16L))
 
+#--------------------------------------------
 # Problem 37.
 # da <- read.table("clipboard", header = TRUE, sep = "\t", dec = ",")
 # dput(da)
@@ -256,5 +322,68 @@ structure(list(Squeegee.Pressure = c(0.1, 0.3, 0.1, 0.3, 0.1,
 "Squeegee.Angle", "Temperature", "Viscosity", "Cleaning.Interval",
 "Separation.Speed", "Relative.Humidity", "PVM", "NPU"), class = "data.frame", row.names = c(NA,
 -32L))
+
+names(da)[1:8] <- LETTERS[1:8]
+str(da)
+
+# Codificando com -1 e 1.
+db <- da
+db[, 1:8] <- sapply(da[, 1:8], FUN = codify_2k)
+str(db)
+
+X <- model.matrix(~(.)^8, data = db[, 1:8])
+colnames(X)[1] <- "I"
+dim(X)
+
+# Atenção para as entradas não nulas fora da diagonal.
+xx <- t(X) %*% X
+dim(xx)
+
+# Efeitos que estão confundidos entre si.
+ef_conf <- apply(xx,
+                 MARGIN = 2,
+                 FUN = function(column) {
+                     r <- rownames(xx)[which(column != 0)]
+                     r[order(nchar(r))]
+                 })
+dim(ef_conf)
+ef_conf <- unique(t(ef_conf))
+ef_conf
+
+# Quais são as funções geradoras?
+# Qual a resolução do experimento?
+
+m0 <- lm(PVM ~ A * B * C * D * E * F * G * H, data = db)
+anova(m0)
+
+# Para fazer o qq-plot.
+b <- na.omit(coef(m0)[-1])
+b[order(-abs(b))]
+
+# QQ-plot (inverte os eixos para anotar melhor).
+qq <- qqnorm(b, plot.it = FALSE)
+plot(qq$y,
+     qq$x,
+     # col = 2,
+     col = as.integer(factor(nchar(names(b)))),
+     pch = 19)
+abline(v = 0, h = 0, lty = 3)
+text(qq$y,
+     qq$x,
+     labels = names(b),
+     cex = 0.6,
+     pos = ifelse(qq$y < 0, 4, 2))
+
+m1 <- update(m0, . ~ (A + B + C + D + E + F + G + H)^2)
+anova(m1)
+
+bb <- b[order(-abs(b))]
+length(bb)
+
+bb <- names(head(bb, n = 15))
+cat(paste(sort(bb[nchar(bb) == 3]), collapse = " + "), "\n")
+
+m2 <- update(m0, . ~ A + B + C + D + E + F + G + H + A:B + A:E + B:C + B:D + B:E + B:H + C:H + D:F + E:G)
+anova(m2)
 
 #-----------------------------------------------------------------------
