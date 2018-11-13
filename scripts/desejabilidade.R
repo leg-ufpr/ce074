@@ -157,9 +157,9 @@ pred <- expand.grid(x1 = seq(-r, r, length.out = 80),
                     x2 = seq(-r, r, length.out = 80))
 
 # Predição das 3 respostas.
-pred$y1 <- predict(m1, newdata = pred)
-pred$y2 <- predict(m2, newdata = pred)
-pred$y3 <- predict(m3, newdata = pred)
+pred$y1 <- predict(m1_rsm, newdata = pred)
+pred$y2 <- predict(m2_rsm, newdata = pred)
+pred$y3 <- predict(m3_rsm, newdata = pred)
 
 # Argumentos comuns a todas as chamadas da `levelplot()`.
 rest <- list(data = pred,
@@ -230,9 +230,9 @@ lv1 + as.layer(lv2) + as.layer(lv3)
 
 optfunc <- function(x1,  x2) {
     # Predito de cada resposta para x1 e x2 fornecidos.
-    y1 <- predict(m1,  newdata = list(x1 = x1, x2 = x2))
-    y2 <- predict(m2,  newdata = list(x1 = x1, x2 = x2))
-    y3 <- predict(m3,  newdata = list(x1 = x1, x2 = x2))
+    y1 <- predict(m1_rsm,  newdata = list(x1 = x1, x2 = x2))
+    y2 <- predict(m2_rsm,  newdata = list(x1 = x1, x2 = x2))
+    y3 <- predict(m3_rsm,  newdata = list(x1 = x1, x2 = x2))
     y1 * (y2 <= 68 & y2 >= 62) * (y3 <= 3400)
 }
 
@@ -248,8 +248,11 @@ levelplot(z ~ x1 + x2,
           labels = TRUE,
           # col.regions = grey.colors,
           aspect = "iso") +
-    layer(panel.points(pred[i, "x1"], pred[i, "x2"],
-                       col = 2, pch = 19))
+    layer(panel.points(pred[i, "x1"],
+                       pred[i, "x2"],
+                       col = "green",
+                       cex = 2,
+                       pch = 19))
 
 #-----------------------------------------------------------------------
 # Funções de desejabilidade (desirability functions).
