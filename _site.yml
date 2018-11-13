@@ -91,6 +91,8 @@ navbar:
         href: ./scripts/fatorial-2k.R
       - text: "Confundimento com blocos em 2^k^"
         href: ./scripts/gerar-2k-conf-blocos.R
+      - text: "Fracionamento em 2^k^"
+        href: ./scripts/gerar-2k-fracionado.R
       - text: "Datasets do Montgomery 8th edição"
         href: http://bcs.wiley.com/he-bcs/Books?action=resource&bcsId=7009&itemId=1118146921&resourceId=26715
     - text: "Referências"
