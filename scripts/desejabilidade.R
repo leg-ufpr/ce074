@@ -68,6 +68,54 @@ xyplot(x1 ~ x2, data = da, aspect = "iso", pch = 19) +
                       col = 1, lty = 2))
 
 #-----------------------------------------------------------------------
+# A direção de maior inclinação.
+
+library(rpanel)
+
+pred <- expand.grid(x1 = seq(-r, r, length.out = 20),
+                    x2 = seq(-r, r, length.out = 20))
+X <- model.matrix(~x1 * x2, data = pred)
+
+action <- function(input) {
+    pred$y <- X %*% c(1, input$beta_1, input$beta_2, input$beta_12)
+    print(
+        levelplot(y ~ x1 + x2,
+                  data = pred,
+                  contour = TRUE,
+                  aspect = "iso") +
+        layer({
+            panel.abline(v = 0, h = 0, lty = 2)
+            panel.abline(a = 0, b = delta, col = 2)
+            # input$beta_2/input$beta_1
+        }, data = list(delta = input$beta_2/input$beta_1)))
+    return(input)
+}
+
+input <- rp.control()
+rp.slider(panel = input,
+          variable = "beta_1",
+          from = -1,
+          to = 1,
+          initval = 0.1,
+          showvalue = TRUE,
+          action = action)
+rp.slider(panel = input,
+          variable = "beta_2",
+          from = -1,
+          to = 1,
+          initval = 0.1,
+          showvalue = TRUE,
+          action = action)
+rp.slider(panel = input,
+          variable = "beta_12",
+          from = -1,
+          to = 1,
+          initval = 0,
+          showvalue = TRUE,
+          action = action)
+rp.do(panel = input, action = action)
+
+#-----------------------------------------------------------------------
 # Ajuste para a primeira resposta `y1`.
 
 m0 <- lm(y1 ~ x1 + x2 + x1:x2 + I(x1^2) + I(x2^2),
