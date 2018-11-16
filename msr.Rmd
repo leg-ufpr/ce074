@@ -595,3 +595,8 @@ levelplot(y ~ x1 + x2, data = da, contour = TRUE, aspect = "iso") +
                        ct1[2] + 10 * b1[2],
                        length = 0.1))
 ```
+
+# Links úteis
+
+  * <https://learnche.org/pid/design-analysis-experiments/response-surface-methods>.
+  * <http://www.math.montana.edu/jobo/st578/sec6.pdf>.
