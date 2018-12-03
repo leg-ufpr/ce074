@@ -95,6 +95,9 @@ navbar:
         href: ./scripts/gerar-2k-fracionado.R
       - text: "Datasets do Montgomery 8th edição"
         href: http://bcs.wiley.com/he-bcs/Books?action=resource&bcsId=7009&itemId=1118146921&resourceId=26715
+    - icon: fa-line-chart
+      text: "Notas"
+      href: notas.html
     - text: "Referências"
       icon: fa-book
       href: referencias.html

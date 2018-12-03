@@ -10,7 +10,6 @@ output:
 # Pacotes.
 
 rm(list = objects())
-# library(gdata)
 library(tidyverse)
 
 #-----------------------------------------------------------------------
@@ -18,12 +17,30 @@ library(tidyverse)
 
 # Determina a média das sabatinas usando as k maiores notas.
 my_mean <- function(x, keep = floor(length(x) * 0.75), ...) {
+    #
+    # @param x numeric[n > 0] vetor com notas nas sabatinas.
+    #
+    # @param keep integer[1] número de sabatinas que serão consideradas
+    #     para calculo da média.
+    #
+    # @return numeric[1] a média calculada.
+    #
     sum(head(sort(x, decreasing = TRUE), n = keep), ...)/keep
 }
 my_mean(c(1:8, NA, NA, NA), keep = 2)
 
 # Usa distância de edição para parear os nomes das duas fontes.
-my_match <- function(x, y) {
+my_match <- function(x, y, min.match = 2) {
+    #
+    # @param x character[n > 0] vetor de strings.
+    #
+    # @param y character[m > 0] vetor de strings.
+    #
+    # @param min.match integer[1] > 0 número minimo de nomes que dever
+    #     coincidir.
+    #
+    # @return data.frame com os vetores pareados.
+    #
     xs <- strsplit(x, split = "\\s+")
     ys <- strsplit(y, split = "\\s+")
     m <- character(length(x))
@@ -31,7 +48,7 @@ my_match <- function(x, y) {
         j <- sapply(ys,
                     FUN = function(z) {
                         u <- c(adist(z, xs[[i]]))
-                        (sum(u == 0) >= 2)
+                        (sum(u == 0) >= min.match)
                     })
         if (any(j)) {
             a <- adist(y[j], x[i])
@@ -41,10 +58,14 @@ my_match <- function(x, y) {
     m[m == ""] <- NA
     data.frame(template = x, match = m, stringsAsFactors = FALSE)
 }
+my_match(c("Walmes Zeviani", "Ronald Fisher"),
+         c("Fisher", "Walmes"),
+         min.match = 1)
 
 #-----------------------------------------------------------------------
 # Matrícula.
 
+# Lê a tabela com nomes e GRR.
 path <- "/home/walmes/Dropbox/Ensino/ce074-2018-02/"
 x <- gdata::read.xls(paste0(path, "RelatoriodeDiariodeClasseExcel.xls"),
                      encoding = "latin1",
@@ -70,12 +91,12 @@ nt <- read_csv(paste0(path, "notas.csv"),
 attr(nt, "spec") <- NULL
 str(nt)
 
-# Seleção de variáveis.
+# Seleção de variáveis de nome e notas nas sabatinas.
 nt <- nt %>%
     select(contains("nome"), contains("sabatina"))
 str(nt)
 
-# Filtro para as notas das sabatinas.
+# Exclui usuários que não são alunos.
 nt <- nt %>%
     filter(!grepl("walmes", Nome, ignore.case = TRUE))
 str(nt)
@@ -85,12 +106,12 @@ names(nt) <- names(nt) %>%
     str_replace(".*(Sabatina.*Q?\\d+).*", "\\1") %>%
     tolower()
 
-# Junta para formar o nome completo.
+# Junta nomes para formar o nome completo.
 nt <- nt %>%
     unite(col = "nome", nome, sobrenome, sep = " ")
 str(nt)
 
-# Empilha.
+# Empilha nas sabatinas.
 ntg <- nt %>%
     gather(key = "sabatina",
            value = "nota",
@@ -109,37 +130,49 @@ ntg <- ntg %>%
            nota = replace_na(nota, replace = 0))
 str(ntg)
 
-# Calcula as nota média por sabatina.
+# Calcula as nota média por sabatina pro caso de ter mais de uma
+# questão.
 ntg <- ntg %>%
     group_by(nome, sabatina) %>%
     summarise(nota = sum(nota, na.rm = TRUE)/n()) %>%
     ungroup()
 str(ntg)
 
-# Versão wide.
+# Devolve para o formado com sabatinas em cada coluna.
 nt <- ntg %>%
     mutate(nota = round(nota, digits = 2)) %>%
     spread(key = "sabatina", value = "nota")
+str(nt)
 
-# Nota das sabatinas.
+# Ordena as colunas sabatinas por ordem cronológica.
+i <- grep(x = names(nt), pattern = "sabatina")
+j <- as.integer(gsub(x = names(nt)[i], pattern = "\\D", replacement = ""))
+i[order(j)]
+nt[i] <- nt[i[order(j)]]
+str(nt)
+
+# Nota das sabatinas mantendo as k maiores notas.
 ntg <- ntg %>%
     group_by(nome) %>%
-    summarise(S_escore = my_mean(nota, keep = 6, na.rm = TRUE)) %>%
+    summarise(S_escore = my_mean(nota, keep = 7, na.rm = TRUE)) %>%
     ungroup()
+str(ntg)
 
-# Junção.
+# Junção da nota média com as sabatinas.
 nt <- nt %>%
     inner_join(ntg)
+str(nt)
 
 # Encurta nomes.
 names(nt) <- names(nt) %>%
     str_replace("sabatina ", "S")
 str(nt)
 
-# Caixa alta e arredondamento.
+# Caixa alta nos nomes e arredondamento.
 nt <- nt %>%
     mutate(nome = toupper(nome),
-           S_escore = round(S_escore, digits = 0))
+           S_escore = ceiling(S_escore))
+str(nt)
 
 # View(arrange(nt, S_escore))
 
@@ -159,6 +192,15 @@ a$match[i] <- a$template[i]
 # Acrescenta GRR a tabela com as notas.
 nts <- inner_join(nt, a, by = c("nome" = "template"))
 
+# View(arrange(nts, S_escore) %>% select(nome, GRR, S_escore))
+# nts <- edit(nts)
+
+# Nomes que estão sem GRR para preencher manualmente na xlsx.
+nts %>%
+    filter(is.na(GRR)) %>%
+    select(nome) %>%
+    print(right = FALSE, row.names = FALSE, print.gap = FALSE)
+
 # # Nota necessária no trabalho para ficar com média >= 40.
 # u <- (40 - 0.7 * nts$S_escore)/0.3
 # data.frame(nts$nome, nts$S_escore, u = ifelse(u > 0, u, 0))
@@ -172,7 +214,7 @@ nts <- inner_join(nt, a, by = c("nome" = "template"))
 
 library(DT)
 
-cap <- "Notas nas avaliações (S: sabatina) ordenadas pelo GRR. Valores entre 0 e 100. Foram consideradas as 6 maiores notas nas sabatinas, de um total de 10, para obtenção do S_escore."
+cap <- "Notas nas avaliações (S: sabatina) ordenadas pelo GRR. Valores entre 0 e 100. Foram consideradas as 7 maiores notas nas sabatinas, de um total de 11, para obtenção do S_escore."
 if (require(htmltools)) {
     cap <- HTML("<strong>Tabela 1</strong>:", cap)
 }
@@ -238,7 +280,7 @@ ggplot(data = nts,
     xlim(0, 100)
 ```
 
-```{r, eval = !is.null(nts$Faltas), echo = FALSE, fig.cap = cap, message = FALSE, warning = FALSE, results = "hide"}
+```{r, eval = FALSE, echo = FALSE, fig.cap = cap, message = FALSE, warning = FALSE, results = "hide"}
 ggplot(data = nts,
        mapping = aes(y = S_escore,
                      x = Faltas)) +
