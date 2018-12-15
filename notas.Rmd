@@ -71,7 +71,7 @@ x <- gdata::read.xls(paste0(path, "RelatoriodeDiariodeClasseExcel.xls"),
                      encoding = "latin1",
                      stringsAsFactors = FALSE,
                      skip = 6)
-v <- names(x) %in% c("Matrícula", "Nome", "Faltas")
+v <- names(x) %in% c("Matrícula", "Nome", "Faltas", "Exame")
 
 mat <- x %>%
     select(names(x)[v]) %>%
@@ -210,6 +210,23 @@ nts %>%
 #     filter(!is.na(GRR))
 
 #-----------------------------------------------------------------------
+# Média final.
+
+nt <- nts
+nt <- nt %>%
+    rename("Média" = "S_escore")
+
+if (!is.null(nt$Exame)) {
+    nt[["M. final"]] <- nt[["Média"]]
+    i <- nt[["Média"]] < 70 & nt[["Média"]] >= 40
+    u <- nt[["Exame"]]
+    u[is.na(u)] <- 0
+    nt[["M. final"]][i] <- ceiling((nt[["Média"]][i] + u[i])/2)
+}
+
+# View(nt)
+
+#-----------------------------------------------------------------------
 # Tabela em HTML.
 
 library(DT)
@@ -219,7 +236,13 @@ if (require(htmltools)) {
     cap <- HTML("<strong>Tabela 1</strong>:", cap)
 }
 
-dt <- datatable(data = select(nts, "GRR", contains("S"), contains("Faltas")),
+dt <- datatable(data = select(nt,
+                              "GRR",
+                              contains("S"),
+                              contains("Faltas"),
+                              contains("Média"),
+                              contains("Exame"),
+                              contains("M. final")),
                 filter = "top",
                 caption = cap,
                 rownames = FALSE,
@@ -232,7 +255,7 @@ dt <- datatable(data = select(nts, "GRR", contains("S"), contains("Faltas")),
                     lengthMenu = NULL))
 
 dt <- formatStyle(table = dt,
-                  columns = grepl("^S", names(dt$x$data)),
+                  columns = grepl("^(S|Média)", names(dt$x$data)),
                   color = styleInterval(cuts = c(39.999999,
                                                  69.999999),
                                         values = c("#ff3300",
@@ -247,28 +270,36 @@ if (is.element("Faltas", names(dt$x$data))) {
                                                        "#ff3300")))
 }
 
+if (is.element("M. final", names(dt$x$data))) {
+    dt <- formatStyle(table = dt,
+                      columns = "M. final",
+                      color = styleInterval(cuts = c(49.999999),
+                                            values = c("#ff3300",
+                                                       "#3333ff")))
+}
+
 dt
 ```
 
-```{r, echo = FALSE, fig.cap = cap}
+```{r, eval = FALSE, echo = FALSE, fig.cap = cap}
 #-----------------------------------------------------------------------
 # Visualização.
 
 cap <- "**Figura 1**: Escore final das sabatinas em função do GRR. Cores indicam grupos conforme corte do escore em classes com limites em 40 e 70."
 
 # # Acumulada empírica.
-# ggplot(nts, aes(x = S_escore)) +
+# ggplot(nt, aes(x = S_escore)) +
 #     stat_ecdf() +
 #     xlim(0, 100)
 
-ggplot(data = nts,
-       mapping = aes(x = S_escore,
-                     color = cut(S_escore,
+ggplot(data = nt,
+       mapping = aes(x = Média,
+                     color = cut(Média,
                                  breaks = c(0, 40, 70, 100),
                                  include.lowest = TRUE, right = FALSE),
-                     y = reorder(GRR, S_escore))) +
+                     y = reorder(GRR, Média))) +
     geom_point() +
-    geom_text(mapping = aes(label = S_escore),
+    geom_text(mapping = aes(label = Média),
               nudge_x = 3.5,
               size = 4) +
     xlab("Escore final nas sabatinas") +
@@ -281,27 +312,27 @@ ggplot(data = nts,
 ```
 
 ```{r, eval = FALSE, echo = FALSE, fig.cap = cap, message = FALSE, warning = FALSE, results = "hide"}
-ggplot(data = nts,
-       mapping = aes(y = S_escore,
+ggplot(data = nt,
+       mapping = aes(y = Média,
                      x = Faltas)) +
     geom_jitter(height = 0, width = 0.5) +
     geom_smooth(se = FALSE, span = 0.8, color = "gray50")
 
 # Correlação de Spearman.
-x <- with(nts, cor.test(x = S_escore, y = Faltas, method = "spearman"))
+x <- with(nt, cor.test(x = Média, y = Faltas, method = "spearman"))
 x$p.value
 
 cap <- "**Figura 2**: Diagrama de dispersão que relaciona o escore final nas sabatinas e o número de faltas de cada aluno (Correlação de Spearman: rho = %0.2f, valor p = %0.3g)."
 cap <- sprintf(cap, x$estimate, x$p.value)
 ```
 
-```{r, echo = FALSE, results = "hide", fig.cap = cap}
+```{r, eval = FALSE, echo = FALSE, results = "hide", fig.cap = cap}
 #-----------------------------------------------------------------------
 # Análise multivariada das notas.
 
-X <- as.matrix(nts[, grepl("^S\\d", names(nts))])
-# rownames(X) <- gsub("^([^ ]+)\\s.*", "\\1", nts$nome)
-rownames(X) <- nts$GRR
+X <- as.matrix(nt[, grepl("^S\\d", names(nt))])
+# rownames(X) <- gsub("^([^ ]+)\\s.*", "\\1", nt$nome)
+rownames(X) <- nt$GRR
 str(X)
 
 #--------------------------------------------
