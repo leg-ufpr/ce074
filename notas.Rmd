@@ -80,6 +80,7 @@ mat <- x %>%
     rename("GRR" = "Matrícula", "nome" = "Nome") %>%
     mutate(GRR = str_replace(GRR, "\\D+", "") %>% as.integer())
 str(mat)
+# View(mat)
 
 #-----------------------------------------------------------------------
 # Notas do moodle.
@@ -214,7 +215,8 @@ nts %>%
 
 nt <- nts
 nt <- nt %>%
-    rename("Média" = "S_escore")
+    rename("Média" = "S_escore") %>%
+    arrange(GRR)
 
 if (!is.null(nt$Exame)) {
     nt[["M. final"]] <- nt[["Média"]]
@@ -236,13 +238,19 @@ if (require(htmltools)) {
     cap <- HTML("<strong>Tabela 1</strong>:", cap)
 }
 
-dt <- datatable(data = select(nt,
-                              "GRR",
-                              contains("S"),
-                              contains("Faltas"),
-                              contains("Média"),
-                              contains("Exame"),
-                              contains("M. final")),
+# i <- c(grep(x = names(nt), "nome"),
+#        grep(x = names(nt), "Faltas"),
+#        grep(x = names(nt), "M. final"))
+
+i <- c(grep(x = names(nt), "GRR"),
+       grep(x = names(nt), "^S"),
+       grep(x = names(nt), "^T"),
+       grep(x = names(nt), "Faltas"),
+       grep(x = names(nt), "Média"),
+       grep(x = names(nt), "Exame"),
+       grep(x = names(nt), "M. final"))
+
+dt <- datatable(data = select(nt, i),
                 filter = "top",
                 caption = cap,
                 rownames = FALSE,
@@ -393,10 +401,11 @@ table.dataTable td.dt-right {
 ```{r, echo = FALSE, results = "asis"}
 # dt
 
-is.decimal <- function(x) is.numeric(x) && !is.integer(x)
-formatRound(table = dt,
-            columns = sapply(dt$x$data, FUN = is.decimal),
-            digits = 1)
+# is.decimal <- function(x) is.numeric(x) && !is.integer(x)
+# formatRound(table = dt,
+#             columns = sapply(dt$x$data, FUN = is.decimal),
+#             digits = 1)
+dt
 ```
 
 <!--
